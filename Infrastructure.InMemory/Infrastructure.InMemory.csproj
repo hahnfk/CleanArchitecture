@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>CleanArchitecture.Infrastructure.InMemory</AssemblyName>
+    <RootNamespace>CleanArchitecture.Infrastructure.InMemory</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

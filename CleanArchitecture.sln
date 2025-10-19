@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.InMemory", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Wpf", "Presentation.Wpf\Presentation.Wpf.csproj", "{E8B99A66-9DE4-48D8-9F61-8C4FA90AF6CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UnitTests", "Domain.UnitTests\Domain.UnitTests.csproj", "{4120F969-3048-C7DE-82F1-7117848E6049}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E8B99A66-9DE4-48D8-9F61-8C4FA90AF6CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8B99A66-9DE4-48D8-9F61-8C4FA90AF6CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8B99A66-9DE4-48D8-9F61-8C4FA90AF6CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4120F969-3048-C7DE-82F1-7117848E6049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4120F969-3048-C7DE-82F1-7117848E6049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4120F969-3048-C7DE-82F1-7117848E6049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4120F969-3048-C7DE-82F1-7117848E6049}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

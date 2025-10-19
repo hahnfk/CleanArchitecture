@@ -18,7 +18,7 @@
                             <DataTemplate>
                                 <!-- CheckBox bound 2-way to IsCompleted; style later to look like Radio -->
                                 <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      HorizontalAlignment="Center" VerticalAlignment="Center">
+                                          HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <CheckBox.ToolTip>
                                         <TextBlock Text="Completed" />
                                     </CheckBox.ToolTip>
@@ -34,8 +34,8 @@
                                 <Grid>
                                     <TextBlock x:Name="Display" Text="{Binding Title}" VerticalAlignment="Center"/>
                                     <TextBox x:Name="Editor"
-                           Text="{Binding EditableTitle, UpdateSourceTrigger=PropertyChanged}"
-                           VerticalAlignment="Center"/>
+                                               Text="{Binding EditableTitle, UpdateSourceTrigger=PropertyChanged}"
+                                               VerticalAlignment="Center"/>
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsEditing}" Value="True">
