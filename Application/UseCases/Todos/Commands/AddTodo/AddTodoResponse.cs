@@ -1,7 +1,7 @@
-﻿namespace CleanArchitecture.Application.UseCases.Tasks.Commands.AddTask;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
 
 /// <summary>
-/// Response DTO for the AddTask use case.
+/// Response DTO for the AddTodo use case.
 /// </summary>
 public sealed class AddTodoResponse
 {

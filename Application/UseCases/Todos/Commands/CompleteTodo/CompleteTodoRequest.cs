@@ -1,7 +1,7 @@
-﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 
 /// <summary>
-/// Request DTO to complete a task by id.
+/// Request DTO to complete a todo by id.
 /// </summary>
 public sealed class CompleteTodoRequest
 {

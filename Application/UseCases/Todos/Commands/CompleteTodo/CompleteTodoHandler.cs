@@ -1,11 +1,10 @@
-﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 
 using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
 using CleanArchitecture.Domain.Identity;
 
 /// <summary>
-/// Use case: mark a task as completed (idempotent).
+/// Use case: mark a todo as completed (idempotent).
 /// Emits a domain event within the aggregate; after commit, events are published.
 /// </summary>
 public sealed class CompleteTodoHandler : IUseCase<CompleteTodoRequest, Unit>

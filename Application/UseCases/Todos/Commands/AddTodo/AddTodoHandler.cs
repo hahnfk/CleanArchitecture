@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.UseCases.Tasks.Commands.AddTask;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
 
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Identity;
@@ -22,14 +22,14 @@ public sealed class AddTodoHandler : IUseCase<AddTodoRequest, AddTodoResponse>
     public async Task<AddTodoResponse> Handle(AddTodoRequest request, CancellationToken ct = default)
     {
         // Create a new aggregate and enforce invariants inside the domain model
-        var task = new TodoItem(TodoId.New(), request.Title);
+        var todo = new TodoItem(TodoId.New(), request.Title);
 
         // Stage the changes (no commit yet)
-        await _repo.AddAsync(task, ct);
+        await _repo.AddAsync(todo, ct);
 
         // Commit transactional boundary
         await _uow.SaveChangesAsync(ct);
 
-        return new AddTodoResponse { Id = task.Id.ToString(), Title = task.Title };
+        return new AddTodoResponse { Id = todo.Id.ToString(), Title = todo.Title };
     }
 }

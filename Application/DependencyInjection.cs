@@ -1,11 +1,10 @@
 ﻿using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Application.UseCases.Tasks.Commands.AddTask;
-using CleanArchitecture.Application.UseCases.Todos.Commands;
-using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
+using CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
-using CleanArchitecture.Application.UseCases.Todos.Queries.ListTasks;
+using CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Application;
