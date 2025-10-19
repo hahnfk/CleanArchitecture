@@ -24,10 +24,7 @@ jobs:
       - name: Setup .NET SDK (8 & 9)
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            9.0.x
-            8.0.x
-          # cache: true
+          dotnet-version: 8.0.x
 
       # Optionaler NuGet-Cache ohne Lockfiles:
       - name: Cache NuGet
