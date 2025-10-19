@@ -1,4 +1,4 @@
-name: .NET (Solution Build)
+name: .NET Desktop (CleanArchitecture)
 
 on:
   push:
@@ -10,25 +10,50 @@ jobs:
   build:
     runs-on: windows-latest
 
+    strategy:
+      matrix:
+        configuration: [ Debug, Release ]
+
     env:
       Solution_Name: CleanArchitecture.sln
 
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
 
-      - name: Setup .NET SDK
+      - name: Setup .NET SDK (8 & 9)
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             9.0.x
             8.0.x
-          cache: true
+          # cache: true
+
+      # Optionaler NuGet-Cache ohne Lockfiles:
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', 'global.json', 'nuget.config') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Verify dotnet
+        run: dotnet --info
 
       - name: Restore
         run: dotnet restore "$env:Solution_Name"
 
       - name: Build
-        run: dotnet build "$env:Solution_Name" --no-restore --configuration Release
+        run: dotnet build "$env:Solution_Name" --no-restore --configuration ${{ matrix.configuration }}
 
       - name: Test
-        run: dotnet test "$env:Solution_Name" --no-build --configuration Release --verbosity normal
+        run: dotnet test "$env:Solution_Name" --no-build --configuration ${{ matrix.configuration }} --verbosity normal
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: CleanArchitecture-${{ matrix.configuration }}
+          path: |
+            **/bin/${{ matrix.configuration }}/
+          if-no-files-found: warn
