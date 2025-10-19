@@ -19,4 +19,4 @@ using System.Runtime.InteropServices;
 // CleanArchitecture.Domain/Properties/AssemblyInfo.cs
 
 // Erlaubt den Tests, auf internal-Typen der Application zuzugreifen
-[assembly: InternalsVisibleTo("CleanArchitecture.Application.Tests")]
+[assembly: InternalsVisibleTo("CleanArchitecture.Application.UnitTests")]
