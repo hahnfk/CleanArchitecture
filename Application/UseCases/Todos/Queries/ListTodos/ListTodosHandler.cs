@@ -1,9 +1,9 @@
-﻿namespace CleanArchitecture.Application.UseCases.Todos.Queries.ListTasks;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
 
 using CleanArchitecture.Application.Abstractions;
 
 /// <summary>
-/// Use case: List all tasks. In real-world code you'd add filtering, paging, sorting or use query objects.
+/// Use case: list all todos. In real-world code you'd add filtering, paging, sorting or use query objects.
 /// </summary>
 public sealed class ListTodosHandler : IUseCase<Unit, ListTodosResponse>
 {

@@ -1,11 +1,10 @@
 ﻿using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
 using CleanArchitecture.Domain.Identity;
 
 namespace CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
 
 /// <summary>
-/// Use case: rename a Todo and publish the resulting domain event(s) after commit.
+/// Use case: rename a todo and publish the resulting domain event(s) after commit.
 /// </summary>
 public sealed class RenameTodoHandler : IUseCase<RenameTodoRequest, Unit>
 {

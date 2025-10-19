@@ -1,7 +1,7 @@
-﻿namespace CleanArchitecture.Application.UseCases.Todos.Queries.ListTasks;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
 
 /// <summary>
-/// Response DTO for listing tasks. Flattened data for presentation.
+/// Response DTO for listing todos. Flattened data for presentation.
 /// </summary>
 public sealed class ListTodosResponse
 {

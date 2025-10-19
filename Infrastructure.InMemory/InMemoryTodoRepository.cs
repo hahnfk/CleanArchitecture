@@ -14,15 +14,15 @@ internal sealed class InMemoryTodoRepository : ITodoRepository
     // Acts as our fake database table keyed by aggregate id
     private readonly ConcurrentDictionary<Guid, TodoItem> _store = new();
 
-    public Task AddAsync(TodoItem task, CancellationToken ct = default)
+    public Task AddAsync(TodoItem todo, CancellationToken ct = default)
     {
-        _store [task.Id.Value] = task; // Upsert semantics are fine for the demo
+        _store[todo.Id.Value] = todo; // Upsert semantics are fine for the demo
         return Task.CompletedTask;
     }
 
-    public Task AddRangeAsync(IEnumerable<TodoItem> tasks, CancellationToken ct = default)
+    public Task AddRangeAsync(IEnumerable<TodoItem> todos, CancellationToken ct = default)
     {
-        foreach (var t in tasks) _store [t.Id.Value] = t;
+        foreach (var todo in todos) _store[todo.Id.Value] = todo;
         return Task.CompletedTask;
     }
 
@@ -45,9 +45,9 @@ internal sealed class InMemoryTodoRepository : ITodoRepository
         return Task.FromResult((IReadOnlyList<TodoItem>)list);
     }
 
-    public Task UpdateAsync(TodoItem task, CancellationToken ct = default)
+    public Task UpdateAsync(TodoItem todo, CancellationToken ct = default)
     {
-        _store [task.Id.Value] = task;
+        _store[todo.Id.Value] = todo;
         return Task.CompletedTask;
     }
 }

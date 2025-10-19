@@ -1,12 +1,12 @@
 using FakeItEasy;
 
 using CleanArchitecture.Presentation.Wpf.ViewModels;
-using CleanArchitecture.Application.UseCases.Todos.Queries.ListTasks;
-using CleanArchitecture.Application.UseCases.Tasks.Commands.AddTask;
+using CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
+using CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
-using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
+using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 using CleanArchitecture.Presentation.Wpf.Tests.TestHelpers;
 using CleanArchitecture.Application.Abstractions;
 
@@ -52,7 +52,7 @@ public sealed class TodosViewModelTests
         var vm = CreateVmWithList(seed, out _, out _, out _, out _, out _, out _);
 
         // Assert
-        // ggf. minimal warten, falls dein ctor async lädt:
+        // ggf. minimal warten, falls dein ctor async lÃ¤dt:
         await Task.Yield();
         Assert.Equal(2, vm.Items.Count);
         Assert.Equal("A", vm.Items [0].Title);
@@ -122,7 +122,7 @@ public sealed class TodosViewModelTests
         await vm.StartEditCommand.ExecuteAsync(row);
         row.EditableTitle = "New";
 
-        // Rename-UseCase: IUseCase<RenameTodoRequest, Unit> -> Unit.Value zurückgeben
+        // Rename-UseCase: IUseCase<RenameTodoRequest, Unit> -> Unit.Value zurÃ¼ckgeben
         A.CallTo(() => rename.Handle(
                 A<RenameTodoRequest>.That.Matches(r => r.TodoId == "99" && r.NewTitle == "New"),
                 A<CancellationToken>._))

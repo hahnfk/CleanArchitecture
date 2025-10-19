@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Application.UseCases.Todos.Commands;
-using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
+using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
