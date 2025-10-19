@@ -73,7 +73,8 @@ public sealed class TodoItem : AggregateRoot<TodoId>
     {
         if (!IsCompleted) return;
         IsCompleted = false;
-        // optional: RaiseEvent(new TaskReopenedDomainEvent(Id));
+
+        RaiseEvent(new TodoReopenedDomainEvent(Id));
         IncrementVersion();
     }
 

@@ -60,7 +60,7 @@ public sealed class TodoItemTests
     }
 
     [Fact]
-    public void Reopen_Toggles_From_Completed_And_Is_Idempotent()
+    public void Reopen_Emits_TodoReopenedDomainEvent_Once()
     {
         // Arrange
         var Todo = NewTodo();
@@ -73,8 +73,9 @@ public sealed class TodoItemTests
 
         // Assert
         Assert.False(Todo.IsCompleted);
-        // Adjust if you emit a TodoReopenedDomainEvent
-        Assert.Empty(Todo.DomainEvents);
+        var events = Todo.DomainEvents.OfType<TodoReopenedDomainEvent>().ToList();
+        Assert.Single(events);
+        Assert.Equal(Todo.Id, events[0].TodoId);
     }
 
     [Fact]
