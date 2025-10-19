@@ -1,8 +1,9 @@
-﻿
-using CleanArchitecture.Application.Tasks;
-using CleanArchitecture.Application.UseCases.Tasks.Commands.AddTask;
-using CleanArchitecture.Application.UseCases.Tasks.Queries.ListTasks;
+﻿using CleanArchitecture.Application.UseCases.Tasks.Commands.AddTask;
+using CleanArchitecture.Application.UseCases.Todos.Commands;
+using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
+using CleanArchitecture.Application.UseCases.Todos.Queries.ListTasks;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Application;
@@ -18,8 +19,10 @@ public static class DependencyInjection
         // Use cases (handlers)
         services.AddScoped<AddTodoHandler>();
         services.AddScoped<ListTodosHandler>();
-        services.AddScoped<CompleteTodoHandler>();
         services.AddScoped<RenameTodoHandler>();
+        services.AddScoped<DeleteTodoHandler>();
+        services.AddScoped<CompleteTodoHandler>();
+        services.AddScoped<ReopenTodoHandler>();
 
         return services;
     }

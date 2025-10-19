@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.UseCases.Tasks.Queries.ListTasks;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Queries.ListTasks;
 
 using CleanArchitecture.Application.Abstractions;
 

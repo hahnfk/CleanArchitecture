@@ -1,7 +1,7 @@
-﻿namespace CleanArchitecture.Application.Tasks;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands;
 
 using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Application.UseCases.Tasks.Commands.CompleteTask;
+using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
 using CleanArchitecture.Domain.Identity;
 
 /// <summary>

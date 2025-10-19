@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.UseCases.Tasks.Queries.ListTasks;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Queries.ListTasks;
 
 /// <summary>
 /// Response DTO for listing tasks. Flattened data for presentation.

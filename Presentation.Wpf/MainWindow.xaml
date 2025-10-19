@@ -6,5 +6,5 @@
         xmlns:views="clr-namespace:CleanArchitecture.Presentation.Wpf.Views"
         xmlns:local="clr-namespace:CleanArchitecture.Presentation.Wpf"
         mc:Ignorable="d"
-        Title="Tasks (.NET 9 / C# 12)" Height="450" Width="800">
+        Title="Todo Liste" Height="450" Width="800">
 </Window>

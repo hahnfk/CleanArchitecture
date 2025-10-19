@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.UseCases.Tasks.Commands.CompleteTask;
+﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
 
 /// <summary>
 /// Request DTO to complete a task by id.

@@ -3,7 +3,6 @@
 using CleanArchitecture.Domain.Common;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos.Events;
-using CleanArchitecture.Domain.Todos.Events;
 
 /// <summary>
 /// Aggregate root representing a to-do task. Encapsulates invariants and behavior.
@@ -69,4 +68,13 @@ public sealed class TodoItem : AggregateRoot<TodoId>
         // Optional: increment optimistic concurrency token for persistence.
         IncrementVersion();
     }
+
+    public void Reopen()
+    {
+        if (!IsCompleted) return;
+        IsCompleted = false;
+        // optional: RaiseEvent(new TaskReopenedDomainEvent(Id));
+        IncrementVersion();
+    }
+
 }
