@@ -1,4 +1,4 @@
-name: .NET Desktop (CleanArchitecture)
+name: .NET (Solution Build)
 
 on:
   push:
@@ -10,20 +10,13 @@ jobs:
   build:
     runs-on: windows-latest
 
-    strategy:
-      matrix:
-        configuration: [ Debug, Release ]
-
     env:
       Solution_Name: CleanArchitecture.sln
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Setup .NET SDK (8 & 9)
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
@@ -31,48 +24,11 @@ jobs:
             8.0.x
           cache: true
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Restore (dotnet)
+      - name: Restore
         run: dotnet restore "$env:Solution_Name"
 
-      - name: Build (MSBuild)
-        shell: pwsh
-        run: |
-          msbuild "$env:Solution_Name" `
-            /m `
-            /p:Configuration=${{ matrix.configuration }} `
-            /p:Platform="Any CPU"
+      - name: Build
+        run: dotnet build "$env:Solution_Name" --no-restore --configuration Release
 
-      - name: Run tests
-        shell: pwsh
-        run: |
-          # Führt alle gefundenen Testprojekte aus (SDK-Style).
-          # Falls du spezifische Testpfade hast, ersetze dies durch gezielte Aufrufe.
-          dotnet test "$env:Solution_Name" `
-            --configuration ${{ matrix.configuration }} `
-            --no-build `
-            --collect:"XPlat Code Coverage" `
-            --verbosity normal
-
-      - name: Stage build artifacts
-        shell: pwsh
-        run: |
-          $out = Join-Path $Env:RUNNER_TEMP "artifacts-${{ matrix.configuration }}"
-          New-Item -ItemType Directory -Force -Path $out | Out-Null
-          # alle bin-Ordner einsammeln (ohne obj)
-          Get-ChildItem -Recurse -Directory -Filter bin | ForEach-Object {
-            if ($_.FullName -notmatch '\\obj\\') {
-              Copy-Item $_.FullName -Destination $out -Recurse -Force -ErrorAction SilentlyContinue
-            }
-          }
-          "ARTIFACT_DIR=$out" | Out-File -FilePath $env:GITHUB_ENV -Append
-          Write-Host "Artifacts staged in $out"
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: CleanArchitecture-${{ matrix.configuration }}
-          path: ${{ env.ARTIFACT_DIR }}
-          if-no-files-found: warn
+      - name: Test
+        run: dotnet test "$env:Solution_Name" --no-build --configuration Release --verbosity normal
