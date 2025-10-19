@@ -27,20 +27,21 @@ public sealed class CompleteTodoHandler
         if (!Guid.TryParse(request.Id, out var gid)) return;
 
         // Load aggregate via repository port.
-        var task = await _repo.GetByIdAsync(new TodoId(gid), ct);
-        if (task is null) return;
+        var todo = await _repo.GetByIdAsync(new TodoId(gid), ct);
+        if (todo is null) return;
 
         // Apply domain behavior (emits event + bumps version).
-        task.Complete();
+        todo.Complete();
 
         // Persist changes and commit first (atomic state change).
-        await _repo.UpdateAsync(task, ct);
+        await _repo.UpdateAsync(todo, ct);
         await _uow.SaveChangesAsync(ct);
 
         // Publish domain events only AFTER a successful commit.
-        await _publisher.PublishAsync(task.DomainEvents, ct);
+        var events = todo.DomainEvents.ToArray();
+        await _publisher.PublishAsync(events, ct);
 
         // Clear events to avoid duplicate publication on re-entry.
-        task.ClearEvents();
+        todo.ClearEvents();
     }
 }
