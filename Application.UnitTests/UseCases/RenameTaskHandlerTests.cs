@@ -6,7 +6,7 @@ using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
 using FakeItEasy;
 
-namespace CleanArchitecture.Application.Tests.Todos;
+namespace CleanArchitecture.Application.UnitTests.UseCases;
 
 public sealed class RenameTodoHandlerTests
 {
@@ -42,7 +42,7 @@ public sealed class RenameTodoHandlerTests
             .MustHaveHappenedOnceExactly();
 
         A.CallTo(() => pub.PublishAsync(
-                A<System.Collections.Generic.IEnumerable<IDomainEvent>>.That.Matches(evts =>
+                A<IEnumerable<IDomainEvent>>.That.Matches(evts =>
                     evts.OfType<TodoRenamedDomainEvent>().Any(e => e.OldTitle == "Old" && e.NewTitle == "New")),
                 A<CancellationToken>._))
             .MustHaveHappenedOnceExactly();
@@ -73,7 +73,7 @@ public sealed class RenameTodoHandlerTests
         // Assert
         // No change, so no publish expected (depends on your handler logic; adjust if you still call Publish with empty list)
         A.CallTo(() => pub.PublishAsync(
-                A<System.Collections.Generic.IEnumerable<IDomainEvent>>.That.Matches(evts => !evts.Any()),
+                A<IEnumerable<IDomainEvent>>.That.Matches(evts => !evts.Any()),
                 A<CancellationToken>._)).MustNotHaveHappened();
 
         Assert.Empty(Todo.DomainEvents);
@@ -102,7 +102,7 @@ public sealed class RenameTodoHandlerTests
         A.CallTo(() => uow.SaveChangesAsync(A<CancellationToken>._))
             .MustNotHaveHappened();
 
-        A.CallTo(() => pub.PublishAsync(A<System.Collections.Generic.IEnumerable<IDomainEvent>>._, A<CancellationToken>._))
+        A.CallTo(() => pub.PublishAsync(A<IEnumerable<IDomainEvent>>._, A<CancellationToken>._))
             .MustNotHaveHappened();
     }
 }

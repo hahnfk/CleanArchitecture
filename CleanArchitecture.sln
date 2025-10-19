@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.InMemory.IntegrationTests", "Infrastructure.InMemory.IntegrationTests\Infrastructure.InMemory.IntegrationTests.csproj", "{F7D26BC0-F50F-4841-B27E-C41DFC18CE44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Wpf.ViewModelTests", "Presentation.Wpf.ViewModelTests\Presentation.Wpf.ViewModelTests.csproj", "{AF9C0D54-72D3-4C3A-A1CA-2CFDA0CB560E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{F7D26BC0-F50F-4841-B27E-C41DFC18CE44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7D26BC0-F50F-4841-B27E-C41DFC18CE44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7D26BC0-F50F-4841-B27E-C41DFC18CE44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF9C0D54-72D3-4C3A-A1CA-2CFDA0CB560E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF9C0D54-72D3-4C3A-A1CA-2CFDA0CB560E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF9C0D54-72D3-4C3A-A1CA-2CFDA0CB560E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF9C0D54-72D3-4C3A-A1CA-2CFDA0CB560E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

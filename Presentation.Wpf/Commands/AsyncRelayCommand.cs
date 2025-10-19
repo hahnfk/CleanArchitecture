@@ -1,14 +1,15 @@
-﻿namespace CleanArchitecture.Presentation.Wpf.Commands;
+﻿// CleanArchitecture.Presentation.Wpf/Commands/AsyncRelayCommand.cs
+namespace CleanArchitecture.Presentation.Wpf.Commands;
 
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 /// <summary>
-/// Minimal async ICommand implementation to keep MVVM lean without external libs.
-/// Avoids blocking the UI thread and allows simple CanExecute gating.
+/// Simple async-capable ICommand with optional CanExecute predicate.
+/// Provides ExecuteAsync for tests and RaiseCanExecuteChanged for UI.
 /// </summary>
-internal sealed class AsyncRelayCommand : ICommand
+internal class AsyncRelayCommand : ICommand
 {
     private readonly Func<object?, Task> _executeAsync;
     private readonly Func<object?, bool>? _canExecute;
@@ -18,17 +19,17 @@ internal sealed class AsyncRelayCommand : ICommand
         _executeAsync = executeAsync ?? throw new ArgumentNullException(nameof(executeAsync));
         _canExecute = canExecute;
 
-        // Optional: Auto-Requery an typische WPF-Ereignisse koppeln
-        CommandManager.RequerySuggested += OnRequerySuggested;
+        // Optional: lets WPF requery CanExecute on focus/keyboard changes
+        try { CommandManager.RequerySuggested += (_, __) => RaiseCanExecuteChanged(); } catch { /* ok in headless tests */ }
     }
 
     public bool CanExecute(object? parameter) => _canExecute?.Invoke(parameter) ?? true;
 
     public async void Execute(object? parameter) => await _executeAsync(parameter);
 
+    /// <summary>Explicit async execution; handy for unit tests.</summary>
+    public Task ExecuteAsync(object? parameter) => _executeAsync(parameter);
+
     public event EventHandler? CanExecuteChanged;
-
     public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
-    private void OnRequerySuggested(object? sender, EventArgs e) => RaiseCanExecuteChanged();
 }

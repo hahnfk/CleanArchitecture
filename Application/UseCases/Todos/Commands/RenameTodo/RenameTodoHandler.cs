@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Abstractions;
+using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
 using CleanArchitecture.Domain.Identity;
 
 namespace CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
@@ -6,25 +7,25 @@ namespace CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
 /// <summary>
 /// Use case: rename a Todo and publish the resulting domain event(s) after commit.
 /// </summary>
-public sealed class RenameTodoHandler
+public sealed class RenameTodoHandler : IUseCase<RenameTodoRequest, Unit>
 {
     private readonly ITodoRepository _repo;
     private readonly IUnitOfWork _uow;
     private readonly IDomainEventPublisher _publisher;
 
-    public RenameTodoHandler(ITodoRepository todoRepository, IUnitOfWork uow, IDomainEventPublisher publisher)
+    public RenameTodoHandler(ITodoRepository todoRepository, IUnitOfWork uow, IDomainEventPublisher publisher) 
     {
         _repo = todoRepository;
         _uow = uow;
         _publisher = publisher;
     }
 
-    public async Task Handle(RenameTodoRequest r, CancellationToken ct = default)
+    public async Task<Unit> Handle(RenameTodoRequest r, CancellationToken ct = default)
     {
-        if (!Guid.TryParse(r.TodoId, out var gid)) return;
+        if (!Guid.TryParse(r.TodoId, out var gid)) return Unit.Value;
 
         var todo = await _repo.GetByIdAsync(new TodoId(gid), ct);
-        if (todo is null) return;
+        if (todo is null) return Unit.Value;
 
         todo.Rename(r.NewTitle);
 
@@ -37,5 +38,7 @@ public sealed class RenameTodoHandler
             await _publisher.PublishAsync(events, ct);
 
         todo.ClearEvents();
+
+        return Unit.Value;
     }
 }

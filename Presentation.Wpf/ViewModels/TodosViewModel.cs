@@ -1,38 +1,41 @@
 ﻿namespace CleanArchitecture.Presentation.Wpf.ViewModels;
-using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
-using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
-using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
-using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
-using CleanArchitecture.Presentation.Wpf.Commands;
-using CleanArchitecture.Presentation.Wpf.Models;
+
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using CleanArchitecture.Application.UseCases.Todos.Commands;
+using System.Linq;
+using CleanArchitecture.Presentation.Wpf.Commands;
+using CleanArchitecture.Presentation.Wpf.Models;
+using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Application.UseCases.Tasks.Commands.AddTask;
 using CleanArchitecture.Application.UseCases.Todos.Queries.ListTasks;
+using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTask;
+using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
 
 /// <summary>
-/// ViewModel for Todos with inline add/edit/delete.
+/// ViewModel for Todos with inline add/edit/delete, decoupled from concrete handlers
+/// by using IUseCase&lt;TRequest, TResponse&gt; interfaces.
 /// </summary>
 public sealed class TodosViewModel : INotifyPropertyChanged
 {
-    private readonly CompleteTodoHandler _complete;
-    private readonly ReopenTodoHandler _reopen;
-    private readonly ListTodosHandler _list;
-    private readonly AddTodoHandler _add;
-    private readonly DeleteTodoHandler _delete;
-    private readonly RenameTodoHandler? _rename;
+    private readonly IUseCase<AddTodoRequest, AddTodoResponse> _add;
+    private readonly IUseCase<Unit, ListTodosResponse> _list;
+    private readonly IUseCase<CompleteTodoRequest, Unit> _complete;
+    private readonly IUseCase<ReopenTodoRequest, Unit> _reopen;
+    private readonly IUseCase<DeleteTodoRequest, Unit> _delete;
+    private readonly IUseCase<RenameTodoRequest, Unit>? _rename;
 
     public TodosViewModel(
-        AddTodoHandler add,
-        ListTodosHandler list,
-        CompleteTodoHandler complete,
-        ReopenTodoHandler reopen,
-        DeleteTodoHandler delete,
-        RenameTodoHandler? rename = null)
+        IUseCase<AddTodoRequest, AddTodoResponse> add,
+        IUseCase<Unit, ListTodosResponse> list,
+        IUseCase<CompleteTodoRequest, Unit> complete,
+        IUseCase<ReopenTodoRequest, Unit> reopen,
+        IUseCase<DeleteTodoRequest, Unit> delete,
+        IUseCase<RenameTodoRequest, Unit>? rename = null)
     {
         _add = add;
         _list = list;
@@ -54,14 +57,30 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         DeleteCommand = new AsyncRelayCommand(async p => await DeleteAsync(p as TodosModel));
         CompleteCommand = new AsyncRelayCommand(async p => await CompleteAsync((p as TodosModel)?.Id));
 
+        // initial load
         _ = RefreshAsync();
     }
 
     public ObservableCollection<TodosModel> Items { get; }
 
+    // Exposed commands for XAML
+    public ICommand AddInlineRowCommand { get; }
+    public ICommand StartEditCommand { get; }
+    public ICommand SaveNewCommand { get; }
+    public ICommand SaveEditCommand { get; }
+    public ICommand CancelNewCommand { get; }
+    public ICommand CancelEditCommand { get; }
+    public ICommand DeleteCommand { get; }
+    public ICommand CompleteCommand { get; }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void OnPropertyChanged([CallerMemberName] string? n = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
+
+    // ===== Data loading =====
     private async Task RefreshAsync()
     {
-        var dto = await _list.Handle();
+        var dto = await _list.Handle(Unit.Value);
         Items.CollectionChanged -= OnItemsCollectionChanged;
         Items.Clear();
         foreach (var t in dto.Items)
@@ -81,6 +100,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
             foreach (TodosModel m in e.NewItems) m.PropertyChanged += OnRowPropertyChanged;
     }
 
+    // Toggle completed directly via two-way binding
     private async void OnRowPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (sender is not TodosModel row) return;
@@ -89,7 +109,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
             try
             {
                 if (string.IsNullOrWhiteSpace(row.Id))
-                    return; // unsaved inline row – kein UseCase
+                    return; 
 
                 if (row.IsCompleted)
                     await _complete.Handle(new CompleteTodoRequest { Id = row.Id });
@@ -107,7 +127,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         }
     }
 
-    // AddInlineRow: setze neue Zeile standardmäßig auf IsCompleted = false
+    // ===== Inline add flow =====
     private Task AddInlineRowAsync()
     {
         var newRow = new TodosModel(id: "", title: "", isCompleted: false, isNew: true, isEditing: true);
@@ -115,44 +135,30 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         return Task.CompletedTask;
     }
 
-    // Commands exposed to XAML
-    public ICommand AddInlineRowCommand { get; }
-    public ICommand StartEditCommand { get; }
-    public ICommand SaveNewCommand { get; }
-    public ICommand SaveEditCommand { get; }
-    public ICommand CancelNewCommand { get; }
-    public ICommand CancelEditCommand { get; }
-    public ICommand DeleteCommand { get; }
-    public ICommand CompleteCommand { get; }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private void OnPropertyChanged([CallerMemberName] string? n = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
-
-    private bool CanSaveNew(TodosModel? m) => m is { IsNew: true } && !string.IsNullOrWhiteSpace(m.EditableTitle);
+    private bool CanSaveNew(TodosModel? m)
+        => m is { IsNew: true } && !string.IsNullOrWhiteSpace(m.EditableTitle);
 
     private async Task SaveNewAsync(TodosModel? m)
     {
         if (m is null) return;
+
         var res = await _add.Handle(new AddTodoRequest { Title = m.EditableTitle });
-        // Update the inline row to be a real row
+        // Finalize the inline row to a persisted row
         m.Id = res.Id;
         m.Title = res.Title;
         m.IsNew = false;
         m.IsEditing = false;
         m.EditableTitle = string.Empty;
-        // Optional: ensure consistent ordering; or call await RefreshAsync();
     }
 
     private Task CancelNewAsync(TodosModel? m)
     {
         if (m is null) return Task.CompletedTask;
-        // Remove unsaved row
         if (m.IsNew) Items.Remove(m);
         return Task.CompletedTask;
     }
 
-    // === Inline Edit ===
+    // ===== Inline edit flow =====
     private Task StartEditAsync(TodosModel? m)
     {
         if (m is null || m.IsNew) return Task.CompletedTask;
@@ -162,11 +168,14 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     }
 
     private bool CanSaveEdit(TodosModel? m)
-        => m is { IsNew: false, IsEditing: true } && !string.IsNullOrWhiteSpace(m.EditableTitle) && m.EditableTitle != m.Title;
+        => m is { IsNew: false, IsEditing: true } &&
+           !string.IsNullOrWhiteSpace(m.EditableTitle) &&
+           m.EditableTitle != m.Title;
 
     private async Task SaveEditAsync(TodosModel? m)
     {
         if (m is null || _rename is null) return;
+
         await _rename.Handle(new RenameTodoRequest { TodoId = m.Id, NewTitle = m.EditableTitle });
         m.Title = m.EditableTitle;
         m.IsEditing = false;
@@ -181,7 +190,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         return Task.CompletedTask;
     }
 
-    // === Delete ===
+    // ===== Delete =====
     private async Task DeleteAsync(TodosModel? m)
     {
         if (m is null || string.IsNullOrWhiteSpace(m.Id)) return;
@@ -189,12 +198,12 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         Items.Remove(m);
     }
 
-    // === Complete ===
+    // ===== Complete via explicit command (optional; UI kann auch 2-way Toggle nutzen) =====
     private async Task CompleteAsync(string? id)
     {
         if (string.IsNullOrWhiteSpace(id)) return;
         await _complete.Handle(new CompleteTodoRequest { Id = id });
-        // update row locally
+
         var row = Items.FirstOrDefault(x => x.Id == id);
         if (row is not null) row.IsCompleted = true;
     }

@@ -8,7 +8,7 @@ using CleanArchitecture.Domain.Identity;
 /// Use case: mark a task as completed (idempotent).
 /// Emits a domain event within the aggregate; after commit, events are published.
 /// </summary>
-public sealed class CompleteTodoHandler
+public sealed class CompleteTodoHandler : IUseCase<CompleteTodoRequest, Unit>
 {
     private readonly ITodoRepository _repo;
     private readonly IUnitOfWork _uow;
@@ -21,14 +21,14 @@ public sealed class CompleteTodoHandler
         _publisher = publisher;
     }
 
-    public async Task Handle(CompleteTodoRequest request, CancellationToken ct = default)
+    public async Task<Unit> Handle(CompleteTodoRequest request, CancellationToken ct = default)
     {
         // Parse incoming ID (UI/API shaped).
-        if (!Guid.TryParse(request.Id, out var gid)) return;
+        if (!Guid.TryParse(request.Id, out var gid)) return Unit.Value;
 
         // Load aggregate via repository port.
         var todo = await _repo.GetByIdAsync(new TodoId(gid), ct);
-        if (todo is null) return;
+        if (todo is null) return Unit.Value;
 
         // Apply domain behavior (emits event + bumps version).
         todo.Complete();
@@ -43,5 +43,7 @@ public sealed class CompleteTodoHandler
 
         // Clear events to avoid duplicate publication on re-entry.
         todo.ClearEvents();
+
+        return Unit.Value;
     }
 }

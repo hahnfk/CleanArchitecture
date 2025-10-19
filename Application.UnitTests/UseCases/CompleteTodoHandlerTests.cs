@@ -7,12 +7,12 @@ using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
 using FakeItEasy;
 
-namespace CleanArchitecture.Application.Tests.Todos;
+namespace CleanArchitecture.Application.UnitTests.UseCases;
 
 public sealed class CompleteTodoHandlerTests
 {
     private static TodoItem NewTodo(string title = "t1")
-         => new(new TodoId(System.Guid.NewGuid()), title);
+         => new(new TodoId(Guid.NewGuid()), title);
 
     [Fact]
     public async Task Handle_Completes_Todo_Publishes_Event_And_Clears_DomainEvents()
