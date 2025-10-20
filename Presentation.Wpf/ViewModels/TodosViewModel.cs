@@ -44,24 +44,24 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         _delete = delete;
         _rename = rename;
 
-        Items = new ObservableCollection<TodosModel>();
+        Items = new ObservableCollection<TodoModel>();
         Items.CollectionChanged += OnItemsCollectionChanged;
 
         // Commands
         AddInlineRowCommand = new AsyncRelayCommand(async _ => await AddInlineRowAsync());
-        StartEditCommand = new AsyncRelayCommand(async p => await StartEditAsync(p as TodosModel));
-        SaveNewCommand = new AsyncRelayCommand(async p => await SaveNewAsync(p as TodosModel), p => CanSaveNew(p as TodosModel));
-        SaveEditCommand = new AsyncRelayCommand(async p => await SaveEditAsync(p as TodosModel), p => CanSaveEdit(p as TodosModel));
-        CancelNewCommand = new AsyncRelayCommand(async p => await CancelNewAsync(p as TodosModel));
-        CancelEditCommand = new AsyncRelayCommand(async p => await CancelEditAsync(p as TodosModel));
-        DeleteCommand = new AsyncRelayCommand(async p => await DeleteAsync(p as TodosModel));
-        CompleteCommand = new AsyncRelayCommand(async p => await CompleteAsync((p as TodosModel)?.Id));
+        StartEditCommand = new AsyncRelayCommand(async p => await StartEditAsync(p as TodoModel));
+        SaveNewCommand = new AsyncRelayCommand(async p => await SaveNewAsync(p as TodoModel), p => CanSaveNew(p as TodoModel));
+        SaveEditCommand = new AsyncRelayCommand(async p => await SaveEditAsync(p as TodoModel), p => CanSaveEdit(p as TodoModel));
+        CancelNewCommand = new AsyncRelayCommand(async p => await CancelNewAsync(p as TodoModel));
+        CancelEditCommand = new AsyncRelayCommand(async p => await CancelEditAsync(p as TodoModel));
+        DeleteCommand = new AsyncRelayCommand(async p => await DeleteAsync(p as TodoModel));
+        CompleteCommand = new AsyncRelayCommand(async p => await CompleteAsync((p as TodoModel)?.Id));
 
         // initial load
         _ = RefreshAsync();
     }
 
-    public ObservableCollection<TodosModel> Items { get; }
+    public ObservableCollection<TodoModel> Items { get; }
 
     // Exposed commands for XAML
     public ICommand AddInlineRowCommand { get; }
@@ -85,7 +85,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         Items.Clear();
         foreach (var t in dto.Items)
         {
-            var m = new TodosModel(t.Id, t.Title, t.IsCompleted);
+            var m = new TodoModel(t.Id, t.Title, t.IsCompleted);
             m.PropertyChanged += OnRowPropertyChanged;
             Items.Add(m);
         }
@@ -95,16 +95,16 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.OldItems != null)
-            foreach (TodosModel m in e.OldItems) m.PropertyChanged -= OnRowPropertyChanged;
+            foreach (TodoModel m in e.OldItems) m.PropertyChanged -= OnRowPropertyChanged;
         if (e.NewItems != null)
-            foreach (TodosModel m in e.NewItems) m.PropertyChanged += OnRowPropertyChanged;
+            foreach (TodoModel m in e.NewItems) m.PropertyChanged += OnRowPropertyChanged;
     }
 
     // Toggle completed directly via two-way binding
     private async void OnRowPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (sender is not TodosModel row) return;
-        if (e.PropertyName == nameof(TodosModel.IsCompleted))
+        if (sender is not TodoModel row) return;
+        if (e.PropertyName == nameof(TodoModel.IsCompleted))
         {
             try
             {
@@ -130,15 +130,15 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     // ===== Inline add flow =====
     private Task AddInlineRowAsync()
     {
-        var newRow = new TodosModel(id: "", title: "", isCompleted: false, isNew: true, isEditing: true);
+        var newRow = new TodoModel(id: "", title: "", isCompleted: false, isNew: true, isEditing: true);
         Items.Insert(0, newRow);
         return Task.CompletedTask;
     }
 
-    private bool CanSaveNew(TodosModel? m)
+    private bool CanSaveNew(TodoModel? m)
         => m is { IsNew: true } && !string.IsNullOrWhiteSpace(m.EditableTitle);
 
-    private async Task SaveNewAsync(TodosModel? m)
+    private async Task SaveNewAsync(TodoModel? m)
     {
         if (m is null) return;
 
@@ -151,7 +151,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         m.EditableTitle = string.Empty;
     }
 
-    private Task CancelNewAsync(TodosModel? m)
+    private Task CancelNewAsync(TodoModel? m)
     {
         if (m is null) return Task.CompletedTask;
         if (m.IsNew) Items.Remove(m);
@@ -159,7 +159,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     }
 
     // ===== Inline edit flow =====
-    private Task StartEditAsync(TodosModel? m)
+    private Task StartEditAsync(TodoModel? m)
     {
         if (m is null || m.IsNew) return Task.CompletedTask;
         m.EditableTitle = m.Title;
@@ -167,12 +167,12 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         return Task.CompletedTask;
     }
 
-    private bool CanSaveEdit(TodosModel? m)
+    private bool CanSaveEdit(TodoModel? m)
         => m is { IsNew: false, IsEditing: true } &&
            !string.IsNullOrWhiteSpace(m.EditableTitle) &&
            m.EditableTitle != m.Title;
 
-    private async Task SaveEditAsync(TodosModel? m)
+    private async Task SaveEditAsync(TodoModel? m)
     {
         if (m is null || _rename is null) return;
 
@@ -182,7 +182,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         m.EditableTitle = string.Empty;
     }
 
-    private Task CancelEditAsync(TodosModel? m)
+    private Task CancelEditAsync(TodoModel? m)
     {
         if (m is null) return Task.CompletedTask;
         m.IsEditing = false;
@@ -191,7 +191,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     }
 
     // ===== Delete =====
-    private async Task DeleteAsync(TodosModel? m)
+    private async Task DeleteAsync(TodoModel? m)
     {
         if (m is null || string.IsNullOrWhiteSpace(m.Id)) return;
         await _delete.Handle(new DeleteTodoRequest { TodoId = m.Id });

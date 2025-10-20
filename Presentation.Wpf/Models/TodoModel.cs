@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 /// <summary>
 /// UI row model with inline editing state.
 /// </summary>
-public sealed class TodosModel : INotifyPropertyChanged
+public sealed class TodoModel : INotifyPropertyChanged
 {
     private string _id;
     private string _title;
@@ -16,7 +16,7 @@ public sealed class TodosModel : INotifyPropertyChanged
     private bool _isEditing;
     private string _editableTitle = string.Empty;
 
-    public TodosModel(string id, string title, bool isCompleted, bool isNew = false, bool isEditing = false)
+    public TodoModel(string id, string title, bool isCompleted, bool isNew = false, bool isEditing = false)
     {
         _id = id;
         _title = title;
