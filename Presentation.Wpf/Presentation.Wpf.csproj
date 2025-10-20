@@ -20,4 +20,10 @@
     <ProjectReference Include="..\Infrastructure.InMemory\Infrastructure.InMemory.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Themes\Styles.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+
 </Project>

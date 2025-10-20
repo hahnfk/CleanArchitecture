@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DockPanel Margin="10">
 
-        <!-- Toolbar: add inline row -->
+        <!-- Toolbar -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
             <Button Content="Add" Width="100" Command="{Binding AddInlineRowCommand}"/>
         </StackPanel>
@@ -12,161 +12,93 @@
             <ListView.View>
                 <GridView>
 
-                    <!-- NEW: Toggle column at the beginning -->
-                    <GridViewColumn Header="" Width="40">
+                    <!-- Completed toggle (radio look) -->
+                    <GridViewColumn Header="" Width="44">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <!-- CheckBox bound 2-way to IsCompleted; style later to look like Radio -->
-                                <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <CheckBox Style="{StaticResource Toggle.RadioLook}"
+                                          IsChecked="{Binding IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <CheckBox.ToolTip>
-                                        <TextBlock Text="Completed" />
+                                        <TextBlock Text="Completed"/>
                                     </CheckBox.ToolTip>
                                 </CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <!-- Existing Title / Done? / Actions columns ... -->
-                    <GridViewColumn Header="Title" Width="320">
+                    <!-- Title: display vs editor -->
+                    <GridViewColumn Header="Title" Width="360">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <TextBlock x:Name="Display" Text="{Binding Title}" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="Editor"
-                                               Text="{Binding EditableTitle, UpdateSourceTrigger=PropertyChanged}"
+                                    <!-- Display label -->
+                                    <TextBlock x:Name="Display"
+                                               Text="{Binding Title}"
+                                               Style="{StaticResource TitleTextBlock}"
                                                VerticalAlignment="Center"/>
+
+                                    <!-- Editor (collapsed by default) -->
+                                    <TextBox x:Name="Editor"
+                                             Text="{Binding EditableTitle, UpdateSourceTrigger=PropertyChanged}"
+                                             MinWidth="180"
+                                             VerticalAlignment="Center"
+                                             Visibility="Collapsed"
+                                             Loaded="TextBox_Loaded"/>
                                 </Grid>
+
+                                <!-- Switch visibility based on IsEditing -->
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsEditing}" Value="True">
                                         <Setter TargetName="Display" Property="Visibility" Value="Collapsed"/>
-                                        <Setter TargetName="Editor" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="Editor"  Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsEditing}" Value="False">
                                         <Setter TargetName="Display" Property="Visibility" Value="Visible"/>
-                                        <Setter TargetName="Editor" Property="Visibility" Value="Collapsed"/>
+                                        <Setter TargetName="Editor"  Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Done?" Width="60" DisplayMemberBinding="{Binding IsCompleted}"/>
-
-                    <!-- Actions column: different buttons depending on mode -->
-                    <GridViewColumn Header="Actions" Width="260">
+                    <!-- Actions -->
+                    <GridViewColumn Header="Actions" Width="320">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="6">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="6,0">
                                     <!-- Normal mode -->
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="Edit"
-                                                Command="{Binding DataContext.StartEditCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding IsNew}" Value="True">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
+                                    <Button Content="Edit"
+                                            Style="{StaticResource CellButton.EditVisibleWhenNormal}"
+                                            Command="{Binding DataContext.StartEditCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}" />
 
-                                        <Button Content="Delete"
-                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding IsNew}" Value="True">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </StackPanel>
+                                    <Button Content="Delete"
+                                            Style="{StaticResource CellButton.DeleteVisibleWhenNormal}"
+                                            Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}" />
 
-                                    <!-- Edit/New mode -->
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="Save"
-                                                Command="{Binding DataContext.SaveEditCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding IsNew}" Value="True">
-                                                            <!-- For new row, Save should call SaveNewCommand instead -->
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
+                                    <!-- Edit mode (existing item) -->
+                                    <Button Content="Save"
+                                            Style="{StaticResource CellButton.VisibleWhenEditing}"
+                                            Command="{Binding DataContext.SaveEditCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}" />
 
-                                        <Button Content="Save New"
-                                                Command="{Binding DataContext.SaveNewCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsNew}" Value="True">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
+                                    <Button Content="Cancel"
+                                            Style="{StaticResource CellButton.VisibleWhenEditing}"
+                                            Command="{Binding DataContext.CancelEditCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}" />
 
-                                        <Button Content="Cancel"
-                                                Command="{Binding DataContext.CancelEditCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding IsNew}" Value="True">
-                                                            <!-- For new row, cancel should remove the row -->
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
+                                    <!-- New inline row -->
+                                    <Button Content="Save New"
+                                            Style="{StaticResource CellButton.VisibleWhenNew}"
+                                            Command="{Binding DataContext.SaveNewCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}" />
 
-                                        <Button Content="Cancel New"
-                                                Command="{Binding DataContext.CancelNewCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsNew}" Value="True">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </StackPanel>
+                                    <Button Content="Cancel New"
+                                            Style="{StaticResource CellButton.VisibleWhenNew}"
+                                            Command="{Binding DataContext.CancelNewCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding}" />
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
