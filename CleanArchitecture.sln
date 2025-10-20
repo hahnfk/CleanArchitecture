@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Presentat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Presentation.Wpf.ViewModelTests", "CleanArchitecture.Presentation.Wpf.ViewModelTests\CleanArchitecture.Presentation.Wpf.ViewModelTests.csproj", "{315B720B-321A-2115-DF45-85C323EFF1CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Presentation.BlazorWebApp", "CleanArchitecture.Presentation.BlazorWebApp\CleanArchitecture.Presentation.BlazorWebApp.csproj", "{DBDAE2AF-6665-450B-BED3-AEA2D500A97C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{315B720B-321A-2115-DF45-85C323EFF1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{315B720B-321A-2115-DF45-85C323EFF1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{315B720B-321A-2115-DF45-85C323EFF1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBDAE2AF-6665-450B-BED3-AEA2D500A97C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBDAE2AF-6665-450B-BED3-AEA2D500A97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBDAE2AF-6665-450B-BED3-AEA2D500A97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBDAE2AF-6665-450B-BED3-AEA2D500A97C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
