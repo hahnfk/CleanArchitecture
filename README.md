@@ -1,6 +1,6 @@
 ﻿# Clean Architecture Example 
 
-A complete example project demonstrating **Clean Architecture** principles implemented as a **modular monolith** in C# (.NET 8).  
+A complete example project demonstrating **Clean Architecture** principles implemented in C# (.NET 8).  
 The goal of this repository is to provide a clear and educational foundation for building maintainable, scalable, and testable applications following clean software architecture patterns.
 
 ---
