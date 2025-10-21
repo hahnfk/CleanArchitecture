@@ -22,12 +22,12 @@ using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
 /// </summary>
 public sealed class TodosViewModel : INotifyPropertyChanged
 {
-    private readonly IUseCase<AddTodoRequest, AddTodoResponse> _add;
-    private readonly IUseCase<Unit, ListTodosResponse> _list;
-    private readonly IUseCase<CompleteTodoRequest, Unit> _complete;
-    private readonly IUseCase<ReopenTodoRequest, Unit> _reopen;
-    private readonly IUseCase<DeleteTodoRequest, Unit> _delete;
-    private readonly IUseCase<RenameTodoRequest, Unit>? _rename;
+    private readonly IUseCase<AddTodoRequest, AddTodoResponse> _addUseCase;
+    private readonly IUseCase<Unit, ListTodosResponse> _listUseCase;
+    private readonly IUseCase<CompleteTodoRequest, Unit> _completeUseCase;
+    private readonly IUseCase<ReopenTodoRequest, Unit> _reopenUseCase;
+    private readonly IUseCase<DeleteTodoRequest, Unit> _deleteUseCase;
+    private readonly IUseCase<RenameTodoRequest, Unit>? _renameUseCase;
 
     public TodosViewModel(
         IUseCase<AddTodoRequest, AddTodoResponse> add,
@@ -37,12 +37,12 @@ public sealed class TodosViewModel : INotifyPropertyChanged
         IUseCase<DeleteTodoRequest, Unit> delete,
         IUseCase<RenameTodoRequest, Unit>? rename = null)
     {
-        _add = add;
-        _list = list;
-        _complete = complete;
-        _reopen = reopen;
-        _delete = delete;
-        _rename = rename;
+        _addUseCase = add;
+        _listUseCase = list;
+        _completeUseCase = complete;
+        _reopenUseCase = reopen;
+        _deleteUseCase = delete;
+        _renameUseCase = rename;
 
         Items = new ObservableCollection<TodoModel>();
         Items.CollectionChanged += OnItemsCollectionChanged;
@@ -80,7 +80,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     // ===== Data loading =====
     private async Task RefreshAsync()
     {
-        var dto = await _list.Handle(Unit.Value);
+        var dto = await _listUseCase.Handle(Unit.Value);
         Items.CollectionChanged -= OnItemsCollectionChanged;
         Items.Clear();
         foreach (var t in dto.Items)
@@ -112,9 +112,9 @@ public sealed class TodosViewModel : INotifyPropertyChanged
                     return; 
 
                 if (row.IsCompleted)
-                    await _complete.Handle(new CompleteTodoRequest { Id = row.Id });
+                    await _completeUseCase.Handle(new CompleteTodoRequest { Id = row.Id });
                 else
-                    await _reopen.Handle(new ReopenTodoRequest { TodoId = row.Id });
+                    await _reopenUseCase.Handle(new ReopenTodoRequest { TodoId = row.Id });
             }
             catch
             {
@@ -142,7 +142,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     {
         if (m is null) return;
 
-        var res = await _add.Handle(new AddTodoRequest { Title = m.EditableTitle });
+        var res = await _addUseCase.Handle(new AddTodoRequest { Title = m.EditableTitle });
         // Finalize the inline row to a persisted row
         m.Id = res.Id;
         m.Title = res.Title;
@@ -174,9 +174,9 @@ public sealed class TodosViewModel : INotifyPropertyChanged
 
     private async Task SaveEditAsync(TodoModel? m)
     {
-        if (m is null || _rename is null) return;
+        if (m is null || _renameUseCase is null) return;
 
-        await _rename.Handle(new RenameTodoRequest { TodoId = m.Id, NewTitle = m.EditableTitle });
+        await _renameUseCase.Handle(new RenameTodoRequest { TodoId = m.Id, NewTitle = m.EditableTitle });
         m.Title = m.EditableTitle;
         m.IsEditing = false;
         m.EditableTitle = string.Empty;
@@ -194,7 +194,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     private async Task DeleteAsync(TodoModel? m)
     {
         if (m is null || string.IsNullOrWhiteSpace(m.Id)) return;
-        await _delete.Handle(new DeleteTodoRequest { TodoId = m.Id });
+        await _deleteUseCase.Handle(new DeleteTodoRequest { TodoId = m.Id });
         Items.Remove(m);
     }
 
@@ -202,7 +202,7 @@ public sealed class TodosViewModel : INotifyPropertyChanged
     private async Task CompleteAsync(string? id)
     {
         if (string.IsNullOrWhiteSpace(id)) return;
-        await _complete.Handle(new CompleteTodoRequest { Id = id });
+        await _completeUseCase.Handle(new CompleteTodoRequest { Id = id });
 
         var row = Items.FirstOrDefault(x => x.Id == id);
         if (row is not null) row.IsCompleted = true;

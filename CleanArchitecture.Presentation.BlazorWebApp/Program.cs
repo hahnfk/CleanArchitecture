@@ -1,3 +1,5 @@
+using CleanArchitecture.Application;
+using CleanArchitecture.Infrastructure.InMemory;
 using CleanArchitecture.Presentation.BlazorWebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddApplication();
+builder.Services.AddInfrastructureInMemory();
 
 var app = builder.Build();
 
