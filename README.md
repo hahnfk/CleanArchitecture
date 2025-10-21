@@ -1,6 +1,6 @@
-﻿# Clean Architecture Example (.NET 9, Modular Monolith)
+﻿# Clean Architecture Example 
 
-A complete example project demonstrating **Clean Architecture** principles implemented as a **modular monolith** in C# (.NET 9).  
+A complete example project demonstrating **Clean Architecture** principles implemented as a **modular monolith** in C# (.NET 8).  
 The goal of this repository is to provide a clear and educational foundation for building maintainable, scalable, and testable applications following clean software architecture patterns.
 
 ---
@@ -11,8 +11,6 @@ This project illustrates how to structure a .NET application by separating busin
 It follows **Clean Architecture** and **SOLID** principles to ensure high maintainability, clear boundaries between layers, and easy testability.
 
 The solution demonstrates how each layer interacts through well-defined contracts (interfaces), how dependencies flow only inward, and how implementation details (like databases or UI frameworks) can be swapped without touching the core domain logic.
-
-The **modular monolith** approach used here keeps everything within one solution — organized by feature and responsibility — while maintaining boundaries that would later allow an easy evolution into a microservice-based system if desired.
 
 ---
 
@@ -56,38 +54,13 @@ The **modular monolith** approach used here keeps everything within one solution
 
 ## Architecture Diagram
 
-```
-
-┌──────────────────────────────────────┐
-│           Presentation (WPF)         │
-│   → Calls Application Use Cases      │
-└──────────────────┬───────────────────┘
-│
-┌──────────────────┴───────────────────┐
-│           Application Layer          │
-│  → Coordinates business operations   │
-│  → Depends only on Domain Layer      │
-└──────────────────┬───────────────────┘
-│
-┌──────────────────┴───────────────────┐
-│            Domain Layer              │
-│  → Core entities, value objects      │
-│  → Contains pure business rules      │
-└──────────────────┬───────────────────┘
-│
-┌──────────────────┴───────────────────┐
-│         Infrastructure Layer         │
-│  → Database, file, and external APIs │
-│  → Adapters implementing interfaces  │
-└──────────────────────────────────────┘
-
-```
+![Clean Architecture](Documentation/CleanArchitecture.jpg)
 
 ---
 
 ## Technologies
 
-- **.NET 9 / C# 13**
+- **.NET 8
 - **WPF** (Presentation)
 - **xUnit** (Testing)
 - **InMemory Repositories** (Infrastructure)
