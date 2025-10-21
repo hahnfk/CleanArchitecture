@@ -27,61 +27,207 @@
 
     <table class="ca-table">
         <thead>
-            <tr>
-                <th style="width:44px;"></th>
-                <th style="width:360px;">Title</th>
-                <th style="width:320px;">Actions</th>
-            </tr>
+        <tr>
+            <th style="width:44px;"></th>
+            <th style="width:360px;">Title</th>
+            <th style="width:320px;">Actions</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var m in Items)
-            {
-                <tr class="@(m.IsCompleted ? "row-completed" : null)">
-                    <td>
-                        <button type="button"
-                                class="toggle-btn"
-                                aria-pressed="@m.IsCompleted"
-                                title="Completed"
-                                @onclick="() => ToggleCompleted(m)">
-                        </button>
-                    </td>
+        @foreach (var m in Items)
+        {
+            <tr class="@(m.IsCompleted ? "row-completed" : null)">
+                <td>
+                    <button type="button"
+                            class="toggle-btn"
+                            aria-pressed="@m.IsCompleted"
+                            title="Completed"
+                            @onclick="() => ToggleCompleted(m)">
+                    </button>
+                </td>
 
-                    <td>
-                        @if (!m.IsEditing)
-                        {
-                            <span class="title">@m.Title</span>
-                        }
-                        else
-                        {
-                            <input class="ca-input" style="min-width:180px"
-                                   @bind="m.EditableTitle" @bind:event="oninput"
-                                   @ref="m.EditorRef"
-                                   @onkeydown="(e) => OnEditorKeyDown(e, m)" />
-                        }
-                    </td>
+                <td>
+                    @if (!m.IsEditing)
+                    {
+                        <span class="title">@m.Title</span>
+                    }
+                    else
+                    {
+                        <input class="ca-input" style="min-width:180px"
+                               @bind="m.EditableTitle" @bind:event="oninput"
+                               @ref="m.EditorRef"
+                               @onkeydown="(e) => OnEditorKeyDown(e, m)" />
+                    }
+                </td>
 
-                    <td>
-                        @if (m.IsNew)
-                        {
-                            <button type="button" class="ca-btn ca-btn-cell" disabled="@(string.IsNullOrWhiteSpace(m.EditableTitle))" @onclick="() => SaveNew(m)">Save New</button>
-                            <button type="button" class="ca-btn ca-btn-cell" @onclick="() => CancelNew(m)">Cancel New</button>
-                        }
-                        else if (m.IsEditing)
-                        {
-                            <button type="button" class="ca-btn ca-btn-cell" disabled="@(!CanSaveEdit(m))" @onclick="() => SaveEdit(m)">Save</button>
-                            <button type="button" class="ca-btn ca-btn-cell" @onclick="() => CancelEdit(m)">Cancel</button>
-                        }
-                        else
-                        {
-                            <button type="button" class="ca-btn ca-btn-cell" @onclick="() => StartEdit(m)">Edit</button>
-                            <button type="button" class="ca-btn ca-btn-danger ca-btn-cell" @onclick="() => Delete(m)">Delete</button>
-                        }
-                    </td>
-                </tr>
-            }
+                <td>
+                    @if (m.IsNew)
+                    {
+                        <button type="button" class="ca-btn ca-btn-cell" disabled="@(string.IsNullOrWhiteSpace(m.EditableTitle))" @onclick="() => SaveNew(m)">Save New</button>
+                        <button type="button" class="ca-btn ca-btn-cell" @onclick="() => CancelNew(m)">Cancel New</button>
+                    }
+                    else if (m.IsEditing)
+                    {
+                        <button type="button" class="ca-btn ca-btn-cell" disabled="@(!CanSaveEdit(m))" @onclick="() => SaveEdit(m)">Save</button>
+                        <button type="button" class="ca-btn ca-btn-cell" @onclick="() => CancelEdit(m)">Cancel</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="ca-btn ca-btn-cell" @onclick="() => StartEdit(m)">Edit</button>
+                        <button type="button" class="ca-btn ca-btn-danger ca-btn-cell" @onclick="() => Delete(m)">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>
+
+<style>
+    /* ===========================
+       Clean Architecture UI (scoped)
+       =========================== */
+
+    /* Scope everything under .ca to avoid collisions with Bootstrap/app.css */
+    .ca {
+        --ca-clr-primary: #3B82F6;
+        --ca-clr-primary-hover: #2563EB;
+        --ca-clr-accent: #22C55E;
+        --ca-clr-danger: #EF4444;
+        --ca-clr-border: #DDDDDD;
+        --ca-clr-row-alt: #FAFAFA;
+        --ca-clr-row-hover: #F3F4F6;
+        --ca-clr-muted: #666666;
+        font-family: Segoe UI, Arial, Helvetica, sans-serif;
+    }
+
+        /* Layout */
+        .ca .page {
+            padding: 16px;
+        }
+
+        .ca .content {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        /* Buttons (primary) */
+        .ca .ca-btn {
+            display: inline-block;
+            padding: 10px 12px;
+            min-width: 72px;
+            border-radius: 6px;
+            border: 1px solid var(--ca-clr-primary);
+            background: var(--ca-clr-primary);
+            color: #fff;
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+        }
+
+            .ca .ca-btn:hover {
+                background: var(--ca-clr-primary-hover);
+                border-color: var(--ca-clr-primary-hover);
+            }
+
+            .ca .ca-btn:disabled {
+                opacity: .5;
+                cursor: default;
+            }
+
+        /* Danger variant */
+        .ca .ca-btn-danger {
+            background: var(--ca-clr-danger);
+            border-color: var(--ca-clr-danger);
+        }
+
+        /* Compact cell buttons for tables */
+        .ca .ca-btn-cell {
+            padding: 8px 10px;
+            min-width: 0;
+            margin: 0 4px;
+        }
+
+        /* Inputs */
+        .ca .ca-input {
+            padding: 6px;
+            border: 1px solid var(--ca-clr-border);
+            border-radius: 4px;
+        }
+
+            .ca .ca-input:focus {
+                outline: none;
+                border-color: var(--ca-clr-primary);
+            }
+
+        /* Table (ListView look) */
+        .ca .ca-table {
+            width: 100%;
+            border: 1px solid var(--ca-clr-border);
+            border-collapse: collapse;
+        }
+
+            .ca .ca-table th {
+                text-align: left;
+                background: #f5f5f5;
+                padding: 8px 6px;
+                border-bottom: 1px solid var(--ca-clr-border);
+                font-weight: 600;
+            }
+
+            .ca .ca-table td {
+                padding: 8px 6px;
+                border-bottom: 1px solid var(--ca-clr-border);
+            }
+
+            .ca .ca-table tr:nth-child(2n) {
+                background: var(--ca-clr-row-alt);
+            }
+
+            .ca .ca-table tr:hover {
+                background: var(--ca-clr-row-hover);
+            }
+
+        /* Completed look */
+        .ca .row-completed {
+            opacity: .75;
+            color: var(--ca-clr-muted);
+        }
+
+            .ca .row-completed .title {
+                text-decoration: line-through;
+            }
+
+        /* Radio-like completed toggle (button-based, accessible) */
+        .ca .toggle-btn {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #888;
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+        }
+
+            .ca .toggle-btn[aria-pressed="true"] {
+                border-color: var(--ca-clr-accent);
+                background: radial-gradient(circle at center, var(--ca-clr-accent) 0 5px, transparent 6px);
+            }
+
+            .ca .toggle-btn:disabled {
+                opacity: .5;
+                cursor: default;
+            }
+
+        /* Toolbar spacing */
+        .ca .toolbar {
+            margin-bottom: 10px;
+        }
+</style>
 
 @code {
 
