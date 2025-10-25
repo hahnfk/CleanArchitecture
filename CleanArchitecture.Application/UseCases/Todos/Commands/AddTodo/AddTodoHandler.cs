@@ -1,8 +1,9 @@
-﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
-
-using CleanArchitecture.Application.Abstractions;
+﻿using CleanArchitecture.Application.Abstractions;
+using CleanArchitecture.Application.Abstractions.ROP;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
+
+namespace CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
 
 /// <summary>
 /// Use case application service: orchestrates entities via repositories and UoW.
@@ -19,17 +20,32 @@ public sealed class AddTodoHandler : IUseCase<AddTodoRequest, AddTodoResponse>
         _uow = uow;
     }
 
-    public async Task<AddTodoResponse> Handle(AddTodoRequest request, CancellationToken ct = default)
+    public async Task<Result<AddTodoResponse>> Handle(AddTodoRequest request, CancellationToken ct = default)
     {
-        // Create a new aggregate and enforce invariants inside the domain model
-        var todo = new TodoItem(TodoId.New(), request.Title);
+        // Basic input validation (Application layer)
+        if (string.IsNullOrWhiteSpace(request.Title))
+            return Result.Fail<AddTodoResponse>(Error.Validation("Title must not be empty."));
 
-        // Stage the changes (no commit yet)
-        await _repo.AddAsync(todo, ct);
+        try
+        {
+            // Create aggregate (domain enforces its own invariants)
+            var todo = new TodoItem(TodoId.New(), request.Title);
 
-        // Commit transactional boundary
-        await _uow.SaveChangesAsync(ct);
+            await _repo.AddAsync(todo, ct);
+            await _uow.SaveChangesAsync(ct);
 
-        return new AddTodoResponse { Id = todo.Id.ToString(), Title = todo.Title };
+            var response = new AddTodoResponse { Id = todo.Id.ToString(), Title = todo.Title };
+            return Result<AddTodoResponse>.Ok(response);
+        }
+        catch (DuplicateTodoTitleException ex)
+        {
+            // Example: map domain-specific exception to a typed error
+            return Result.Fail<AddTodoResponse>(Error.Conflict("A todo with the same title already exists.", ex.Message));
+        }
+        catch (Exception ex)
+        {
+            // Defensive last resort
+            return Result.Fail<AddTodoResponse>(Error.Unexpected("Unexpected error while adding todo.", ex.Message));
+        }
     }
 }

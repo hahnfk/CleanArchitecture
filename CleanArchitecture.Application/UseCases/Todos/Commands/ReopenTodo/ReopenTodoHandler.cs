@@ -2,6 +2,7 @@
 
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Identity;
+using CleanArchitecture.Application.Abstractions.ROP;
 
 /// <summary>
 /// Use case: reopen a todo that has been completed.
@@ -17,18 +18,30 @@ public sealed class ReopenTodoHandler : IUseCase<ReopenTodoRequest, Unit>
         _uow = uow;
     }
 
-    public async Task<Unit> Handle(ReopenTodoRequest r, CancellationToken ct = default)
+    public async Task<Result<Unit>> Handle(ReopenTodoRequest r, CancellationToken ct = default)
     {
-        if (!Guid.TryParse(r.TodoId, out var g)) return Unit.Value;
+        if (string.IsNullOrWhiteSpace(r.TodoId))
+            return Result.Fail<Unit>(Error.Validation("TodoId must not be empty."));
 
-        var todo = await _repo.GetByIdAsync(new TodoId(g), ct);
-        if (todo is null) return Unit.Value;
+        if (!Guid.TryParse(r.TodoId, out var g))
+            return Result.Fail<Unit>(Error.Validation("TodoId is not a valid GUID."));
 
-        todo.Reopen();
+        try
+        {
+            var todo = await _repo.GetByIdAsync(new TodoId(g), ct);
+            if (todo is null)
+                return Result.Fail<Unit>(Error.NotFound($"Todo '{r.TodoId}' not found."));
 
-        await _repo.UpdateAsync(todo, ct);
-        await _uow.SaveChangesAsync(ct);
+            todo.Reopen();
 
-        return Unit.Value;
+            await _repo.UpdateAsync(todo, ct);
+            await _uow.SaveChangesAsync(ct);
+
+            return Result<Unit>.Ok(Unit.Value);
+        }
+        catch (Exception ex)
+        {
+            return Result.Fail<Unit>(Error.Unexpected("Unexpected error while reopening todo.", ex.Message));
+        }
     }
 }

@@ -26,10 +26,10 @@ internal sealed class InMemoryTodoRepository : ITodoRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteAsync(TodoId id, CancellationToken ct = default)
+    public Task<bool> DeleteAsync(TodoId id, CancellationToken ct = default)
     {
-        _store.TryRemove(id.Value, out _);
-        return Task.CompletedTask;
+        var deleted = _store.TryRemove(id.Value, out _);
+        return Task.FromResult(deleted);
     }
 
     public Task<TodoItem?> GetByIdAsync(TodoId id, CancellationToken ct = default)

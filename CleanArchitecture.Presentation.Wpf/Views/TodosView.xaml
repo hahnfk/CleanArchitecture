@@ -5,7 +5,7 @@
 
         <!-- Toolbar -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
-            <Button Content="Add" Width="100" Command="{Binding AddInlineRowCommand}"/>
+            <Button Content="Add" Width="100" Command="{Binding AddCommand}"/>
         </StackPanel>
 
         <ListView ItemsSource="{Binding Items}">
@@ -17,7 +17,9 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox Style="{StaticResource Toggle.RadioLook}"
-                                          IsChecked="{Binding IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsChecked="{Binding IsCompleted, Mode=OneWay}"
+                                          Command="{Binding DataContext.ToggleCompletedCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                          CommandParameter="{Binding}"
                                           HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <CheckBox.ToolTip>
                                         <TextBlock Text="Completed"/>

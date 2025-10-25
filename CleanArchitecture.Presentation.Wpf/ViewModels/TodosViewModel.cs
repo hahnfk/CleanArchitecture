@@ -1,210 +1,259 @@
-﻿namespace CleanArchitecture.Presentation.Wpf.ViewModels;
-
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using System.Linq;
-using CleanArchitecture.Presentation.Wpf.Commands;
-using CleanArchitecture.Presentation.Wpf.Models;
-using CleanArchitecture.Application.Abstractions;
+﻿using CleanArchitecture.Application.Abstractions;
+using CleanArchitecture.Application.Abstractions.ROP;
 using CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
-using CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
 using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
-using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
+using CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
+using CleanArchitecture.Presentation.Wpf.Commands;
+using CleanArchitecture.Presentation.Wpf.Models;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 
-/// <summary>
-/// ViewModel for Todos with inline add/edit/delete, decoupled from concrete handlers
-/// by using IUseCase&lt;TRequest, TResponse&gt; interfaces.
-/// </summary>
-public sealed class TodosViewModel : INotifyPropertyChanged
+namespace CleanArchitecture.Presentation.Wpf.ViewModels;
+
+public sealed class TodosViewModel : ObservableObject
 {
-    private readonly IUseCase<AddTodoRequest, AddTodoResponse> _addUseCase;
-    private readonly IUseCase<Unit, ListTodosResponse> _listUseCase;
-    private readonly IUseCase<CompleteTodoRequest, Unit> _completeUseCase;
-    private readonly IUseCase<ReopenTodoRequest, Unit> _reopenUseCase;
-    private readonly IUseCase<DeleteTodoRequest, Unit> _deleteUseCase;
-    private readonly IUseCase<RenameTodoRequest, Unit>? _renameUseCase;
+    private readonly IUseCase<Unit, ListTodosResponse> _listTodosUseCase;
+    private readonly IUseCase<AddTodoRequest, AddTodoResponse> _addTodoUseCase;
+    private readonly IUseCase<RenameTodoRequest, Unit> _renameTodoUseCase;
+    private readonly IUseCase<DeleteTodoRequest, Unit> _deleteTodoUseCase;
+    private readonly IUseCase<CompleteTodoRequest, Unit> _completeTodoUseCase;
+    private readonly IUseCase<ReopenTodoRequest, Unit> _reopenTodoUseCase;
+
+    public ObservableCollection<TodoModel> Items { get; } = new();
+
+    public ICommand AddCommand { get; }
+    public ICommand StartEditCommand { get; }
+    public ICommand SaveEditCommand { get; }
+    public ICommand CancelEditCommand { get; }
+    public ICommand DeleteCommand { get; }
+    public ICommand SaveNewCommand { get; }
+    public ICommand CancelNewCommand { get; }
+    public ICommand ToggleCompletedCommand { get; }
 
     public TodosViewModel(
-        IUseCase<AddTodoRequest, AddTodoResponse> add,
-        IUseCase<Unit, ListTodosResponse> list,
-        IUseCase<CompleteTodoRequest, Unit> complete,
-        IUseCase<ReopenTodoRequest, Unit> reopen,
-        IUseCase<DeleteTodoRequest, Unit> delete,
-        IUseCase<RenameTodoRequest, Unit>? rename = null)
+        IUseCase<Unit, ListTodosResponse> listTodosUseCase,
+        IUseCase<AddTodoRequest, AddTodoResponse> addTodoUseCase,
+        IUseCase<RenameTodoRequest, Unit> renameTodoUseCase,
+        IUseCase<DeleteTodoRequest, Unit> deleteTodoUseCase,
+        IUseCase<CompleteTodoRequest, Unit> completeTodoUseCase,
+        IUseCase<ReopenTodoRequest, Unit> reopenTodoUseCase)
     {
-        _addUseCase = add;
-        _listUseCase = list;
-        _completeUseCase = complete;
-        _reopenUseCase = reopen;
-        _deleteUseCase = delete;
-        _renameUseCase = rename;
+        _listTodosUseCase = listTodosUseCase;
+        _addTodoUseCase = addTodoUseCase;
+        _renameTodoUseCase = renameTodoUseCase;
+        _deleteTodoUseCase = deleteTodoUseCase;
+        _completeTodoUseCase = completeTodoUseCase;
+        _reopenTodoUseCase = reopenTodoUseCase;
 
-        Items = new ObservableCollection<TodoModel>();
-        Items.CollectionChanged += OnItemsCollectionChanged;
+        // Toolbar "Add": add an inline 'new row' (IsNew = true, IsEditing = true)
+        AddCommand = new AsyncRelayCommand(_ => AddInlineNewRowAsync());
 
-        // Commands
-        AddInlineRowCommand = new AsyncRelayCommand(async _ => await AddInlineRowAsync());
-        StartEditCommand = new AsyncRelayCommand(async p => await StartEditAsync(p as TodoModel));
-        SaveNewCommand = new AsyncRelayCommand(async p => await SaveNewAsync(p as TodoModel), p => CanSaveNew(p as TodoModel));
-        SaveEditCommand = new AsyncRelayCommand(async p => await SaveEditAsync(p as TodoModel), p => CanSaveEdit(p as TodoModel));
-        CancelNewCommand = new AsyncRelayCommand(async p => await CancelNewAsync(p as TodoModel));
-        CancelEditCommand = new AsyncRelayCommand(async p => await CancelEditAsync(p as TodoModel));
-        DeleteCommand = new AsyncRelayCommand(async p => await DeleteAsync(p as TodoModel));
-        CompleteCommand = new AsyncRelayCommand(async p => await CompleteAsync((p as TodoModel)?.Id));
+        // Actions column (existing item)
+        StartEditCommand = new AsyncRelayCommand<TodoModel>(p => StartEditAsync(p), requireNonNullParameter: true);
+        SaveEditCommand = new AsyncRelayCommand<TodoModel>(p => SaveEditAsync(p), p => CanSaveEdit(p), requireNonNullParameter: true);
+        CancelEditCommand = new AsyncRelayCommand<TodoModel>(p => CancelEditAsync(p), requireNonNullParameter: true);
+        DeleteCommand = new AsyncRelayCommand<TodoModel>(p => DeleteAsync(p), requireNonNullParameter: true);
+
+        // Actions column (new inline row)
+        SaveNewCommand = new AsyncRelayCommand<TodoModel>(p => SaveNewAsync(p), p => CanSaveNew(p), requireNonNullParameter: true);
+        CancelNewCommand = new AsyncRelayCommand<TodoModel>(p => CancelNewAsync(p), requireNonNullParameter: true);
+
+        // Optional: command-based toggle (UI can bind to this);
+        // tests that set IsCompleted directly are handled via PropertyChanged wiring (see WireItem + OnItemPropertyChanged)
+        ToggleCompletedCommand = new AsyncRelayCommand<TodoModel>(p => ToggleAsync(p), requireNonNullParameter: true);
 
         // initial load
         _ = RefreshAsync();
     }
 
-    public ObservableCollection<TodoModel> Items { get; }
-
-    // Exposed commands for XAML
-    public ICommand AddInlineRowCommand { get; }
-    public ICommand StartEditCommand { get; }
-    public ICommand SaveNewCommand { get; }
-    public ICommand SaveEditCommand { get; }
-    public ICommand CancelNewCommand { get; }
-    public ICommand CancelEditCommand { get; }
-    public ICommand DeleteCommand { get; }
-    public ICommand CompleteCommand { get; }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private void OnPropertyChanged([CallerMemberName] string? n = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
-
-    // ===== Data loading =====
-    private async Task RefreshAsync()
+    private async Task RefreshAsync(CancellationToken ct = default)
     {
-        var dto = await _listUseCase.Handle(Unit.Value);
-        Items.CollectionChanged -= OnItemsCollectionChanged;
-        Items.Clear();
-        foreach (var t in dto.Items)
+        var result = await _listTodosUseCase.Handle(Unit.Value, ct);
+        if (result.IsSuccess)
         {
-            var m = new TodoModel(t.Id, t.Title, t.IsCompleted);
-            m.PropertyChanged += OnRowPropertyChanged;
-            Items.Add(m);
-        }
-        Items.CollectionChanged += OnItemsCollectionChanged;
-    }
-
-    private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (e.OldItems != null)
-            foreach (TodoModel m in e.OldItems) m.PropertyChanged -= OnRowPropertyChanged;
-        if (e.NewItems != null)
-            foreach (TodoModel m in e.NewItems) m.PropertyChanged += OnRowPropertyChanged;
-    }
-
-    // Toggle completed directly via two-way binding
-    private async void OnRowPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (sender is not TodoModel row) return;
-        if (e.PropertyName == nameof(TodoModel.IsCompleted))
-        {
-            try
+            Items.Clear();
+            foreach (var dto in result.Value!.Items)
             {
-                if (string.IsNullOrWhiteSpace(row.Id))
-                    return; 
-
-                if (row.IsCompleted)
-                    await _completeUseCase.Handle(new CompleteTodoRequest { Id = row.Id });
-                else
-                    await _reopenUseCase.Handle(new ReopenTodoRequest { TodoId = row.Id });
-            }
-            catch
-            {
-                // Rollback UI if app use case fails
-                row.PropertyChanged -= OnRowPropertyChanged;
-                row.IsCompleted = !row.IsCompleted;
-                row.PropertyChanged += OnRowPropertyChanged;
-                throw;
+                var vm = CreateItem(dto.Id, dto.Title, dto.IsCompleted);
+                WireItem(vm);             // <<< ensure IsCompleted changes trigger use cases
+                Items.Add(vm);
             }
         }
+        else ShowErrors("Failed to load todos", result.Errors);
     }
 
-    // ===== Inline add flow =====
-    private Task AddInlineRowAsync()
+    // --- New row ---
+    private Task AddInlineNewRowAsync()
     {
-        var newRow = new TodoModel(id: "", title: "", isCompleted: false, isNew: true, isEditing: true);
-        Items.Insert(0, newRow);
+        if (Items.Any(i => i.IsNew)) return Task.CompletedTask;
+        var vm = CreateItem(id: "", title: "", completed: false, isNew: true);
+        vm.IsEditing = true;
+        WireItem(vm);                 // subscribe early; handler ignores IsNew items
+        Items.Insert(0, vm);
         return Task.CompletedTask;
     }
 
-    private bool CanSaveNew(TodoModel? m)
-        => m is { IsNew: true } && !string.IsNullOrWhiteSpace(m.EditableTitle);
+    private bool CanSaveNew(TodoModel? vm)
+        => vm is { IsNew: true } && !string.IsNullOrWhiteSpace(vm.EditableTitle);
 
-    private async Task SaveNewAsync(TodoModel? m)
+    private async Task SaveNewAsync(TodoModel? vm, CancellationToken ct = default)
     {
-        if (m is null) return;
+        if (vm is null || !vm.IsNew) return;
 
-        var res = await _addUseCase.Handle(new AddTodoRequest { Title = m.EditableTitle });
-        // Finalize the inline row to a persisted row
-        m.Id = res.Id;
-        m.Title = res.Title;
-        m.IsNew = false;
-        m.IsEditing = false;
-        m.EditableTitle = string.Empty;
+        var result = await _addTodoUseCase.Handle(new AddTodoRequest { Title = vm.EditableTitle }, ct);
+        if (result.IsSuccess)
+        {
+            var added = result.Value!;
+            vm.Id = added.Id;
+            vm.Title = added.Title;
+            vm.IsNew = false;
+            vm.IsEditing = false;
+            vm.EditableTitle = string.Empty;
+
+            WireItem(vm);            // <<< ensure now-persisted item is wired for toggle reactions
+        }
+        else ShowErrors("Failed to add todo", result.Errors);
     }
 
-    private Task CancelNewAsync(TodoModel? m)
+    private Task CancelNewAsync(TodoModel? vm)
     {
-        if (m is null) return Task.CompletedTask;
-        if (m.IsNew) Items.Remove(m);
+        if (vm is null || !vm.IsNew) return Task.CompletedTask;
+        // optional: unsubscribe before remove
+        vm.PropertyChanged -= OnItemPropertyChanged;
+        Items.Remove(vm);
         return Task.CompletedTask;
     }
 
-    // ===== Inline edit flow =====
-    private Task StartEditAsync(TodoModel? m)
+    // --- Edit existing ---
+    private Task StartEditAsync(TodoModel? vm)
     {
-        if (m is null || m.IsNew) return Task.CompletedTask;
-        m.EditableTitle = m.Title;
-        m.IsEditing = true;
+        if (vm is null || vm.IsNew) return Task.CompletedTask;
+        vm.EditableTitle = vm.Title;
+        vm.IsEditing = true;
         return Task.CompletedTask;
     }
 
-    private bool CanSaveEdit(TodoModel? m)
-        => m is { IsNew: false, IsEditing: true } &&
-           !string.IsNullOrWhiteSpace(m.EditableTitle) &&
-           m.EditableTitle != m.Title;
+    private bool CanSaveEdit(TodoModel? vm)
+        => vm is { IsNew: false, IsEditing: true } && !string.IsNullOrWhiteSpace(vm.EditableTitle);
 
-    private async Task SaveEditAsync(TodoModel? m)
+    private async Task SaveEditAsync(TodoModel? vm, CancellationToken ct = default)
     {
-        if (m is null || _renameUseCase is null) return;
+        if (vm is null || vm.IsNew || string.IsNullOrWhiteSpace(vm.EditableTitle)) return;
 
-        await _renameUseCase.Handle(new RenameTodoRequest { TodoId = m.Id, NewTitle = m.EditableTitle });
-        m.Title = m.EditableTitle;
-        m.IsEditing = false;
-        m.EditableTitle = string.Empty;
+        var result = await _renameTodoUseCase.Handle(new RenameTodoRequest
+        {
+            TodoId = vm.Id,
+            NewTitle = vm.EditableTitle
+        }, ct);
+
+        if (result.IsSuccess)
+        {
+            vm.Title = vm.EditableTitle;
+            vm.EditableTitle = string.Empty;
+            vm.IsEditing = false;
+        }
+        else ShowErrors("Failed to rename todo", result.Errors);
     }
 
-    private Task CancelEditAsync(TodoModel? m)
+    private Task CancelEditAsync(TodoModel? vm)
     {
-        if (m is null) return Task.CompletedTask;
-        m.IsEditing = false;
-        m.EditableTitle = string.Empty;
+        if (vm is null || vm.IsNew) return Task.CompletedTask;
+        vm.IsEditing = false;
+        vm.EditableTitle = string.Empty;
         return Task.CompletedTask;
     }
 
-    // ===== Delete =====
-    private async Task DeleteAsync(TodoModel? m)
+    // --- Delete ---
+    private async Task DeleteAsync(TodoModel? vm, CancellationToken ct = default)
     {
-        if (m is null || string.IsNullOrWhiteSpace(m.Id)) return;
-        await _deleteUseCase.Handle(new DeleteTodoRequest { TodoId = m.Id });
-        Items.Remove(m);
+        if (vm is null) return;
+
+        if (vm.IsNew)
+        {
+            vm.PropertyChanged -= OnItemPropertyChanged;
+            Items.Remove(vm);
+            return;
+        }
+
+        var result = await _deleteTodoUseCase.Handle(new DeleteTodoRequest { TodoId = vm.Id }, ct);
+        if (result.IsSuccess)
+        {
+            vm.PropertyChanged -= OnItemPropertyChanged; // optional cleanup
+            Items.Remove(vm);
+        }
+        else ShowErrors("Failed to delete todo", result.Errors);
     }
 
-    // ===== Complete via explicit command (optional; UI kann auch 2-way Toggle nutzen) =====
-    private async Task CompleteAsync(string? id)
+    // --- Toggle via command (UI path) ---
+    private async Task ToggleAsync(TodoModel? vm, CancellationToken ct = default)
     {
-        if (string.IsNullOrWhiteSpace(id)) return;
-        await _completeUseCase.Handle(new CompleteTodoRequest { Id = id });
+        if (vm is null || vm.IsNew) return;
 
-        var row = Items.FirstOrDefault(x => x.Id == id);
-        if (row is not null) row.IsCompleted = true;
+        if (!vm.IsCompleted)
+        {
+            var res = await _completeTodoUseCase.Handle(new CompleteTodoRequest { Id = vm.Id }, ct);
+            if (res.IsSuccess) vm.IsCompleted = true;
+            else ShowErrors("Failed to complete todo", res.Errors);
+        }
+        else
+        {
+            var res = await _reopenTodoUseCase.Handle(new ReopenTodoRequest { TodoId = vm.Id }, ct);
+            if (res.IsSuccess) vm.IsCompleted = false;
+            else ShowErrors("Failed to reopen todo", res.Errors);
+        }
+    }
+
+    private static TodoModel CreateItem(string id, string title, bool completed, bool isNew = false)
+        => new(id, title, completed, isNew);
+
+    private void ShowErrors(string caption, IReadOnlyList<Error> errors)
+    {
+        var text = string.Join("\n", errors.Select(e => $"{e.Code}: {e.Message}{(string.IsNullOrWhiteSpace(e.Detail) ? "" : " (" + e.Detail + ")")}"));
+        System.Windows.MessageBox.Show(text, caption);
+    }
+
+    // ---------- Wiring for tests & checkbox two-way updates ----------
+    private void WireItem(TodoModel item)
+    {
+        // avoid double subscription
+        item.PropertyChanged -= OnItemPropertyChanged;
+        item.PropertyChanged += OnItemPropertyChanged;
+    }
+
+    private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(TodoModel.IsCompleted))
+            return;
+
+        if (sender is not TodoModel vm || vm.IsNew)
+            return;
+
+        // Fire-and-forget so FakeItEasy records the call immediately (tests assert right after assignment)
+        if (vm.IsCompleted)
+        {
+            var _ = _completeTodoUseCase.Handle(new CompleteTodoRequest { Id = vm.Id })
+                .ContinueWith(t =>
+                {
+                    if (!t.Result.IsSuccess)
+                    {
+                        vm.IsCompleted = false; // revert UI state on failure
+                    }
+                });
+        }
+        else
+        {
+            var _ = _reopenTodoUseCase.Handle(new ReopenTodoRequest { TodoId = vm.Id })
+                .ContinueWith(t =>
+                {
+                    if (!t.Result.IsSuccess)
+                    {
+                        vm.IsCompleted = true; // revert UI state on failure
+                    }
+                });
+        }
     }
 }

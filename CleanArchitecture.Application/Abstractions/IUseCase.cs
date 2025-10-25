@@ -1,6 +1,8 @@
-﻿namespace CleanArchitecture.Application.Abstractions;
+﻿using CleanArchitecture.Application.Abstractions.ROP;
+
+namespace CleanArchitecture.Application.Abstractions;
 
 public interface IUseCase<in TRequest, TResponse>
 {
-    Task<TResponse> Handle(TRequest request, CancellationToken ct = default);
+    Task<Result<TResponse>> Handle(TRequest request, CancellationToken ct = default);
 }

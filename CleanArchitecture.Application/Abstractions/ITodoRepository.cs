@@ -25,5 +25,5 @@ public interface ITodoRepository
     Task UpdateAsync(TodoItem todo, CancellationToken ct = default);
 
     /// <summary>Deletes an aggregate by id. Ensure invariants (e.g., children) before calling.</summary>
-    Task DeleteAsync(TodoId id, CancellationToken ct = default);
+    Task<bool> DeleteAsync(TodoId id, CancellationToken ct = default);
 }

@@ -2,6 +2,7 @@
 
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Identity;
+using CleanArchitecture.Application.Abstractions.ROP;
 
 /// <summary>
 /// Use case: delete a todo aggregate.
@@ -17,13 +18,27 @@ public sealed class DeleteTodoHandler : IUseCase<DeleteTodoRequest, Unit>
         _uow = uow;
     }
 
-    public async Task<Unit> Handle(DeleteTodoRequest r, CancellationToken ct = default)
+    public async Task<Result<Unit>> Handle(DeleteTodoRequest r, CancellationToken ct = default)
     {
-        if (!Guid.TryParse(r.TodoId, out var g)) return Unit.Value;
+        if (string.IsNullOrWhiteSpace(r.TodoId))
+            return Result.Fail<Unit>(Error.Validation("TodoId must not be empty."));
+        if (!Guid.TryParse(r.TodoId, out var g))
+            return Result.Fail<Unit>(Error.Validation("TodoId is not a valid GUID."));
 
-        await _repo.DeleteAsync(new TodoId(g), ct);
-        await _uow.SaveChangesAsync(ct);
+        try
+        {
+            // Option A: delete blindly (idempotent)
+            var deleted = await _repo.DeleteAsync(new TodoId(g), ct);
 
-        return Unit.Value;
+            // If your repository returns a flag, you can map NotFound:
+            // if (!deleted) return Result.Fail<Unit>(Error.NotFound($"Todo '{r.TodoId}' not found."));
+
+            await _uow.SaveChangesAsync(ct);
+            return Result<Unit>.Ok(Unit.Value);
+        }
+        catch (Exception ex)
+        {
+            return Result.Fail<Unit>(Error.Unexpected("Unexpected error while deleting todo.", ex.Message));
+        }
     }
 }

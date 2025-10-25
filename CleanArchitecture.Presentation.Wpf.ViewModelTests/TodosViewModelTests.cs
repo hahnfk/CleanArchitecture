@@ -9,6 +9,8 @@ using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 using CleanArchitecture.Presentation.Wpf.Tests.TestHelpers;
 using CleanArchitecture.Application.Abstractions;
+// If your Result/Error live under .ROP, keep this using as well:
+using CleanArchitecture.Application.Abstractions.ROP;
 
 namespace CleanArchitecture.Presentation.Wpf.Tests.Todos;
 
@@ -30,13 +32,13 @@ public sealed class TodosViewModelTests
         delete = A.Fake<IUseCase<DeleteTodoRequest, Unit>>();
         rename = A.Fake<IUseCase<RenameTodoRequest, Unit>>();
 
+        // List (ROP)
         A.CallTo(list)
-            .WithReturnType<Task<ListTodosResponse>>()
-            .Returns(Task.FromResult(new ListTodosResponse { Items = seed }));
+            .WithReturnType<Task<Result<ListTodosResponse>>>()
+            .Returns(Task.FromResult(Result<ListTodosResponse>.Ok(new ListTodosResponse { Items = seed })));
 
-        return new TodosViewModel(add, list, complete, reopen, delete, rename);
+        return new TodosViewModel(list, add, rename, delete, complete, reopen);
     }
-
 
     [Fact]
     public async Task ctor_Loads_Items_From_Query()
@@ -52,8 +54,7 @@ public sealed class TodosViewModelTests
         var vm = CreateVmWithList(seed, out _, out _, out _, out _, out _, out _);
 
         // Assert
-        // ggf. minimal warten, falls dein ctor async lädt:
-        await Task.Yield();
+        await Task.Yield(); // allow ctor-load to complete if async
         Assert.Equal(2, vm.Items.Count);
         Assert.Equal("A", vm.Items [0].Title);
         Assert.Equal("B", vm.Items [1].Title);
@@ -67,7 +68,7 @@ public sealed class TodosViewModelTests
         var vm = CreateVmWithList(new(), out _, out _, out _, out _, out _, out _);
 
         // Act
-        await vm.AddInlineRowCommand.ExecuteAsync();
+        await vm.AddCommand.ExecuteAsync();
 
         // Assert
         Assert.True(vm.Items.Count >= 1);
@@ -83,12 +84,13 @@ public sealed class TodosViewModelTests
     {
         // Arrange
         var vm = CreateVmWithList(new(), out var add, out _, out _, out _, out _, out _);
-        await vm.AddInlineRowCommand.ExecuteAsync();
+        await vm.AddCommand.ExecuteAsync();
         var row = vm.Items.First();
         row.EditableTitle = "New Todo";
 
+        // Add (ROP)
         A.CallTo(() => add.Handle(A<AddTodoRequest>._, A<CancellationToken>._))
-            .Returns(Task.FromResult(new AddTodoResponse { Id = "42", Title = "New Todo" }));
+            .Returns(Task.FromResult(Result<AddTodoResponse>.Ok(new AddTodoResponse { Id = "42", Title = "New Todo" })));
 
         // Act
         await vm.SaveNewCommand.ExecuteAsync(row);
@@ -110,23 +112,19 @@ public sealed class TodosViewModelTests
     public async Task StartEdit_And_SaveEdit_Renames_Title_Via_Handler()
     {
         // Arrange
-        var seed = new List<ListTodosResponse.TodoDto>
-        {
-            new("99", "Old", false)
-        };
-
+        var seed = new List<ListTodosResponse.TodoDto> { new("99", "Old", false) };
         var vm = CreateVmWithList(seed, out _, out _, out _, out _, out _, out var rename);
-        await Task.Yield(); // ctor-load durchlaufen lassen
+        await Task.Yield(); // ctor-load
 
         var row = vm.Items.Single();
         await vm.StartEditCommand.ExecuteAsync(row);
         row.EditableTitle = "New";
 
-        // Rename-UseCase: IUseCase<RenameTodoRequest, Unit> -> Unit.Value zurückgeben
+        // Rename (ROP -> Result<Unit>)
         A.CallTo(() => rename.Handle(
                 A<RenameTodoRequest>.That.Matches(r => r.TodoId == "99" && r.NewTitle == "New"),
                 A<CancellationToken>._))
-            .Returns(Task.FromResult(Unit.Value));
+            .Returns(Task.FromResult(Result<Unit>.Ok(Unit.Value)));
 
         // Act
         await vm.SaveEditCommand.ExecuteAsync(row);
@@ -144,13 +142,16 @@ public sealed class TodosViewModelTests
     public async Task Delete_Removes_Row_And_Calls_Handler()
     {
         // Arrange
-        var seed = new List<ListTodosResponse.TodoDto>
-        {
-            new("1", "A", false)
-        };
+        var seed = new List<ListTodosResponse.TodoDto> { new("1", "A", false) };
         var vm = CreateVmWithList(seed, out _, out _, out _, out _, out var delete, out _);
         await Task.Yield(); // ctor-load
         var row = vm.Items.Single();
+
+        // Delete (ROP -> Result<Unit>)
+        A.CallTo(() => delete.Handle(
+                A<DeleteTodoRequest>.That.Matches(r => r.TodoId == "1"),
+                A<CancellationToken>._))
+            .Returns(Task.FromResult(Result<Unit>.Ok(Unit.Value)));
 
         // Act
         await vm.DeleteCommand.ExecuteAsync(row);
@@ -168,18 +169,27 @@ public sealed class TodosViewModelTests
     public async Task Toggling_IsCompleted_Invokes_Complete_Or_Reopen()
     {
         // Arrange
-        var seed = new List<ListTodosResponse.TodoDto>
-        {
-            new("7", "X", false)
-        };
+        var seed = new List<ListTodosResponse.TodoDto> { new("7", "X", false) };
         var vm = CreateVmWithList(seed, out _, out _, out var complete, out var reopen, out _, out _);
         await Task.Yield(); // ctor-load
         var row = vm.Items.Single();
 
+        // Complete (ROP -> Result<Unit>)
+        A.CallTo(() => complete.Handle(
+                A<CompleteTodoRequest>.That.Matches(r => r.Id == "7"),
+                A<CancellationToken>._))
+            .Returns(Task.FromResult(Result<Unit>.Ok(Unit.Value)));
+
+        // Reopen (ROP -> Result<Unit>)
+        A.CallTo(() => reopen.Handle(
+                A<ReopenTodoRequest>.That.Matches(r => r.TodoId == "7"),
+                A<CancellationToken>._))
+            .Returns(Task.FromResult(Result<Unit>.Ok(Unit.Value)));
+
         // Act: set to completed -> should call Complete
         row.IsCompleted = true;
 
-        // Assert
+        // Assert Complete called once
         A.CallTo(() => complete.Handle(
                 A<CompleteTodoRequest>.That.Matches(r => r.Id == "7"),
                 A<CancellationToken>._))
@@ -188,7 +198,7 @@ public sealed class TodosViewModelTests
         // Act: set back to not completed -> should call Reopen
         row.IsCompleted = false;
 
-        // Assert
+        // Assert Reopen called once
         A.CallTo(() => reopen.Handle(
                 A<ReopenTodoRequest>.That.Matches(r => r.TodoId == "7"),
                 A<CancellationToken>._))
