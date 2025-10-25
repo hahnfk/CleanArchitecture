@@ -1,0 +1,201 @@
+﻿/* =========================================
+   Todos - component scoped styles (CSS isolation)
+   Colors aligned with default Blazor layout
+   ========================================= */
+:host {
+    /* Component-level variables (optional) */
+    --clr-primary: #0d6efd; /* Blazor/Bootstrap primary */
+    --clr-primary-hover: #0b5ed7; /* hover for primary */
+    --clr-accent: #198754; /* success green (toggle) */
+    --clr-danger: #dc3545; /* danger red */
+    --clr-border: #d6d5d5; /* matches MainLayout top-row border */
+    --clr-row-alt: #f8f9fa; /* light alt row */
+    --clr-row-hover: #f3f4f6; /* gentle hover shade */
+    --clr-muted: #6c757d; /* muted text */
+
+    font-family: Segoe UI, Arial, Helvetica, sans-serif;
+}
+
+/* ============================
+   Buttons
+   ============================ */
+button.todos-btn {
+    display: inline-block;
+    padding: 10px 12px;
+    min-width: 72px;
+    border-radius: 6px;
+    /* Use variables with fallbacks, plus explicit defaults */
+    border: 1px solid var(--clr-primary, #0d6efd);
+    background: var(--clr-primary, #0d6efd);
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+}
+
+    button.todos-btn:hover {
+        background: var(--clr-primary-hover, #0b5ed7);
+        border-color: var(--clr-primary-hover, #0b5ed7);
+    }
+
+    button.todos-btn:disabled {
+        opacity: .5;
+        cursor: default;
+    }
+
+/* Danger variant */
+button.todos-btn-danger {
+    background: var(--clr-danger, #dc3545);
+    border-color: var(--clr-danger, #dc3545);
+    color: #fff;
+}
+
+/* Compact cell buttons for tables */
+button.todos-btn-cell {
+    padding: 8px 10px;
+    min-width: 0;
+    margin: 0 4px;
+}
+
+/* ============================
+   Inputs
+   ============================ */
+.todos-input {
+    padding: 6px;
+    border: 1px solid var(--clr-border, #d6d5d5);
+    border-radius: 4px;
+}
+
+    .todos-input:focus {
+        outline: none;
+        border-color: var(--clr-primary, #0d6efd);
+    }
+
+/* ============================
+   Table (ListView look)
+   ============================ */
+.todos-table {
+    width: 100%;
+    border: 1px solid var(--clr-border, #d6d5d5);
+    border-collapse: collapse;
+}
+
+    .todos-table th {
+        text-align: left;
+        background: #f7f7f7; /* align with MainLayout top-row bg */
+        padding: 8px 6px;
+        border-bottom: 1px solid var(--clr-border, #d6d5d5);
+        font-weight: 600;
+    }
+
+    .todos-table td {
+        padding: 8px 6px;
+        border-bottom: 1px solid var(--clr-border, #d6d5d5);
+    }
+
+    .todos-table tr:nth-child(2n) {
+        background: var(--clr-row-alt, #f8f9fa);
+    }
+
+    .todos-table tr:hover {
+        background: var(--clr-row-hover, #f3f4f6);
+    }
+
+    /* Center first column like WPF CellTemplate */
+    .todos-table th:first-child,
+    .todos-table td:first-child {
+        text-align: center;
+    }
+
+/* ============================
+   Completed row (WPF-like)
+   ============================ */
+.todos-row-completed {
+    opacity: .75; /* dim like WPF */
+    color: var(--clr-muted, #6c757d);
+    background: transparent; /* no green wash */
+}
+
+    .todos-row-completed .title {
+        text-decoration: line-through;
+    }
+
+/* ============================
+   Radio-like toggle (WPF green)
+   ============================ */
+.todos-toggle-btn {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #888; /* neutral ring when off */
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    position: relative; /* anchor for ::after */
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+    box-sizing: border-box;
+    isolation: isolate; /* own stacking context */
+}
+    /* inner green dot (hidden by default) */
+    .todos-toggle-btn::after {
+        content: "";
+        position: absolute;
+        width: 10px; /* WPF: 10px dot inside 18px ring */
+        height: 10px;
+        border-radius: 50%;
+        background: transparent;
+        opacity: 0;
+        transform: scale(.9);
+        transition: background-color .15s ease, opacity .15s ease, transform .15s ease;
+        display: block;
+        z-index: 1;
+    }
+    /* active (IsCompleted=true) — case-insensitive for True/true */
+    .todos-toggle-btn[aria-pressed="true" i] {
+        border-color: var(--clr-accent, #198754); /* green ring */
+        background-color: #fff; /* like WPF (no green bg) */
+    }
+
+        .todos-toggle-btn[aria-pressed="true" i]::after {
+            background: var(--clr-accent, #198754); /* green dot */
+            opacity: 1;
+            transform: scale(1);
+        }
+    /* Hover/Focus polish */
+    .todos-toggle-btn:hover {
+        border-color: #157347; /* darker success green */
+    }
+
+    .todos-toggle-btn:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(25, 135, 84, .28); /* green focus ring */
+    }
+    /* Disabled */
+    .todos-toggle-btn:disabled {
+        opacity: .5;
+        cursor: default;
+        box-shadow: none;
+    }
+
+/* ============================
+   Toolbar spacing
+   ============================ */
+.todos-toolbar {
+    margin-bottom: 10px;
+}
+
+/* ============================
+   Reduced motion (optional)
+   ============================ */
+@media (prefers-reduced-motion: reduce) {
+    .todos-toggle-btn,
+    .todos-toggle-btn::after {
+        transition: none !important;
+    }
+}

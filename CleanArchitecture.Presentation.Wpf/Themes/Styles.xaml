@@ -1,20 +1,31 @@
+<!-- Styles.xaml (complete, drop-in) -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- =======================
-         COLOR PALETTE
-         ======================= -->
+       COLOR PALETTE (aligned with Blazor/Bootstrap)
+       ======================= -->
     <!-- Colors -->
-    <Color x:Key="ClrPrimary">#3B82F6</Color>
-    <Color x:Key="ClrPrimaryHover">#2563EB</Color>
-    <Color x:Key="ClrAccent">#22C55E</Color>
-    <Color x:Key="ClrDanger">#EF4444</Color>
-    <Color x:Key="ClrBorder">#DDDDDD</Color>
-    <Color x:Key="ClrRowAlt">#FAFAFA</Color>
+    <Color x:Key="ClrPrimary">#0D6EFD</Color>
+    <!-- Bootstrap Primary -->
+    <Color x:Key="ClrPrimaryHover">#0B5ED7</Color>
+    <!-- Primary hover -->
+    <Color x:Key="ClrAccent">#198754</Color>
+    <!-- Success (toggle green) -->
+    <Color x:Key="ClrDanger">#DC3545</Color>
+    <!-- Danger -->
+    <Color x:Key="ClrBorder">#D6D5D5</Color>
+    <!-- Matches Blazor top-row border -->
+    <Color x:Key="ClrRowAlt">#F8F9FA</Color>
+    <!-- Alt row -->
     <Color x:Key="ClrRowHover">#F3F4F6</Color>
-    <Color x:Key="ClrMutedText">#666666</Color>
+    <!-- Hover row -->
+    <Color x:Key="ClrMutedText">#6C757D</Color>
+    <!-- Muted text -->
+    <Color x:Key="ClrHeaderBg">#F7F7F7</Color>
+    <!-- Header background -->
 
-    <!-- Brushes (built from colors) -->
+    <!-- Brushes -->
     <SolidColorBrush x:Key="ClrPrimaryBrush"       Color="{StaticResource ClrPrimary}"/>
     <SolidColorBrush x:Key="ClrPrimaryHoverBrush"  Color="{StaticResource ClrPrimaryHover}"/>
     <SolidColorBrush x:Key="ClrAccentBrush"        Color="{StaticResource ClrAccent}"/>
@@ -23,10 +34,11 @@
     <SolidColorBrush x:Key="ClrRowAltBrush"        Color="{StaticResource ClrRowAlt}"/>
     <SolidColorBrush x:Key="ClrRowHoverBrush"      Color="{StaticResource ClrRowHover}"/>
     <SolidColorBrush x:Key="ClrMutedTextBrush"     Color="{StaticResource ClrMutedText}"/>
+    <SolidColorBrush x:Key="ClrHeaderBgBrush"      Color="{StaticResource ClrHeaderBg}"/>
 
     <!-- =======================
-         BUTTON STYLE
-         ======================= -->
+       BUTTON STYLE (Primary)
+       ======================= -->
     <Style TargetType="Button">
         <Setter Property="Margin" Value="4,0,0,0"/>
         <Setter Property="Padding" Value="10,6"/>
@@ -41,13 +53,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="Bd"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="6">
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="6">
                         <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Margin="{TemplateBinding Padding}"/>
+                              VerticalAlignment="Center"
+                              Margin="{TemplateBinding Padding}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -73,12 +85,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="Bd" Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="6">
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="6">
                         <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Margin="{TemplateBinding Padding}"/>
+                              VerticalAlignment="Center"
+                              Margin="{TemplateBinding Padding}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -96,13 +108,13 @@
 
     <!-- Danger -->
     <Style x:Key="Button.Danger" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="{StaticResource ClrDangerBrush}"/>
+        <Setter Property="Background"  Value="{StaticResource ClrDangerBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ClrDangerBrush}"/>
     </Style>
 
     <!-- =======================
-         TEXTBOX STYLE
-         ======================= -->
+       TEXTBOX STYLE
+       ======================= -->
     <Style TargetType="TextBox">
         <Setter Property="Padding" Value="6"/>
         <Setter Property="BorderBrush" Value="{StaticResource ClrBorderBrush}"/>
@@ -113,9 +125,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
                     <Border x:Name="Bd"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}">
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  Background="{TemplateBinding Background}">
                         <ScrollViewer x:Name="PART_ContentHost"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -132,8 +144,8 @@
     </Style>
 
     <!-- =======================
-         CHECKBOX AS "RADIO-LIKE"
-         ======================= -->
+       CHECKBOX AS "RADIO-LIKE"
+       ======================= -->
     <Style x:Key="Toggle.RadioLook" TargetType="CheckBox">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Cursor" Value="Hand"/>
@@ -143,12 +155,12 @@
                     <Grid>
                         <!-- Circle outline -->
                         <Ellipse x:Name="Ring" Width="18" Height="18"
-                                 Stroke="#888" StrokeThickness="2" Fill="Transparent"/>
+                     Stroke="#888" StrokeThickness="2" Fill="Transparent"/>
                         <!-- Filled dot -->
                         <Ellipse x:Name="Dot"
-                                 Width="10" Height="10"
-                                 Fill="{StaticResource ClrAccentBrush}"
-                                 Visibility="Collapsed"/>
+                     Width="10" Height="10"
+                     Fill="{StaticResource ClrAccentBrush}"
+                     Visibility="Collapsed"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
@@ -166,8 +178,8 @@
     </Style>
 
     <!-- =======================
-         LISTVIEW & ROW STYLING
-         ======================= -->
+       LISTVIEW & ROW STYLING
+       ======================= -->
     <Style TargetType="{x:Type ListView}">
         <Setter Property="BorderBrush" Value="{StaticResource ClrBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -176,7 +188,7 @@
 
     <Style TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Background" Value="#F5F5F5"/>
+        <Setter Property="Background" Value="{StaticResource ClrHeaderBgBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ClrBorderBrush}"/>
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
         <Setter Property="Padding" Value="6,8"/>
@@ -215,69 +227,69 @@
         </Style.Triggers>
     </Style>
 
-<!-- ========= Cell button base styles (from earlier) ========= -->
-<Style x:Key="CellButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-  <Setter Property="Padding" Value="8,4"/>
-  <Setter Property="MinWidth" Value="0"/>
-  <Setter Property="Margin" Value="4,0"/>
-</Style>
+    <!-- ========= Cell button base styles ========= -->
+    <Style x:Key="CellButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="Margin" Value="4,0"/>
+    </Style>
 
-<Style x:Key="CellButton.Danger" TargetType="Button" BasedOn="{StaticResource CellButton}">
-  <Setter Property="Background"  Value="{StaticResource ClrDangerBrush}"/>
-  <Setter Property="BorderBrush" Value="{StaticResource ClrDangerBrush}"/>
-</Style>
+    <Style x:Key="CellButton.Danger" TargetType="Button" BasedOn="{StaticResource CellButton}">
+        <Setter Property="Background"  Value="{StaticResource ClrDangerBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ClrDangerBrush}"/>
+    </Style>
 
-<!-- ========= Visibility helper styles for row state ========= -->
+    <!-- ========= Visibility helper styles for row state ========= -->
+    <!-- Visible only when NOT editing AND NOT new (e.g., Edit) -->
+    <Style x:Key="CellButton.EditVisibleWhenNormal" TargetType="Button" BasedOn="{StaticResource CellButton}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsEditing}" Value="False"/>
+                    <Condition Binding="{Binding IsNew}"     Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
 
-<!-- Visible only when NOT editing AND NOT new (e.g., Edit / Delete) -->
-<Style x:Key="CellButton.EditVisibleWhenNormal" TargetType="Button" BasedOn="{StaticResource CellButton}">
-  <Setter Property="Visibility" Value="Collapsed"/>
-  <Style.Triggers>
-    <MultiDataTrigger>
-      <MultiDataTrigger.Conditions>
-        <Condition Binding="{Binding IsEditing}" Value="False"/>
-        <Condition Binding="{Binding IsNew}"     Value="False"/>
-      </MultiDataTrigger.Conditions>
-      <Setter Property="Visibility" Value="Visible"/>
-    </MultiDataTrigger>
-  </Style.Triggers>
-</Style>
+    <!-- Visible only when NOT editing AND NOT new (e.g., Delete) -->
+    <Style x:Key="CellButton.DeleteVisibleWhenNormal" TargetType="Button" BasedOn="{StaticResource CellButton.Danger}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsEditing}" Value="False"/>
+                    <Condition Binding="{Binding IsNew}"     Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
 
-<Style x:Key="CellButton.DeleteVisibleWhenNormal" TargetType="Button" BasedOn="{StaticResource CellButton.Danger}">
-  <Setter Property="Visibility" Value="Collapsed"/>
-  <Style.Triggers>
-    <MultiDataTrigger>
-      <MultiDataTrigger.Conditions>
-        <Condition Binding="{Binding IsEditing}" Value="False"/>
-        <Condition Binding="{Binding IsNew}"     Value="False"/>
-      </MultiDataTrigger.Conditions>
-      <Setter Property="Visibility" Value="Visible"/>
-    </MultiDataTrigger>
-  </Style.Triggers>
-</Style>
+    <!-- Visible only when editing existing (IsEditing==true && IsNew==false): Save/Cancel -->
+    <Style x:Key="CellButton.VisibleWhenEditing" TargetType="Button" BasedOn="{StaticResource CellButton}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsEditing}" Value="True"/>
+                    <Condition Binding="{Binding IsNew}"     Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
 
-<!-- Visible only when editing existing (IsEditing == true && IsNew == false): Save / Cancel -->
-<Style x:Key="CellButton.VisibleWhenEditing" TargetType="Button" BasedOn="{StaticResource CellButton}">
-  <Setter Property="Visibility" Value="Collapsed"/>
-  <Style.Triggers>
-    <MultiDataTrigger>
-      <MultiDataTrigger.Conditions>
-        <Condition Binding="{Binding IsEditing}" Value="True"/>
-        <Condition Binding="{Binding IsNew}"     Value="False"/>
-      </MultiDataTrigger.Conditions>
-      <Setter Property="Visibility" Value="Visible"/>
-    </MultiDataTrigger>
-  </Style.Triggers>
-</Style>
-
-<!-- Visible only for new inline rows (IsNew == true): Save New / Cancel New -->
-<Style x:Key="CellButton.VisibleWhenNew" TargetType="Button" BasedOn="{StaticResource CellButton}">
-  <Setter Property="Visibility" Value="Collapsed"/>
-  <Style.Triggers>
-    <DataTrigger Binding="{Binding IsNew}" Value="True">
-      <Setter Property="Visibility" Value="Visible"/>
-    </DataTrigger>
-  </Style.Triggers>
-</Style>
+    <!-- Visible only for new inline rows (IsNew==true): Save New / Cancel New -->
+    <Style x:Key="CellButton.VisibleWhenNew" TargetType="Button" BasedOn="{StaticResource CellButton}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsNew}" Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>
