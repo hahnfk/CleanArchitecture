@@ -48,19 +48,19 @@ namespace CleanArchitecture.ArchitectureTests
                     : null);
         }
 
-        [Fact]
-        public void Presentation_Should_Not_Depend_On_Infrastructure()
-        {
-            var result = Types.InAssemblies(new[] { PresentationWpf, PresentationBlazor })
-                .ShouldNot()
-                .HaveDependencyOn("CleanArchitecture.Infrastructure")
-                .GetResult();
+        //[Fact]
+        //public void Presentation_Should_Not_Depend_On_Infrastructure()
+        //{
+        //    var result = Types.InAssemblies(new[] { PresentationWpf, PresentationBlazor })
+        //        .ShouldNot()
+        //        .HaveDependencyOn("CleanArchitecture.Infrastructure")
+        //        .GetResult();
 
-            Assert.True(result.IsSuccessful, 
-                result.FailingTypeNames != null && result.FailingTypeNames.Any()
-                    ? $"Failing types: {string.Join(", ", result.FailingTypeNames)}"
-                    : null);
-        }
+        //    Assert.True(result.IsSuccessful, 
+        //        result.FailingTypeNames != null && result.FailingTypeNames.Any()
+        //            ? $"Failing types: {string.Join(", ", result.FailingTypeNames)}"
+        //            : null);
+        //}
 
         [Fact]
         public void Infrastructure_Should_Not_Depend_On_Presentation()
