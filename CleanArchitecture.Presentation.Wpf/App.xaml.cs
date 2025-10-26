@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.Presentation.Wpf.ViewModels;
+﻿using CleanArchitecture.Application;
+using CleanArchitecture.Infrastructure.InMemory;
+using CleanArchitecture.Presentation.Wpf.ViewModels;
 using CleanArchitecture.Presentation.Wpf.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,7 +17,9 @@ public partial class App : System.Windows.Application
         base.OnStartup(e);
 
         _host = Host.CreateDefaultBuilder()
-            .ConfigureServices(s => s.AddCleanArchitectureApp())
+            .ConfigureServices(s => s.AddInfrastructureInMemory())
+            .ConfigureServices(s => s.AddApplication())
+            .ConfigureServices(s => s.AddPresentation())
             .Build();
 
         var sp = _host.Services;

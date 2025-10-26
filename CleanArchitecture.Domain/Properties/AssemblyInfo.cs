@@ -18,3 +18,5 @@ using System.Runtime.InteropServices;
 [assembly: Guid("7db7322e-7dc8-48f2-8491-66fb20b5dc70")]
 
 [assembly: InternalsVisibleTo("CleanArchitecture.Domain.UnitTests")]
+[assembly: InternalsVisibleTo("CleanArchitecture.ArchitectureTests")]
+

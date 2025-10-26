@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Application.Abstractions.ROP;
+using System.Collections.Immutable;
 
 namespace CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
 
@@ -19,7 +20,7 @@ public sealed class ListTodosHandler : IUseCase<Unit, ListTodosResponse>
             var all = await _repo.ListAsync(ct);
             var items = all
                 .Select(t => new ListTodosResponse.TodoDto(t.Id.ToString(), t.Title, t.IsCompleted))
-                .ToList();
+                .ToImmutableArray();
 
             return Result<ListTodosResponse>.Ok(new ListTodosResponse { Items = items });
         }

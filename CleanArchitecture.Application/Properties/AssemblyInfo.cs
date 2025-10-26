@@ -20,3 +20,5 @@ using System.Runtime.InteropServices;
 
 // Erlaubt den Tests, auf internal-Typen der Application zuzugreifen
 [assembly: InternalsVisibleTo("CleanArchitecture.Application.UnitTests")]
+[assembly: InternalsVisibleTo("CleanArchitecture.ArchitectureTests")]
+

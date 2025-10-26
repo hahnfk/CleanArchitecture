@@ -1,3 +1,5 @@
+using CleanArchitecture.Application;
+using CleanArchitecture.Infrastructure.InMemory;
 using CleanArchitecture.Presentation.BlazorWebApp;
 using CleanArchitecture.Presentation.BlazorWebApp.Components;
 
@@ -7,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddCleanArchitectureApp();
+builder.Services.AddInfrastructureInMemory();
+builder.Services.AddApplication();
+builder.Services.AddPresentation();
 
 var app = builder.Build();
 

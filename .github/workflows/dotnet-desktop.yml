@@ -1,4 +1,4 @@
-name: .NET Desktop (CleanArchitecture)
+name: .NET Desktop + Cross-Platform Tests
 
 on:
   push:
@@ -6,51 +6,85 @@ on:
   pull_request:
     branches: [ "main", "master" ]
 
-jobs:
-  build:
-    runs-on: windows-latest
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
+env:
+  # Passe das an deinen Solution-Namen an:
+  Solution_Name: CleanArchitecture.sln
+  # Cross-Platform TargetFramework für Linux-Container:
+  CROSS_PLATFORM_TFM: net8.0
+  # Optional: Trait zum Ausschließen von Windows-only Tests im Linux-Run
+  EXCLUDE_TRAIT: 'OS=Windows'
+
+jobs:
+  build_test_windows:
+    name: Build & Test (Windows, komplette Solution)
+    runs-on: windows-latest
     strategy:
       matrix:
         configuration: [ Debug, Release ]
 
-    env:
-      Solution_Name: CleanArchitecture.sln
-
     steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup .NET SDK (8 & 9)
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: |
+            8.0.x
+            9.0.x
 
-      # Optionaler NuGet-Cache ohne Lockfiles:
-      - name: Cache NuGet
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', 'global.json', 'nuget.config') }}
-          restore-keys: |
-            nuget-${{ runner.os }}-
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
 
-      - name: Verify dotnet
-        run: dotnet --info
-
-      - name: Restore
+      - name: Restore (Solution)
         run: dotnet restore "$env:Solution_Name"
 
-      - name: Build
+      - name: Build (Solution)
         run: dotnet build "$env:Solution_Name" --no-restore --configuration ${{ matrix.configuration }}
 
-      - name: Test
+      - name: Test (Solution)
         run: dotnet test "$env:Solution_Name" --no-build --configuration ${{ matrix.configuration }} --verbosity normal
 
-      - name: Upload artifacts
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: CleanArchitecture-${{ matrix.configuration }}
+          name: windows-build-${{ matrix.configuration }}
           path: |
             **/bin/${{ matrix.configuration }}/
           if-no-files-found: warn
+
+  test_linux_container:
+    name: Cross-Platform Tests (Linux Container, ganze Solution gefiltert)
+    runs-on: ubuntu-latest
+    needs: build_test_windows
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:8.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: .NET info
+        run: dotnet --info
+
+      # Loesung 1 (empfohlen): Projekte sind Multi-Target -> wir testen nur das cross-platform TFM
+      - name: Restore (Solution, cross-platform TFM)
+        run: dotnet restore "$Solution_Name" --framework $CROSS_PLATFORM_TFM
+
+      - name: Test (Solution, cross-platform TFM; Windows-only Traits ausschließen)
+        run: |
+          set -e
+          # Falls du Traits nutzt: [Trait("OS","Windows")] -> hier ausgeschlossen
+          if [ -n "$EXCLUDE_TRAIT" ]; then
+            dotnet test "$Solution_Name" --no-build --framework $CROSS_PLATFORM_TFM --filter "($EXCLUDE_TRAIT)==false" --verbosity normal
+          else
+            dotnet test "$Solution_Name" --no-build --framework $CROSS_PLATFORM_TFM --verbosity normal
+          fi
+
+      # Hinweis:
+      # Wenn deine Tests NICHT multi-targeten:
+      #  - Setze CROSS_PLATFORM_TFM auf das vorhandene TFM (z.B. net8.0)
+      #  - Oder erstelle optional eine .slnf (Solution Filter) mit nur cross-platform Projekten.

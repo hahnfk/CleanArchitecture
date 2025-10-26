@@ -9,8 +9,8 @@ using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 using CleanArchitecture.Presentation.Wpf.Tests.TestHelpers;
 using CleanArchitecture.Application.Abstractions;
-// If your Result/Error live under .ROP, keep this using as well:
 using CleanArchitecture.Application.Abstractions.ROP;
+using System.Collections.Immutable;
 
 namespace CleanArchitecture.Presentation.Wpf.Tests.Todos;
 
@@ -35,7 +35,7 @@ public sealed class TodosViewModelTests
         // List (ROP)
         A.CallTo(list)
             .WithReturnType<Task<Result<ListTodosResponse>>>()
-            .Returns(Task.FromResult(Result<ListTodosResponse>.Ok(new ListTodosResponse { Items = seed })));
+            .Returns(Task.FromResult(Result<ListTodosResponse>.Ok(new ListTodosResponse { Items = seed.ToImmutableArray() })));
 
         return new TodosViewModel(list, add, rename, delete, complete, reopen);
     }

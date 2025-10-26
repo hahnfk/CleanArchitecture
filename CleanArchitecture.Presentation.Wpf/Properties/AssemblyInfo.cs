@@ -17,4 +17,5 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("bc4f9ca6-aede-4e24-bf73-1f64c194783c")]
 
+[assembly: InternalsVisibleTo("CleanArchitecture.ArchitectureTests")]
 [assembly: InternalsVisibleTo("CleanArchitecture.Presentation.Wpf.ViewModelTests")]

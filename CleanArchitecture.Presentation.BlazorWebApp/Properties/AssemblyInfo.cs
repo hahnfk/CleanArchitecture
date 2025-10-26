@@ -15,9 +15,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
 
-[assembly: Guid("ae67b783-5a21-4ba1-97f5-4cc7ab89476d")]
+[assembly: Guid("65b60a28-8f33-4174-b86b-018c731f6c53")]
 
-// Erlaubt den Tests, auf internal-Typen der Application zuzugreifen
-[assembly: InternalsVisibleTo("CleanArchitecture.Infrastructure.InMemory.IntegrationTests")]
 [assembly: InternalsVisibleTo("CleanArchitecture.ArchitectureTests")]
 
