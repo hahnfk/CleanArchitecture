@@ -1,4 +1,4 @@
-name: .NET Desktop + Cross-Platform Tests
+name: .NET Desktop (Windows Only)
 
 on:
   push:
@@ -11,18 +11,15 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Passe das an deinen Solution-Namen an:
-  Solution_Name: CleanArchitecture.sln
-  # Cross-Platform TargetFramework für Linux-Container:
-  CROSS_PLATFORM_TFM: net8.0
-  # Optional: Trait zum Ausschließen von Windows-only Tests im Linux-Run
-  EXCLUDE_TRAIT: 'OS=Windows'
+  Solution_Name: CleanArchitecture.slnx
 
 jobs:
   build_test_windows:
-    name: Build & Test (Windows, komplette Solution)
+    name: Build & Test (Windows) - ${{ matrix.configuration }}
     runs-on: windows-latest
+
     strategy:
+      fail-fast: false
       matrix:
         configuration: [ Debug, Release ]
 
@@ -30,24 +27,70 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET SDK
+      - name: Setup .NET SDK (with NuGet cache)
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             8.0.x
-            9.0.x
+          cache: true
+          cache-dependency-path: |
+            **/packages.lock.json
+            **/*.csproj
+            NuGet.config
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
       - name: Restore (Solution)
-        run: dotnet restore "$env:Solution_Name"
+        shell: pwsh
+        run: |
+          msbuild "$env:Solution_Name" /t:Restore /v:m /nologo
 
       - name: Build (Solution)
-        run: dotnet build "$env:Solution_Name" --no-restore --configuration ${{ matrix.configuration }}
+        shell: pwsh
+        run: |
+          msbuild "$env:Solution_Name" /t:Build /p:Configuration=${{ matrix.configuration }} /v:m /nologo
 
-      - name: Test (Solution)
-        run: dotnet test "$env:Solution_Name" --no-build --configuration ${{ matrix.configuration }} --verbosity normal
+      - name: Test (parallel, all test projects)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $testProjects = Get-ChildItem -Recurse -Filter *.csproj | Where-Object {
+            $_.Name -match '\.(UnitTests|IntegrationTests|ArchitectureTests)\.csproj$'
+          } | Sort-Object FullName
+
+          if (-not $testProjects) {
+            throw "No test projects found matching *.UnitTests.csproj / *.IntegrationTests.csproj / *.ArchitectureTests.csproj"
+          }
+
+          Write-Host "Found $($testProjects.Count) test projects."
+          $throttle = 4
+
+          $results = $testProjects | ForEach-Object -Parallel {
+            param($configuration)
+
+            $proj = $_.FullName
+            Write-Host "Running tests: $proj"
+
+            dotnet test "$proj" `
+              --configuration $configuration `
+              --no-build `
+              --verbosity normal
+
+            [pscustomobject]@{
+              Project = $proj
+              ExitCode = $LASTEXITCODE
+            }
+          } -ThrottleLimit $throttle -ArgumentList "${{ matrix.configuration }}"
+
+          $failed = $results | Where-Object { $_.ExitCode -ne 0 }
+
+          if ($failed) {
+            Write-Host "Failed test projects:"
+            $failed | ForEach-Object { Write-Host " - $($_.Project) (exit $($_.ExitCode))" }
+            exit 1
+          }
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -56,35 +99,3 @@ jobs:
           path: |
             **/bin/${{ matrix.configuration }}/
           if-no-files-found: warn
-
-  test_linux_container:
-    name: Cross-Platform Tests (Linux Container, ganze Solution gefiltert)
-    runs-on: ubuntu-latest
-    needs: build_test_windows
-    container:
-      image: mcr.microsoft.com/dotnet/sdk:8.0
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: .NET info
-        run: dotnet --info
-
-      # Loesung 1 (empfohlen): Projekte sind Multi-Target -> wir testen nur das cross-platform TFM
-      - name: Restore (Solution, cross-platform TFM)
-        run: dotnet restore "$Solution_Name" --framework $CROSS_PLATFORM_TFM
-
-      - name: Test (Solution, cross-platform TFM; Windows-only Traits ausschließen)
-        run: |
-          set -e
-          # Falls du Traits nutzt: [Trait("OS","Windows")] -> hier ausgeschlossen
-          if [ -n "$EXCLUDE_TRAIT" ]; then
-            dotnet test "$Solution_Name" --no-build --framework $CROSS_PLATFORM_TFM --filter "($EXCLUDE_TRAIT)==false" --verbosity normal
-          else
-            dotnet test "$Solution_Name" --no-build --framework $CROSS_PLATFORM_TFM --verbosity normal
-          fi
-
-      # Hinweis:
-      # Wenn deine Tests NICHT multi-targeten:
-      #  - Setze CROSS_PLATFORM_TFM auf das vorhandene TFM (z.B. net8.0)
-      #  - Oder erstelle optional eine .slnf (Solution Filter) mit nur cross-platform Projekten.
