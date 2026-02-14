@@ -9,6 +9,9 @@ namespace CleanArchitecture.Infrastructure.EfCore.Sqlite;
 
 public static class DependencyInjection
 {
+    private const string ProjectDirectoryName = "CleanArchitecture.Infrastructure.EfCore.Sqlite";
+    private const string ProjectFileName = "CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj";
+
     public static IServiceCollection AddInfrastructureEfSqlite(this IServiceCollection services, IConfiguration configuration)
     {
         var options = new PersistenceOptions();
