@@ -14,7 +14,7 @@ public static class DomainEventsServiceCollectionExtensions
     public static IServiceCollection AddDomainEvents(this IServiceCollection services)
     {
         // Publisher
-        services.AddSingleton<IDomainEventPublisher, ReflectionDomainEventPublisher>();
+        services.AddScoped<IDomainEventPublisher, ReflectionDomainEventPublisher>();
 
         // Example handlers (side effects)
         services.AddTransient<IDomainEventHandler<TodoCompletedDomainEvent>, TodoCompletedHandler>();
