@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Presentation.Wpf.Views;
-using System.Windows;
+﻿using System.Windows;
+using CleanArchitecture.Presentation.Wpf.ViewModels;
 
 namespace CleanArchitecture.Presentation.Wpf;
 
@@ -9,5 +9,9 @@ namespace CleanArchitecture.Presentation.Wpf;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow() => InitializeComponent();
+    public MainWindow(TodosViewModel todosViewModel)
+    {
+        InitializeComponent();
+        DataContext = todosViewModel;
+    }
 }
