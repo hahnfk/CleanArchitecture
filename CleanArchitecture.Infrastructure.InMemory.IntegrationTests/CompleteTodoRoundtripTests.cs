@@ -3,10 +3,11 @@ using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
+using CleanArchitecture.Infrastructure.Composition.DomainEvents;
 using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
+namespace CleanArchitecture.Infrastructure.InMemory.Tests.Integration.Todos;
 
 public sealed class CompleteTodoRoundtripTests
 {
@@ -19,10 +20,12 @@ public sealed class CompleteTodoRoundtripTests
         {
             services.AddTransient<IDomainEventHandler<TodoCompletedDomainEvent>>(_ => fakeHandler);
         });
+        using var scope = sp.CreateScope();
+        var svc = scope.ServiceProvider;
 
-        var repo = sp.GetRequiredService<ITodoRepository>();
-        var uow = sp.GetRequiredService<IUnitOfWork>();
-        var publisher = sp.GetRequiredService<IDomainEventPublisher>();
+        var repo = svc.GetRequiredService<ITodoRepository>();
+        var uow = svc.GetRequiredService<IUnitOfWork>();
+        var publisher = svc.GetRequiredService<IDomainEventPublisher>();
         var handler = new CompleteTodoHandler(repo, uow, publisher);
 
         var todo = new TodoItem(TodoId.New(), "X");

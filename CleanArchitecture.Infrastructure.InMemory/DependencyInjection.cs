@@ -1,7 +1,6 @@
 ﻿namespace CleanArchitecture.Infrastructure.InMemory;
 
 using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Infrastructure.InMemory.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
@@ -15,11 +14,6 @@ public static class DependencyInjection
         // Persistence ports
         services.AddSingleton<ITodoRepository, InMemoryTodoRepository>();
         services.AddSingleton<IUnitOfWork, NoOpUnitOfWork>();
-
-        // Domain event pipeline (publisher + handlers)
-        services.AddSingleton<IDomainEventPublisher, InMemoryDomainEventPublisher>();
-        services.AddTransient<IDomainEventHandler<Domain.Todos.Events.TodoCompletedDomainEvent>, TodoCompletedHandler>();
-        services.AddTransient<IDomainEventHandler<Domain.Todos.Events.TodoRenamedDomainEvent>, TodoRenamedHandler>();
 
         return services;
     }

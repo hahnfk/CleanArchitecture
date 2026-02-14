@@ -1,11 +1,14 @@
-﻿using CleanArchitecture.Application.Abstractions;
+﻿using FakeItEasy;
+using Microsoft.Extensions.DependencyInjection;
+
+using CleanArchitecture.Application.Abstractions;
+using CleanArchitecture.Domain.Common;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
-using FakeItEasy;
-using Microsoft.Extensions.DependencyInjection;
+using CleanArchitecture.Infrastructure.Composition.DomainEvents;
 
-namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
+namespace CleanArchitecture.Infrastructure.InMemory.Tests;
 
 public sealed class DomainEventPublisherTests
 {
@@ -20,8 +23,9 @@ public sealed class DomainEventPublisherTests
             // Override/add our fake handler in addition to any built-in ones
             services.AddTransient<IDomainEventHandler<TodoCompletedDomainEvent>>(_ => fakeHandler);
         });
+        using var scope = sp.CreateScope();
 
-        var publisher = sp.GetRequiredService<IDomainEventPublisher>();
+        var publisher = scope.ServiceProvider.GetRequiredService<IDomainEventPublisher>();
 
         // Build an aggregate that raises the event (using real domain)
         var todo = new TodoItem(TodoId.New(), "X");
@@ -44,10 +48,11 @@ public sealed class DomainEventPublisherTests
     {
         // Arrange
         using var sp = TestHost.BuildServices();
-        var publisher = sp.GetRequiredService<IDomainEventPublisher>();
+        using var scope = sp.CreateScope();
+        var publisher = scope.ServiceProvider.GetRequiredService<IDomainEventPublisher>();
 
         // Act
-        await publisher.PublishAsync([], CancellationToken.None);
+        await publisher.PublishAsync(Enumerable.Empty<IDomainEvent>(), CancellationToken.None);
 
         // Assert
         // nothing to assert: test should simply complete without exceptions

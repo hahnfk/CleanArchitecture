@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CleanArchitecture.Infrastructure.Composition\CleanArchitecture.Infrastructure.Composition.csproj" />
     <ProjectReference Include="..\\CleanArchitecture.Application\\CleanArchitecture.Application.csproj" />
-    <ProjectReference Include="..\\CleanArchitecture.Infrastructure.Composition\\CleanArchitecture.Infrastructure.Composition.csproj" />
   </ItemGroup>
 
 

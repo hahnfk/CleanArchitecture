@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Application.Abstractions;
+namespace CleanArchitecture.Infrastructure.Composition.DomainEvents.Handlers;
+
+using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Todos.Events;
 
-namespace CleanArchitecture.Infrastructure.InMemory.Events;
-
 /// <summary>
-/// Example handler for TodoRenamedDomainEvent.
+/// Example handler for <see cref="TodoRenamedDomainEvent"/>.
 /// Replace Debug.WriteLine with your real side-effects (update read model, send email, etc.).
 /// </summary>
 internal sealed class TodoRenamedHandler : IDomainEventHandler<TodoRenamedDomainEvent>

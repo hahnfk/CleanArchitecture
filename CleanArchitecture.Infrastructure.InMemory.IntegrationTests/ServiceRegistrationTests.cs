@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Abstractions;
+using CleanArchitecture.Infrastructure.InMemory.Tests;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
@@ -10,11 +11,13 @@ public sealed class ServiceRegistrationTests
     {
         // Arrange
         using var sp = TestHost.BuildServices();
+        using var scope = sp.CreateScope();
+        var svc = scope.ServiceProvider;
 
         // Act
-        var repo = sp.GetService<ITodoRepository>();
-        var uow = sp.GetService<IUnitOfWork>();
-        var pub = sp.GetService<IDomainEventPublisher>();
+        var repo = svc.GetService<ITodoRepository>();
+        var uow = svc.GetService<IUnitOfWork>();
+        var pub = svc.GetService<IDomainEventPublisher>();
 
         // Assert
         Assert.NotNull(repo);

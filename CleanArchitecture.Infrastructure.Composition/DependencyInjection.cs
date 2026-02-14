@@ -1,10 +1,11 @@
 using CleanArchitecture.Contracts.Persistence;
 using CleanArchitecture.Infrastructure.EfCore.Sqlite;
 using CleanArchitecture.Infrastructure.InMemory;
+using CleanArchitecture.Infrastructure.Composition.DomainEvents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Composition;
+namespace CleanArchitecture.Infrastructure.Composition;
 
 /// <summary>
 /// Infrastructure composition root for persistence.
@@ -17,6 +18,9 @@ public static class DependencyInjection
     {
         var options = new PersistenceOptions();
         configuration.GetSection(PersistenceOptions.SectionName).Bind(options);
+
+        // Cross-cutting infrastructure (provider-agnostic)
+        services.AddDomainEvents();
 
         return options.Provider switch
         {

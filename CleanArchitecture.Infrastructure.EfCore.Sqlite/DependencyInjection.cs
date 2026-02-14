@@ -1,6 +1,7 @@
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Contracts.Persistence;
 using CleanArchitecture.Infrastructure.EfCore.Sqlite.Db;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,9 @@ namespace CleanArchitecture.Infrastructure.EfCore.Sqlite;
 
 public static class DependencyInjection
 {
+    private const string ProjectDirectoryName = "CleanArchitecture.Infrastructure.EfCore.Sqlite";
+    private const string ProjectFileName = "CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj";
+
     public static IServiceCollection AddInfrastructureEfSqlite(this IServiceCollection services, IConfiguration configuration)
     {
         var options = new PersistenceOptions();
@@ -26,6 +30,7 @@ public static class DependencyInjection
         // Simple DB bootstrap for demos. For production: migrations + controlled rollout.
         services.AddHostedService<EnsureCreatedHostedService>();
 
+        // Persistence ports
         services.AddScoped<ITodoRepository, EfSqliteTodoRepository>();
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 

@@ -1,5 +1,5 @@
 using CleanArchitecture.Application;
-using CleanArchitecture.Composition;
+using CleanArchitecture.Infrastructure.Composition;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,8 +22,8 @@ public partial class App : System.Windows.Application
             })
             .ConfigureServices((context, services) =>
             {
-                services.AddApplication();
                 services.AddInfrastructure(context.Configuration);
+                services.AddApplication();
                 services.AddPresentation();
             })
             .Build();

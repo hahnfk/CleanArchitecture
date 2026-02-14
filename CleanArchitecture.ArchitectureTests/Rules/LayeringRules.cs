@@ -51,9 +51,14 @@ namespace CleanArchitecture.ArchitectureTests.Rules
         [Fact]
         public void PresentationShouldNotDependOnInfrastructure()
         {
+            // Presentation may reference the Composition root for DI wiring,
+            // but must not depend on concrete infrastructure implementations.
             var result = Types.InAssemblies([_presentationWpf, _presentationBlazor])
                 .ShouldNot()
-                .HaveDependencyOn("CleanArchitecture.Infrastructure")
+                .HaveDependencyOnAny([
+                    "CleanArchitecture.Infrastructure.InMemory",
+                    "CleanArchitecture.Infrastructure.EfCore"
+                ])
                 .GetResult();
 
             Assert.True(result.IsSuccessful,
