@@ -11,7 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Visual Studio 2026 solution file
   Solution_Name: CleanArchitecture.slnx
 
 jobs:
@@ -39,84 +38,17 @@ jobs:
             **/*.csproj
             NuGet.config
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Restore (Solution)
+      - name: Restore
         shell: pwsh
         run: |
-          msbuild "$env:Solution_Name" /t:Restore /v:m /nologo
+          dotnet restore "$env:Solution_Name"
 
-      - name: Build (Solution)
+      - name: Build
         shell: pwsh
         run: |
-          msbuild "$env:Solution_Name" /t:Build /p:Configuration=${{ matrix.configuration }} /v:m /nologo
+          dotnet build "$env:Solution_Name" -c ${{ matrix.configuration }} -m
 
-      - name: Test (parallel, all test projects)
+      - name: Test
         shell: pwsh
         run: |
-          $ErrorActionPreference = "Stop"
-
-          Write-Host "PowerShell version: $($PSVersionTable.PSVersion)"
-
-          $testProjects = Get-ChildItem -Recurse -Filter *.csproj | Where-Object {
-            $_.Name -match '\.(UnitTests|IntegrationTests|ArchitectureTests)\.csproj$'
-          } | Sort-Object FullName
-
-          if (-not $testProjects) {
-            throw "No test projects found matching *.UnitTests.csproj / *.IntegrationTests.csproj / *.ArchitectureTests.csproj"
-          }
-
-          Write-Host "Found $($testProjects.Count) test projects."
-
-          # Use thread jobs (PS7+) for reliable parallel execution within the same process.
-          Import-Module ThreadJob -ErrorAction SilentlyContinue
-
-          $throttle = 4
-          $jobs = New-Object System.Collections.Generic.List[object]
-
-          foreach ($proj in $testProjects) {
-
-            while ( ($jobs | Where-Object { $_.State -eq 'Running' }).Count -ge $throttle ) {
-              Start-Sleep -Seconds 1
-            }
-
-            $job = Start-ThreadJob -ScriptBlock {
-              param($projPath, $cfg)
-
-              Write-Host "Running tests: $projPath"
-
-              dotnet test "$projPath" `
-                --configuration $cfg `
-                --no-build `
-                --verbosity normal
-
-              [pscustomobject]@{
-                Project  = $projPath
-                ExitCode = $LASTEXITCODE
-              }
-            } -ArgumentList $proj.FullName, "${{ matrix.configuration }}"
-
-            $jobs.Add($job) | Out-Null
-          }
-
-          # Wait and collect results
-          $results = Receive-Job -Job $jobs -Wait -AutoRemoveJob
-
-          $failed = $results | Where-Object { $_.ExitCode -ne 0 }
-
-          if ($failed) {
-            Write-Host "Failed test projects:"
-            $failed | ForEach-Object { Write-Host " - $($_.Project) (exit $($_.ExitCode))" }
-            exit 1
-          }
-
-          Write-Host "All test projects passed."
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-build-${{ matrix.configuration }}
-          path: |
-            **/bin/${{ matrix.configuration }}/
-          if-no-files-found: warn
+          dotnet test "$env:Solution_Name" -c ${{ matrix.configuration }} --no-build -m
