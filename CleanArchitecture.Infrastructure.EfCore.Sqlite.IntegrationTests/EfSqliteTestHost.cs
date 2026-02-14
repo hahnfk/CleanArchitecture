@@ -1,13 +1,15 @@
 namespace CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests;
 
-using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Contracts.Persistence;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArchitecture.Application.Abstractions;
+using CleanArchitecture.Application;
+using CleanArchitecture.Contracts.Persistence;
+using CleanArchitecture.Infrastructure.Composition.DomainEvents;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 /// Creates a fresh, file-based SQLite database per test fixture.
@@ -30,6 +32,8 @@ public sealed class EfSqliteTestHost : IAsyncLifetime
         var configuration = BuildConfiguration(_dbPath);
 
         var services = new ServiceCollection();
+        services.AddApplication();
+        services.AddDomainEvents();
         services.AddInfrastructureEfSqlite(configuration);
 
         ServiceProvider = services.BuildServiceProvider(validateScopes: true);

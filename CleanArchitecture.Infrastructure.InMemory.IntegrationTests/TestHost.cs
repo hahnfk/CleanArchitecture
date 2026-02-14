@@ -1,7 +1,8 @@
 using CleanArchitecture.Application;
+using CleanArchitecture.Infrastructure.Composition.DomainEvents;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
+namespace CleanArchitecture.Infrastructure.InMemory.Tests;
 
 public static class TestHost
 {
@@ -15,6 +16,7 @@ public static class TestHost
 
         // Register inner layers in the same order as the app
         services.AddApplication();
+        services.AddDomainEvents();
         services.AddInfrastructureInMemory();
 
         configure?.Invoke(services);

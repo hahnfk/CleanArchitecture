@@ -1,5 +1,5 @@
 using CleanArchitecture.Application;
-using CleanArchitecture.Composition;
+using CleanArchitecture.Infrastructure.Composition;
 using CleanArchitecture.Presentation.BlazorWebApp;
 using CleanArchitecture.Presentation.BlazorWebApp.Components;
 

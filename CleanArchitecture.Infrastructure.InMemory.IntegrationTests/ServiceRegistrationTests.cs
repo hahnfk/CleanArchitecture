@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Abstractions;
+using CleanArchitecture.Infrastructure.InMemory.Tests;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
