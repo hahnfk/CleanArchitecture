@@ -20,10 +20,9 @@ public static class DependencyInjection
         var cs = options.ConnectionString;
         if (string.IsNullOrWhiteSpace(cs))
         {
+            // Safe default for local dev; override via appsettings.json / user secrets.
             cs = "Data Source=cleanarchitecture.db";
         }
-
-        cs = ResolveToDbFolder(cs);
 
         services.AddDbContext<AppDbContext>(o => o.UseSqlite(cs));
 
@@ -35,68 +34,5 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
         return services;
-    }
-
-    /// <summary>
-    /// Resolves a relative "Data Source=&lt;file&gt;" connection string to an absolute path
-    /// inside the <c>Db</c> subfolder of this project, so that every host (WPF, Blazor, …)
-    /// shares the same database file during development.
-    /// Falls back to a runtime base directory when the project directory cannot be located.
-    /// </summary>
-    private static string ResolveToDbFolder(string connectionString)
-    {
-        const string prefix = "Data Source=";
-        if (!connectionString.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-            return connectionString;
-
-        var dbFileName = connectionString[prefix.Length..];
-        if (Path.IsPathRooted(dbFileName))
-            return connectionString;
-
-        // Try to locate the Infrastructure.EfCore.Sqlite project directory from runtime base
-        var dbDir = TryFindProjectDbFolder() ?? GetFallbackDbFolder();
-        Directory.CreateDirectory(dbDir);
-
-        return $"{prefix}{Path.Combine(dbDir, dbFileName)}";
-    }
-
-    /// <summary>
-    /// Attempts to find the Db folder within the Infrastructure.EfCore.Sqlite project
-    /// by walking up from the application's base directory.
-    /// Returns null if the project directory cannot be located.
-    /// </summary>
-    private static string? TryFindProjectDbFolder()
-    {
-        var baseDir = AppContext.BaseDirectory;
-        var currentDir = new DirectoryInfo(baseDir);
-
-        // Walk up the directory tree to find the solution root
-        while (currentDir != null)
-        {
-            // Look for the Infrastructure.EfCore.Sqlite project directory
-            var projectDir = Path.Combine(currentDir.FullName, ProjectDirectoryName);
-            if (Directory.Exists(projectDir))
-            {
-                var dbDir = Path.Combine(projectDir, "Db");
-                // Verify this is the correct project by checking for the .csproj file
-                if (File.Exists(Path.Combine(projectDir, ProjectFileName)))
-                {
-                    return dbDir;
-                }
-            }
-
-            currentDir = currentDir.Parent;
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// Returns a fallback database directory in the application's base directory.
-    /// Used when the project directory cannot be located (e.g., in production deployments).
-    /// </summary>
-    private static string GetFallbackDbFolder()
-    {
-        return Path.Combine(AppContext.BaseDirectory, "Data");
     }
 }

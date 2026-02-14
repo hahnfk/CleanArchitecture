@@ -23,8 +23,9 @@ public sealed class DomainEventPublisherTests
             // Override/add our fake handler in addition to any built-in ones
             services.AddTransient<IDomainEventHandler<TodoCompletedDomainEvent>>(_ => fakeHandler);
         });
+        using var scope = sp.CreateScope();
 
-        var publisher = sp.GetRequiredService<IDomainEventPublisher>();
+        var publisher = scope.ServiceProvider.GetRequiredService<IDomainEventPublisher>();
 
         // Build an aggregate that raises the event (using real domain)
         var todo = new TodoItem(TodoId.New(), "X");
@@ -47,7 +48,8 @@ public sealed class DomainEventPublisherTests
     {
         // Arrange
         using var sp = TestHost.BuildServices();
-        var publisher = sp.GetRequiredService<IDomainEventPublisher>();
+        using var scope = sp.CreateScope();
+        var publisher = scope.ServiceProvider.GetRequiredService<IDomainEventPublisher>();
 
         // Act
         await publisher.PublishAsync(Enumerable.Empty<IDomainEvent>(), CancellationToken.None);
