@@ -9,6 +9,9 @@ namespace CleanArchitecture.Infrastructure.EfCore.Sqlite;
 
 public static class DependencyInjection
 {
+    private const string ProjectDirectoryName = "CleanArchitecture.Infrastructure.EfCore.Sqlite";
+    private const string ProjectFileName = "CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj";
+
     public static IServiceCollection AddInfrastructureEfSqlite(this IServiceCollection services, IConfiguration configuration)
     {
         var options = new PersistenceOptions();
@@ -71,12 +74,12 @@ public static class DependencyInjection
         while (currentDir != null)
         {
             // Look for the Infrastructure.EfCore.Sqlite project directory
-            var projectDir = Path.Combine(currentDir.FullName, "CleanArchitecture.Infrastructure.EfCore.Sqlite");
+            var projectDir = Path.Combine(currentDir.FullName, ProjectDirectoryName);
             if (Directory.Exists(projectDir))
             {
                 var dbDir = Path.Combine(projectDir, "Db");
-                // Verify this is the correct project by checking for DependencyInjection.cs
-                if (File.Exists(Path.Combine(projectDir, "DependencyInjection.cs")))
+                // Verify this is the correct project by checking for the .csproj file
+                if (File.Exists(Path.Combine(projectDir, ProjectFileName)))
                 {
                     return dbDir;
                 }
