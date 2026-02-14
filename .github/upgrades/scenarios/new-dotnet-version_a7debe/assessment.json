@@ -1,0 +1,2215 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-02-14T17:02:00.2252824Z",
+  "analysisEndTime": "2026-02-14T17:02:05.483674Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 14,
+      "issues": 5,
+      "incidents": 79,
+      "effort": 79
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 60,
+        "Optional": 0,
+        "Potential": 19,
+        "Information": 0
+      },
+      "category": {
+        "Project": 14,
+        "NuGet": 12,
+        "Api": 53
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "CleanArchitecture.Application\\CleanArchitecture.Application.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 2,
+      "properties": {
+        "appName": "CleanArchitecture.Application",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 25,
+        "numberOfCodeFiles": 25,
+        "linesTotal": 610,
+        "linesOfCode": 610,
+        "totalApiScanned": 404,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "8918fdc2-677b-44d3-8c57-60e956e98ae2",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Application\\CleanArchitecture.Application.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection.Abstractions, and replace with new package Microsoft.Extensions.DependencyInjection.Abstractions 10.0.3",
+              "protected": "Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection.Abstractions, and replace with new package Microsoft.Extensions.DependencyInjection.Abstractions 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Application\\CleanArchitecture.Application.csproj",
+            "snippet": "Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection.Abstractions, and replace with new package Microsoft.Extensions.DependencyInjection.Abstractions 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection.Abstractions, and replace with new package Microsoft.Extensions.DependencyInjection.Abstractions 10.0.3",
+            "label": "Microsoft.Extensions.DependencyInjection.Abstractions 8.0.2",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.DependencyInjection.Abstractions",
+              "PackageVersion": "8.0.2",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "90d35b96-2a96-415b-a4f1-1ef97375d25c",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Application\\CleanArchitecture.Application.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Application\\CleanArchitecture.Application.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Application.UnitTests\\CleanArchitecture.Application.UnitTests.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "CleanArchitecture.Application.UnitTests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 4,
+        "numberOfCodeFiles": 2,
+        "linesTotal": 1959,
+        "linesOfCode": 184,
+        "totalApiScanned": 381,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "f874cc3d-370b-46f9-b5b4-318a940dd7b9",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Application.UnitTests\\CleanArchitecture.Application.UnitTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Application.UnitTests\\CleanArchitecture.Application.UnitTests.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.ArchitectureTests\\CleanArchitecture.ArchitectureTests.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "CleanArchitecture.ArchitectureTests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net8.0-windows"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 7,
+        "numberOfCodeFiles": 5,
+        "linesTotal": 1967,
+        "linesOfCode": 179,
+        "totalApiScanned": 275,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "d12418bb-8603-4d59-8c3a-c2f0b835d66c",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.ArchitectureTests\\CleanArchitecture.ArchitectureTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+              "protected": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.ArchitectureTests\\CleanArchitecture.ArchitectureTests.csproj",
+            "snippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+            "protectedSnippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+            "properties": {
+              "CurrentTargetFramework": "net8.0-windows",
+              "RecommendedTargetFramework": "net10.0-windows"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Contracts\\CleanArchitecture.Contracts.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "CleanArchitecture.Contracts",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 2,
+        "numberOfCodeFiles": 2,
+        "linesTotal": 31,
+        "linesOfCode": 31,
+        "totalApiScanned": 6,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "213a8e77-31b6-4e15-ab64-fdc4373b8318",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Contracts\\CleanArchitecture.Contracts.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Contracts\\CleanArchitecture.Contracts.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Domain\\CleanArchitecture.Domain.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "CleanArchitecture.Domain",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 12,
+        "numberOfCodeFiles": 12,
+        "linesTotal": 356,
+        "linesOfCode": 356,
+        "totalApiScanned": 235,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "922c78cc-f274-43ea-9c44-0abc348b8cba",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Domain\\CleanArchitecture.Domain.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Domain\\CleanArchitecture.Domain.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Domain.UnitTests\\CleanArchitecture.Domain.UnitTests.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "CleanArchitecture.Domain.UnitTests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 3,
+        "numberOfCodeFiles": 1,
+        "linesTotal": 1873,
+        "linesOfCode": 98,
+        "totalApiScanned": 101,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "ced647bb-be10-4781-9c99-f330c73e1a6f",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Domain.UnitTests\\CleanArchitecture.Domain.UnitTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Domain.UnitTests\\CleanArchitecture.Domain.UnitTests.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Infrastructure.Composition\\CleanArchitecture.Infrastructure.Composition.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "CleanArchitecture.Infrastructure.Composition",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 1,
+        "numberOfCodeFiles": 1,
+        "linesTotal": 28,
+        "linesOfCode": 28,
+        "totalApiScanned": 13,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "e7b0381e-3b97-44b6-92c2-da411a30d662",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.Composition\\CleanArchitecture.Infrastructure.Composition.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.Composition\\CleanArchitecture.Infrastructure.Composition.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 5,
+      "properties": {
+        "appName": "CleanArchitecture.Infrastructure.EfCore.Sqlite",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 6,
+        "numberOfCodeFiles": 6,
+        "linesTotal": 209,
+        "linesOfCode": 209,
+        "totalApiScanned": 239,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "dc58e79f-c315-4a1f-ad9f-7fcb93428683",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore, 8.0.8\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore, and replace with new package Microsoft.EntityFrameworkCore 10.0.3",
+              "protected": "Microsoft.EntityFrameworkCore, 8.0.8\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore, and replace with new package Microsoft.EntityFrameworkCore 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore, 8.0.8\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore, and replace with new package Microsoft.EntityFrameworkCore 10.0.3",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore, 8.0.8\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore, and replace with new package Microsoft.EntityFrameworkCore 10.0.3",
+            "label": "Microsoft.EntityFrameworkCore 8.0.8",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore",
+              "PackageVersion": "8.0.8",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "b59deb30-fdba-43ea-a9b1-d04e23a2f32f",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Sqlite, 8.0.8\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Sqlite, and replace with new package Microsoft.EntityFrameworkCore.Sqlite 10.0.3",
+              "protected": "Microsoft.EntityFrameworkCore.Sqlite, 8.0.8\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Sqlite, and replace with new package Microsoft.EntityFrameworkCore.Sqlite 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Sqlite, 8.0.8\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Sqlite, and replace with new package Microsoft.EntityFrameworkCore.Sqlite 10.0.3",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Sqlite, 8.0.8\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Sqlite, and replace with new package Microsoft.EntityFrameworkCore.Sqlite 10.0.3",
+            "label": "Microsoft.EntityFrameworkCore.Sqlite 8.0.8",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Sqlite",
+              "PackageVersion": "8.0.8",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "b31c801e-513d-406e-aa3c-686bd9d551a0",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Options.ConfigurationExtensions, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Options.ConfigurationExtensions, and replace with new package Microsoft.Extensions.Options.ConfigurationExtensions 10.0.3",
+              "protected": "Microsoft.Extensions.Options.ConfigurationExtensions, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Options.ConfigurationExtensions, and replace with new package Microsoft.Extensions.Options.ConfigurationExtensions 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+            "snippet": "Microsoft.Extensions.Options.ConfigurationExtensions, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Options.ConfigurationExtensions, and replace with new package Microsoft.Extensions.Options.ConfigurationExtensions 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.Options.ConfigurationExtensions, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Options.ConfigurationExtensions, and replace with new package Microsoft.Extensions.Options.ConfigurationExtensions 10.0.3",
+            "label": "Microsoft.Extensions.Options.ConfigurationExtensions 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Options.ConfigurationExtensions",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "f64e46b3-9ee1-4d73-b071-264163576d44",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Hosting.Abstractions, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Hosting.Abstractions, and replace with new package Microsoft.Extensions.Hosting.Abstractions 10.0.3",
+              "protected": "Microsoft.Extensions.Hosting.Abstractions, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Hosting.Abstractions, and replace with new package Microsoft.Extensions.Hosting.Abstractions 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+            "snippet": "Microsoft.Extensions.Hosting.Abstractions, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Hosting.Abstractions, and replace with new package Microsoft.Extensions.Hosting.Abstractions 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.Hosting.Abstractions, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Hosting.Abstractions, and replace with new package Microsoft.Extensions.Hosting.Abstractions 10.0.3",
+            "label": "Microsoft.Extensions.Hosting.Abstractions 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Hosting.Abstractions",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "3ff677ae-7164-481c-8c84-964701e1b864",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests\\CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 5,
+        "numberOfCodeFiles": 3,
+        "linesTotal": 1974,
+        "linesOfCode": 186,
+        "totalApiScanned": 211,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "09a28093-d92a-40b2-85af-654933de53fc",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests\\CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.3",
+              "protected": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests\\CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.3",
+            "label": "Microsoft.Extensions.Configuration.Binder 8.0.2",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.Binder",
+              "PackageVersion": "8.0.2",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "b904f4ce-91c8-4e38-8319-b848e86305cb",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests\\CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.3",
+              "protected": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests\\CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests.csproj",
+            "snippet": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.3",
+            "label": "Microsoft.Extensions.Configuration 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "7663dbaa-e051-4902-8eca-a5cf2dfe6ce3",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests\\CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests\\CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Infrastructure.InMemory\\CleanArchitecture.Infrastructure.InMemory.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 2,
+      "properties": {
+        "appName": "CleanArchitecture.Infrastructure.InMemory",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 8,
+        "numberOfCodeFiles": 8,
+        "linesTotal": 204,
+        "linesOfCode": 204,
+        "totalApiScanned": 160,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "5236a2a1-d683-42d8-9b37-8587becc22fe",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.InMemory\\CleanArchitecture.Infrastructure.InMemory.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection.Abstractions, and replace with new package Microsoft.Extensions.DependencyInjection.Abstractions 10.0.3",
+              "protected": "Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection.Abstractions, and replace with new package Microsoft.Extensions.DependencyInjection.Abstractions 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.InMemory\\CleanArchitecture.Infrastructure.InMemory.csproj",
+            "snippet": "Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection.Abstractions, and replace with new package Microsoft.Extensions.DependencyInjection.Abstractions 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.DependencyInjection.Abstractions, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection.Abstractions, and replace with new package Microsoft.Extensions.DependencyInjection.Abstractions 10.0.3",
+            "label": "Microsoft.Extensions.DependencyInjection.Abstractions 8.0.2",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.DependencyInjection.Abstractions",
+              "PackageVersion": "8.0.2",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "2179d1ce-7edf-4b17-b68e-be3d64d18f12",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.InMemory\\CleanArchitecture.Infrastructure.InMemory.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.InMemory\\CleanArchitecture.Infrastructure.InMemory.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Infrastructure.InMemory.IntegrationTests\\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "CleanArchitecture.Infrastructure.InMemory.IntegrationTests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 7,
+        "numberOfCodeFiles": 5,
+        "linesTotal": 1974,
+        "linesOfCode": 199,
+        "totalApiScanned": 287,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "5159a244-8b9f-40dd-81ab-1cb2726f966b",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.InMemory.IntegrationTests\\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.3",
+              "protected": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.InMemory.IntegrationTests\\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj",
+            "snippet": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.3",
+            "label": "Microsoft.Extensions.Configuration 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "9a63d760-23c0-4480-9c43-d1bc53f70a14",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.InMemory.IntegrationTests\\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.DependencyInjection, 8.0.1\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.3",
+              "protected": "Microsoft.Extensions.DependencyInjection, 8.0.1\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.InMemory.IntegrationTests\\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj",
+            "snippet": "Microsoft.Extensions.DependencyInjection, 8.0.1\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.DependencyInjection, 8.0.1\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.3",
+            "label": "Microsoft.Extensions.DependencyInjection 8.0.1",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.DependencyInjection",
+              "PackageVersion": "8.0.1",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "d8d32b8e-fedd-4a40-83c8-55a6216ff8ec",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Infrastructure.InMemory.IntegrationTests\\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Infrastructure.InMemory.IntegrationTests\\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Presentation.BlazorWebApp\\CleanArchitecture.Presentation.BlazorWebApp.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 2,
+      "properties": {
+        "appName": "CleanArchitecture.Presentation.BlazorWebApp",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 17,
+        "numberOfCodeFiles": 4,
+        "linesTotal": 559,
+        "linesOfCode": 69,
+        "totalApiScanned": 794,
+        "minLinesOfCodeToChange": 1,
+        "maxLinesOfCodeToChange": 1
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "71276089-4915-43f4-9850-72476ddd59b0",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Presentation.BlazorWebApp\\CleanArchitecture.Presentation.BlazorWebApp.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.BlazorWebApp\\CleanArchitecture.Presentation.BlazorWebApp.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "3ec725b1-b637-42a7-9652-ceea82625e82",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "CleanArchitecture.Presentation.BlazorWebApp\\CleanArchitecture.Presentation.BlazorWebApp.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Error\u0022, createScopeForErrors: true);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Boolean)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.BlazorWebApp\\Program.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Error\u0022, createScopeForErrors: true);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Boolean)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Boolean)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 19,
+            "column": 4
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+      "startingProject": true,
+      "issues": 4,
+      "storyPoints": 55,
+      "properties": {
+        "appName": "CleanArchitecture.Presentation.Wpf",
+        "projectKind": "Wpf",
+        "frameworks": [
+          "net8.0-windows"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 13,
+        "numberOfCodeFiles": 13,
+        "linesTotal": 629,
+        "linesOfCode": 629,
+        "totalApiScanned": 777,
+        "minLinesOfCodeToChange": 52,
+        "maxLinesOfCodeToChange": 52
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "78d8cd5c-6e41-457e-8070-782a311e8d2b",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Hosting, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Hosting, and replace with new package Microsoft.Extensions.Hosting 10.0.3",
+              "protected": "Microsoft.Extensions.Hosting, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Hosting, and replace with new package Microsoft.Extensions.Hosting 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+            "snippet": "Microsoft.Extensions.Hosting, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Hosting, and replace with new package Microsoft.Extensions.Hosting 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.Hosting, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Hosting, and replace with new package Microsoft.Extensions.Hosting 10.0.3",
+            "label": "Microsoft.Extensions.Hosting 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Hosting",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c81c4311-9d35-4a44-80b3-d8f5c055c8db",
+          "ruleId": "NuGet.0002",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.3",
+              "protected": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.3"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+            "snippet": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.3",
+            "protectedSnippet": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.3",
+            "label": "Microsoft.Extensions.DependencyInjection 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.DependencyInjection",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "4a57992c-2325-4a24-af54-9dbb701c92ad",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+              "protected": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+            "snippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+            "protectedSnippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+            "properties": {
+              "CurrentTargetFramework": "net8.0-windows",
+              "RecommendedTargetFramework": "net10.0-windows"
+            }
+          }
+        },
+        {
+          "incidentId": "8fce5210-22f2-4f5b-9647-c7bda51a1fa5",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "InternalTypeHelper",
+              "protected": "M:System.Windows.Markup.InternalTypeHelper.#ctor"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\GeneratedInternalTypeHelper.g.i.cs",
+            "snippet": "InternalTypeHelper",
+            "protectedSnippet": "M:System.Windows.Markup.InternalTypeHelper.#ctor",
+            "label": "M:System.Windows.Markup.InternalTypeHelper.#ctor",
+            "line": 19,
+            "column": 76
+          }
+        },
+        {
+          "incidentId": "0971bee2-78b6-4a1a-a1d7-a59f7acabd6f",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "InternalTypeHelper",
+              "protected": "T:System.Windows.Markup.InternalTypeHelper"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\GeneratedInternalTypeHelper.g.i.cs",
+            "snippet": "InternalTypeHelper",
+            "protectedSnippet": "T:System.Windows.Markup.InternalTypeHelper",
+            "label": "T:System.Windows.Markup.InternalTypeHelper",
+            "line": 19,
+            "column": 76
+          }
+        },
+        {
+          "incidentId": "53a01830-9107-4d36-8835-97f31226bf0c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IMultiValueConverter",
+              "protected": "T:System.Windows.Data.IMultiValueConverter"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Converters\\RenameParamConverter.cs",
+            "snippet": "IMultiValueConverter",
+            "protectedSnippet": "T:System.Windows.Data.IMultiValueConverter",
+            "label": "T:System.Windows.Data.IMultiValueConverter",
+            "line": 9,
+            "column": 43
+          }
+        },
+        {
+          "incidentId": "e400b6bc-eb2b-4b4b-8559-69fda3b928dd",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "((System.Windows.Controls.TextBox)(target)).Loaded \u002B= new System.Windows.RoutedEventHandler(this.TextBox_Loaded);",
+              "protected": "T:System.Windows.RoutedEventHandler"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "((System.Windows.Controls.TextBox)(target)).Loaded \u002B= new System.Windows.RoutedEventHandler(this.TextBox_Loaded);",
+            "protectedSnippet": "T:System.Windows.RoutedEventHandler",
+            "label": "T:System.Windows.RoutedEventHandler",
+            "line": 85,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "09219145-f39f-44fc-97d5-eaa3ce82fa58",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "((System.Windows.Controls.TextBox)(target)).Loaded \u002B= new System.Windows.RoutedEventHandler(this.TextBox_Loaded);",
+              "protected": "T:System.Windows.RoutedEventHandler"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "((System.Windows.Controls.TextBox)(target)).Loaded \u002B= new System.Windows.RoutedEventHandler(this.TextBox_Loaded);",
+            "protectedSnippet": "T:System.Windows.RoutedEventHandler",
+            "label": "T:System.Windows.RoutedEventHandler",
+            "line": 85,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "f7b4d3af-ab39-4582-bc30-b3b35bcccab7",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "((System.Windows.Controls.TextBox)(target)).Loaded \u002B= new System.Windows.RoutedEventHandler(this.TextBox_Loaded);",
+              "protected": "E:System.Windows.FrameworkElement.Loaded"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "((System.Windows.Controls.TextBox)(target)).Loaded \u002B= new System.Windows.RoutedEventHandler(this.TextBox_Loaded);",
+            "protectedSnippet": "E:System.Windows.FrameworkElement.Loaded",
+            "label": "E:System.Windows.FrameworkElement.Loaded",
+            "line": 85,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "16295c59-060a-4934-9ee1-f1ae07d6832f",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+              "protected": "T:System.Windows.Application"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+            "protectedSnippet": "T:System.Windows.Application",
+            "label": "T:System.Windows.Application",
+            "line": 57,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "aec9a841-a724-440b-b130-c8d1fed27d1f",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+              "protected": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+            "protectedSnippet": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)",
+            "label": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)",
+            "line": 57,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "261199a7-da66-4171-9a3b-278776ccc694",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/views/todosview.xaml\u0022, System.UriKind.Relative);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/views/todosview.xaml\u0022, System.UriKind.Relative);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 54,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "bc9351a2-679d-403e-9462-30ef0f7321c2",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/views/todosview.xaml\u0022, System.UriKind.Relative);",
+              "protected": "M:System.Uri.#ctor(System.String,System.UriKind)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/views/todosview.xaml\u0022, System.UriKind.Relative);",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "label": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 54,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "fdaecc24-3b16-4a69-a6e4-03afd6ce6ba9",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void TextBox_Loaded(object sender, RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "private void TextBox_Loaded(object sender, RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 8,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "84b78d97-8669-4cc2-9e02-6c881be273da",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "tb.SelectAll();",
+              "protected": "M:System.Windows.Controls.Primitives.TextBoxBase.SelectAll"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "tb.SelectAll();",
+            "protectedSnippet": "M:System.Windows.Controls.Primitives.TextBoxBase.SelectAll",
+            "label": "M:System.Windows.Controls.Primitives.TextBoxBase.SelectAll",
+            "line": 15,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "395313b9-bc2c-4ef7-ba12-628d2d710300",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "tb.Focus();",
+              "protected": "M:System.Windows.UIElement.Focus"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "tb.Focus();",
+            "protectedSnippet": "M:System.Windows.UIElement.Focus",
+            "label": "M:System.Windows.UIElement.Focus",
+            "line": 14,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "54dcd07f-83ea-41df-963c-efaa810559ae",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 12,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "425caaec-4703-48a7-a0e7-cb9f90ab148d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 12,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "a9b6c9f6-cf27-471f-8570-34582b01e978",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+              "protected": "F:System.Windows.Visibility.Visible"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+            "protectedSnippet": "F:System.Windows.Visibility.Visible",
+            "label": "F:System.Windows.Visibility.Visible",
+            "line": 12,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "a5f55d1f-09e1-4ffc-b1c5-d7a08bb89c4a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 12,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "5de9504d-adf0-4c66-a132-b71a6331b71f",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+              "protected": "P:System.Windows.UIElement.Visibility"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "if (tb.Visibility == Visibility.Visible)\r\n        {\r\n            tb.Focus();\r\n            tb.SelectAll();\r\n        }",
+            "protectedSnippet": "P:System.Windows.UIElement.Visibility",
+            "label": "P:System.Windows.UIElement.Visibility",
+            "line": 12,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "e03ffbb8-2477-415a-98fa-2c3267fe4c90",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "public TodosView() =\u003E InitializeComponent();",
+              "protected": "M:System.Windows.Controls.UserControl.#ctor"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "public TodosView() =\u003E InitializeComponent();",
+            "protectedSnippet": "M:System.Windows.Controls.UserControl.#ctor",
+            "label": "M:System.Windows.Controls.UserControl.#ctor",
+            "line": 7,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "6de0b920-10d3-4bc4-94f8-56612b50bc87",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "public TodosView() =\u003E InitializeComponent();",
+              "protected": "M:System.Windows.Controls.UserControl.#ctor"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "public TodosView() =\u003E InitializeComponent();",
+            "protectedSnippet": "M:System.Windows.Controls.UserControl.#ctor",
+            "label": "M:System.Windows.Controls.UserControl.#ctor",
+            "line": 7,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "640a4db1-9f52-40b5-b6d1-8973f7791689",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IStyleConnector",
+              "protected": "T:System.Windows.Markup.IStyleConnector"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "IStyleConnector",
+            "protectedSnippet": "T:System.Windows.Markup.IStyleConnector",
+            "label": "T:System.Windows.Markup.IStyleConnector",
+            "line": 40,
+            "column": 139
+          }
+        },
+        {
+          "incidentId": "abdfd005-980a-43b0-af5f-60f916ba9676",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IComponentConnector",
+              "protected": "T:System.Windows.Markup.IComponentConnector"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\Views\\TodosView.g.i.cs",
+            "snippet": "IComponentConnector",
+            "protectedSnippet": "T:System.Windows.Markup.IComponentConnector",
+            "label": "T:System.Windows.Markup.IComponentConnector",
+            "line": 40,
+            "column": 96
+          }
+        },
+        {
+          "incidentId": "6ac0c043-7807-4ab3-866c-3c583824bb2c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "UserControl",
+              "protected": "T:System.Windows.Controls.UserControl"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Views\\TodosView.xaml.cs",
+            "snippet": "UserControl",
+            "protectedSnippet": "T:System.Windows.Controls.UserControl",
+            "label": "T:System.Windows.Controls.UserControl",
+            "line": 5,
+            "column": 33
+          }
+        },
+        {
+          "incidentId": "fad2ad9c-6c4e-42a5-aa8f-35ac5d49a344",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.MessageBox.Show(text, caption);",
+              "protected": "T:System.Windows.MessageBox"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\ViewModels\\TodosViewModel.cs",
+            "snippet": "System.Windows.MessageBox.Show(text, caption);",
+            "protectedSnippet": "T:System.Windows.MessageBox",
+            "label": "T:System.Windows.MessageBox",
+            "line": 215,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "47cb4db2-902e-4a29-9842-d199d8870699",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.MessageBox.Show(text, caption);",
+              "protected": "T:System.Windows.MessageBoxResult"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\ViewModels\\TodosViewModel.cs",
+            "snippet": "System.Windows.MessageBox.Show(text, caption);",
+            "protectedSnippet": "T:System.Windows.MessageBoxResult",
+            "label": "T:System.Windows.MessageBoxResult",
+            "line": 215,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "0eca2e52-4d76-431e-8448-d38aa876112f",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.MessageBox.Show(text, caption);",
+              "protected": "M:System.Windows.MessageBox.Show(System.String,System.String)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\ViewModels\\TodosViewModel.cs",
+            "snippet": "System.Windows.MessageBox.Show(text, caption);",
+            "protectedSnippet": "M:System.Windows.MessageBox.Show(System.String,System.String)",
+            "label": "M:System.Windows.MessageBox.Show(System.String,System.String)",
+            "line": 215,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "b894734b-682c-4e1b-b4ce-28244d78fc59",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "CommandManager.RequerySuggested \u002B= (_, __) =\u003E RaiseCanExecuteChanged();",
+              "protected": "E:System.Windows.Input.CommandManager.RequerySuggested"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Commands\\AsyncRelayCommand.cs",
+            "snippet": "CommandManager.RequerySuggested \u002B= (_, __) =\u003E RaiseCanExecuteChanged();",
+            "protectedSnippet": "E:System.Windows.Input.CommandManager.RequerySuggested",
+            "label": "E:System.Windows.Input.CommandManager.RequerySuggested",
+            "line": 72,
+            "column": 18
+          }
+        },
+        {
+          "incidentId": "1fea5f54-fc69-44a0-99e9-29fbdf27ccc6",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "CommandManager.RequerySuggested \u002B= (_, __) =\u003E RaiseCanExecuteChanged();",
+              "protected": "E:System.Windows.Input.CommandManager.RequerySuggested"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Commands\\AsyncRelayCommand.cs",
+            "snippet": "CommandManager.RequerySuggested \u002B= (_, __) =\u003E RaiseCanExecuteChanged();",
+            "protectedSnippet": "E:System.Windows.Input.CommandManager.RequerySuggested",
+            "label": "E:System.Windows.Input.CommandManager.RequerySuggested",
+            "line": 72,
+            "column": 18
+          }
+        },
+        {
+          "incidentId": "239b391e-84b6-4722-9f61-5284846df6a8",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "CommandManager.RequerySuggested \u002B= (_, __) =\u003E RaiseCanExecuteChanged();",
+              "protected": "E:System.Windows.Input.CommandManager.RequerySuggested"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Commands\\AsyncRelayCommand.cs",
+            "snippet": "CommandManager.RequerySuggested \u002B= (_, __) =\u003E RaiseCanExecuteChanged();",
+            "protectedSnippet": "E:System.Windows.Input.CommandManager.RequerySuggested",
+            "label": "E:System.Windows.Input.CommandManager.RequerySuggested",
+            "line": 20,
+            "column": 18
+          }
+        },
+        {
+          "incidentId": "563870bc-676c-4868-8a4b-123ce3dc71de",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "CommandManager.RequerySuggested \u002B= (_, __) =\u003E RaiseCanExecuteChanged();",
+              "protected": "E:System.Windows.Input.CommandManager.RequerySuggested"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\Commands\\AsyncRelayCommand.cs",
+            "snippet": "CommandManager.RequerySuggested \u002B= (_, __) =\u003E RaiseCanExecuteChanged();",
+            "protectedSnippet": "E:System.Windows.Input.CommandManager.RequerySuggested",
+            "label": "E:System.Windows.Input.CommandManager.RequerySuggested",
+            "line": 20,
+            "column": 18
+          }
+        },
+        {
+          "incidentId": "7d457435-c280-4e4b-ad01-b95cba18260b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.Run();",
+              "protected": "M:System.Windows.Application.Run"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\App.g.i.cs",
+            "snippet": "app.Run();",
+            "protectedSnippet": "M:System.Windows.Application.Run",
+            "label": "M:System.Windows.Application.Run",
+            "line": 73,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "e093bb07-b5ca-4f82-bf3f-c3ba4e0aa5d2",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+              "protected": "T:System.Windows.Application"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\App.g.i.cs",
+            "snippet": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+            "protectedSnippet": "T:System.Windows.Application",
+            "label": "T:System.Windows.Application",
+            "line": 58,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "a107a4da-0aab-4565-acee-fa70ad868bfc",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+              "protected": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\App.g.i.cs",
+            "snippet": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+            "protectedSnippet": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)",
+            "label": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)",
+            "line": 58,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "e4963803-72d5-4d03-9a4f-90db4b448817",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/app.xaml\u0022, System.UriKind.Relative);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\App.g.i.cs",
+            "snippet": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/app.xaml\u0022, System.UriKind.Relative);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 55,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "81a35c1a-19e0-49a2-9cf8-2be897500ee1",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/app.xaml\u0022, System.UriKind.Relative);",
+              "protected": "M:System.Uri.#ctor(System.String,System.UriKind)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\App.g.i.cs",
+            "snippet": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/app.xaml\u0022, System.UriKind.Relative);",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "label": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 55,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "6caa551b-7d3a-4a88-8519-f907d5b6ce13",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "protected override async void OnExit(ExitEventArgs e)",
+              "protected": "T:System.Windows.ExitEventArgs"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\App.xaml.cs",
+            "snippet": "protected override async void OnExit(ExitEventArgs e)",
+            "protectedSnippet": "T:System.Windows.ExitEventArgs",
+            "label": "T:System.Windows.ExitEventArgs",
+            "line": 36,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "1f73bb10-d81f-45dd-b0eb-e49db02f4df8",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "base.OnExit(e);",
+              "protected": "M:System.Windows.Application.OnExit(System.Windows.ExitEventArgs)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\App.xaml.cs",
+            "snippet": "base.OnExit(e);",
+            "protectedSnippet": "M:System.Windows.Application.OnExit(System.Windows.ExitEventArgs)",
+            "label": "M:System.Windows.Application.OnExit(System.Windows.ExitEventArgs)",
+            "line": 44,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "c129ac11-6ea3-48e2-bb6b-d00df01a3b1d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "protected override async void OnStartup(StartupEventArgs e)",
+              "protected": "T:System.Windows.StartupEventArgs"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\App.xaml.cs",
+            "snippet": "protected override async void OnStartup(StartupEventArgs e)",
+            "protectedSnippet": "T:System.Windows.StartupEventArgs",
+            "label": "T:System.Windows.StartupEventArgs",
+            "line": 13,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "494a2bd8-0e5f-41ab-8572-46f77ad60fb1",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "mainWindow.Show();",
+              "protected": "M:System.Windows.Window.Show"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\App.xaml.cs",
+            "snippet": "mainWindow.Show();",
+            "protectedSnippet": "M:System.Windows.Window.Show",
+            "label": "M:System.Windows.Window.Show",
+            "line": 33,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "cf108028-c084-41ce-92b8-baf9dcb9deb1",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "base.OnStartup(e);",
+              "protected": "M:System.Windows.Application.OnStartup(System.Windows.StartupEventArgs)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\App.xaml.cs",
+            "snippet": "base.OnStartup(e);",
+            "protectedSnippet": "M:System.Windows.Application.OnStartup(System.Windows.StartupEventArgs)",
+            "label": "M:System.Windows.Application.OnStartup(System.Windows.StartupEventArgs)",
+            "line": 15,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "f94e9361-0238-4e96-8623-70b40cfd25a4",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Application",
+              "protected": "M:System.Windows.Application.#ctor"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\App.xaml.cs",
+            "snippet": "Application",
+            "protectedSnippet": "M:System.Windows.Application.#ctor",
+            "label": "M:System.Windows.Application.#ctor",
+            "line": 9,
+            "column": 42
+          }
+        },
+        {
+          "incidentId": "fbd3e2ce-eccc-4bc9-8c29-e83c791f6169",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Application",
+              "protected": "T:System.Windows.Application"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\App.xaml.cs",
+            "snippet": "Application",
+            "protectedSnippet": "T:System.Windows.Application",
+            "label": "T:System.Windows.Application",
+            "line": 9,
+            "column": 42
+          }
+        },
+        {
+          "incidentId": "d6ed0ca0-4630-4b5c-a432-f15a2becea9c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+              "protected": "T:System.Windows.Application"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\MainWindow.g.i.cs",
+            "snippet": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+            "protectedSnippet": "T:System.Windows.Application",
+            "label": "T:System.Windows.Application",
+            "line": 58,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "e8d64087-c399-4b29-8af9-01aa95e7c2b0",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+              "protected": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\MainWindow.g.i.cs",
+            "snippet": "System.Windows.Application.LoadComponent(this, resourceLocater);",
+            "protectedSnippet": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)",
+            "label": "M:System.Windows.Application.LoadComponent(System.Object,System.Uri)",
+            "line": 58,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "262b3e05-b996-4c74-ac6d-f54d9c89c6bf",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/mainwindow.xaml\u0022, System.UriKind.Relative);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\MainWindow.g.i.cs",
+            "snippet": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/mainwindow.xaml\u0022, System.UriKind.Relative);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 55,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "74df6b61-a87f-4e83-ba20-d9f790d918b8",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/mainwindow.xaml\u0022, System.UriKind.Relative);",
+              "protected": "M:System.Uri.#ctor(System.String,System.UriKind)"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\MainWindow.g.i.cs",
+            "snippet": "System.Uri resourceLocater = new System.Uri(\u0022/CleanArchitecture.Presentation.Wpf;V1.0.0.0;component/mainwindow.xaml\u0022, System.UriKind.Relative);",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "label": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 55,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "75dc2d80-2fe1-44e6-b51e-8cf2295aec43",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataContext = todosViewModel;",
+              "protected": "P:System.Windows.FrameworkElement.DataContext"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\MainWindow.xaml.cs",
+            "snippet": "DataContext = todosViewModel;",
+            "protectedSnippet": "P:System.Windows.FrameworkElement.DataContext",
+            "label": "P:System.Windows.FrameworkElement.DataContext",
+            "line": 14,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "4155b36b-868b-4c08-ada4-f898cb8c1746",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "public MainWindow(TodosViewModel todosViewModel)\n    {\n        InitializeComponent();\n        DataContext = todosViewModel;\n    }",
+              "protected": "M:System.Windows.Window.#ctor"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\MainWindow.xaml.cs",
+            "snippet": "public MainWindow(TodosViewModel todosViewModel)\n    {\n        InitializeComponent();\n        DataContext = todosViewModel;\n    }",
+            "protectedSnippet": "M:System.Windows.Window.#ctor",
+            "label": "M:System.Windows.Window.#ctor",
+            "line": 11,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "9dc20ec9-bef5-4cb9-9f1e-be7b5fb11683",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataContext = todosViewModel;",
+              "protected": "P:System.Windows.FrameworkElement.DataContext"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\MainWindow.xaml.cs",
+            "snippet": "DataContext = todosViewModel;",
+            "protectedSnippet": "P:System.Windows.FrameworkElement.DataContext",
+            "label": "P:System.Windows.FrameworkElement.DataContext",
+            "line": 14,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "f12058fd-22fe-4cda-9bef-71d7f6a778ad",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "public MainWindow(TodosViewModel todosViewModel)\n    {\n        InitializeComponent();\n        DataContext = todosViewModel;\n    }",
+              "protected": "M:System.Windows.Window.#ctor"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\MainWindow.xaml.cs",
+            "snippet": "public MainWindow(TodosViewModel todosViewModel)\n    {\n        InitializeComponent();\n        DataContext = todosViewModel;\n    }",
+            "protectedSnippet": "M:System.Windows.Window.#ctor",
+            "label": "M:System.Windows.Window.#ctor",
+            "line": 11,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "ca54a39c-c630-4d1b-a9e7-5579fed76e39",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IComponentConnector",
+              "protected": "T:System.Windows.Markup.IComponentConnector"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\obj\\Debug\\net8.0-windows\\MainWindow.g.i.cs",
+            "snippet": "IComponentConnector",
+            "protectedSnippet": "T:System.Windows.Markup.IComponentConnector",
+            "label": "T:System.Windows.Markup.IComponentConnector",
+            "line": 41,
+            "column": 83
+          }
+        },
+        {
+          "incidentId": "f4403a0f-f132-4165-8337-937ffe05dce6",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Window",
+              "protected": "T:System.Windows.Window"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf\\MainWindow.xaml.cs",
+            "snippet": "Window",
+            "protectedSnippet": "T:System.Windows.Window",
+            "label": "T:System.Windows.Window",
+            "line": 9,
+            "column": 34
+          }
+        }
+      ],
+      "features": [
+        {
+          "featureId": "Wpf",
+          "incidents": [
+            "ca54a39c-c630-4d1b-a9e7-5579fed76e39",
+            "563870bc-676c-4868-8a4b-123ce3dc71de",
+            "239b391e-84b6-4722-9f61-5284846df6a8",
+            "1fea5f54-fc69-44a0-99e9-29fbdf27ccc6",
+            "b894734b-682c-4e1b-b4ce-28244d78fc59",
+            "6ac0c043-7807-4ab3-866c-3c583824bb2c",
+            "abdfd005-980a-43b0-af5f-60f916ba9676",
+            "640a4db1-9f52-40b5-b6d1-8973f7791689",
+            "6de0b920-10d3-4bc4-94f8-56612b50bc87",
+            "e03ffbb8-2477-415a-98fa-2c3267fe4c90",
+            "84b78d97-8669-4cc2-9e02-6c881be273da",
+            "53a01830-9107-4d36-8835-97f31226bf0c",
+            "0971bee2-78b6-4a1a-a1d7-a59f7acabd6f",
+            "8fce5210-22f2-4f5b-9647-c7bda51a1fa5"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "CleanArchitecture.Presentation.Wpf.UnitTests\\CleanArchitecture.Presentation.Wpf.UnitTests.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "CleanArchitecture.Presentation.Wpf.UnitTests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net8.0-windows"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 5,
+        "numberOfCodeFiles": 3,
+        "linesTotal": 2018,
+        "linesOfCode": 230,
+        "totalApiScanned": 369,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "a0140366-fd0c-4afa-b528-8a6b22f913af",
+          "ruleId": "Project.0002",
+          "projectPath": "CleanArchitecture.Presentation.Wpf.UnitTests\\CleanArchitecture.Presentation.Wpf.UnitTests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+              "protected": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows"
+            },
+            "kind": "File",
+            "path": "CleanArchitecture.Presentation.Wpf.UnitTests\\CleanArchitecture.Presentation.Wpf.UnitTests.csproj",
+            "snippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+            "protectedSnippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+            "properties": {
+              "CurrentTargetFramework": "net8.0-windows",
+              "RecommendedTargetFramework": "net10.0-windows"
+            }
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "API has a behavioral change in selected .NET version: code and binaries may behave differently at runtime without needing recompilation, but the new behavior might be undesirable and require updates.",
+      "label": "Behavioral change in selected .NET version",
+      "severity": "Potential",
+      "effort": 1
+    },
+    "Api.0001": {
+      "id": "Api.0001",
+      "isFeature": false,
+      "description": "API is binary incompatible for selected .NET version: affects existing binaries, often requiring recompilation, because the API has changed in a way that prevents older binaries from loading or executing.",
+      "label": "Binary incompatible for selected .NET version",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "Wpf": {
+      "id": "Wpf",
+      "isFeature": false,
+      "description": "WPF APIs for building Windows desktop applications with XAML-based UI that are available in .NET on Windows. WPF provides rich desktop UI capabilities with data binding and styling. Enable Windows Desktop support: Option 1 (Recommended): Target net9.0-windows; Option 2: Add \u003CUseWindowsDesktop\u003Etrue\u003C/UseWindowsDesktop\u003E.",
+      "label": "WPF (Windows Presentation Foundation)",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "WPF on .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2342008",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}
