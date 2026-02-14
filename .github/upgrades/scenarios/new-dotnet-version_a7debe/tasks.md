@@ -4,7 +4,7 @@
 
 This document tracks the coordinated upgrade of the CleanArchitecture solution from .NET 8 to .NET 10.0. All projects will have their target frameworks and package references updated, followed by a build-and-fix pass and full test validation.
 
-**Progress**: 3/4 tasks complete (75%) ![0%](https://progress-bar.xyz/75)
+**Progress**: 3/4 tasks complete (75%) ![75%](https://progress-bar.xyz/75)
 
 ---
 
