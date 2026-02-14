@@ -20,11 +20,12 @@ public sealed class CompleteTodoRoundtripTests
         {
             services.AddTransient<IDomainEventHandler<TodoCompletedDomainEvent>>(_ => fakeHandler);
         });
-
         using var scope = sp.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<ITodoRepository>();
-        var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-        var publisher = scope.ServiceProvider.GetRequiredService<IDomainEventPublisher>();
+        var svc = scope.ServiceProvider;
+
+        var repo = svc.GetRequiredService<ITodoRepository>();
+        var uow = svc.GetRequiredService<IUnitOfWork>();
+        var publisher = svc.GetRequiredService<IDomainEventPublisher>();
         var handler = new CompleteTodoHandler(repo, uow, publisher);
 
         var todo = new TodoItem(TodoId.New(), "X");

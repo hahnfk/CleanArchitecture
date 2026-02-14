@@ -23,8 +23,8 @@ public sealed class DomainEventPublisherTests
             // Override/add our fake handler in addition to any built-in ones
             services.AddTransient<IDomainEventHandler<TodoCompletedDomainEvent>>(_ => fakeHandler);
         });
-
         using var scope = sp.CreateScope();
+
         var publisher = scope.ServiceProvider.GetRequiredService<IDomainEventPublisher>();
 
         // Build an aggregate that raises the event (using real domain)
