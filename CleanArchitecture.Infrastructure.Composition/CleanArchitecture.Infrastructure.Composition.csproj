@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CleanArchitecture.Contracts\CleanArchitecture.Contracts.csproj" />
+    <ProjectReference Include="..\CleanArchitecture.Infrastructure.InMemory\CleanArchitecture.Infrastructure.InMemory.csproj" />
+    <ProjectReference Include="..\CleanArchitecture.Infrastructure.EfCore.Sqlite\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,10 +1,10 @@
-﻿namespace CleanArchitecture.Infrastructure.InMemory.Events;
-
 using CleanArchitecture.Domain.Common;
 
+namespace CleanArchitecture.Application.Abstractions;
+
 /// <summary>
-/// Infrastructure-side domain event handler contract. Implement one handler per event type.
-/// Multiple handlers for the same event type are supported.
+/// Application-layer contract for domain event handlers.
+/// Implement one handler per event type. Multiple handlers for the same event type are supported.
 /// </summary>
 public interface IDomainEventHandler<in TEvent> where TEvent : IDomainEvent
 {

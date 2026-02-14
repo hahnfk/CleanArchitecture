@@ -14,17 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\\CleanArchitecture.Application\\CleanArchitecture.Application.csproj" />
-    <ProjectReference Include="..\\CleanArchitecture.Infrastructure.Composition\\CleanArchitecture.Infrastructure.Composition.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <!-- Guard against accidentally extracted patch folders inside this project directory -->
-    <Compile Remove="CleanArchitecture.*\**\*.cs" />
-    <EmbeddedResource Remove="CleanArchitecture.*\**\*" />
-    <None Remove="CleanArchitecture.*\**\*" />
-    <Content Remove="CleanArchitecture.*\**\*" />
+    <ProjectReference Include="..\\CleanArchitecture.Infrastructure.Persistence\\CleanArchitecture.Infrastructure.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
-

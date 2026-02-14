@@ -18,7 +18,9 @@ namespace CleanArchitecture.ArchitectureTests
                 .Where(t => t.IsClass && t.Namespace != null && t.Name.EndsWith("Dto"));
 
             var offenders = types.Where(t =>
-                t.GetProperties().Any(p => p.SetMethod != null && p.SetMethod.IsPublic));
+                t.GetProperties().Any(p => p.SetMethod != null && p.SetMethod.IsPublic
+                    && !p.SetMethod.ReturnParameter.GetRequiredCustomModifiers()
+                        .Any(m => m.FullName == "System.Runtime.CompilerServices.IsExternalInit")));
 
             Assert.False(offenders.Any(), "Mutable DTOs detected: " + string.Join(", ", offenders.Select(o => o.FullName)));
         }

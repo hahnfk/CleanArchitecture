@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Domain.Todos.Events;
+﻿using CleanArchitecture.Application.Abstractions;
+using CleanArchitecture.Domain.Todos.Events;
 
 namespace CleanArchitecture.Infrastructure.InMemory.Events;
 

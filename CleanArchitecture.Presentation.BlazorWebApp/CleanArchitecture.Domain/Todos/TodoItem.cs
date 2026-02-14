@@ -32,7 +32,7 @@ public sealed class TodoItem : AggregateRoot<TodoId>
     /// Rehydrates an aggregate from persistence without raising domain events.
     /// Keeps the Domain free of EF Core while enabling DB-backed repositories.
     /// </summary>
-    public static TodoItem Rehydrate(TodoId id, string title, bool isCompleted, long version)
+    internal static TodoItem Rehydrate(TodoId id, string title, bool isCompleted, long version)
     {
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Title must not be empty.", nameof(title));

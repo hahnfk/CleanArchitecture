@@ -1,0 +1,38 @@
+<Project>
+  <!--
+    Safety net: SDK-style projects include all *.cs under the project directory by default.
+    If legacy/patched files ended up under CleanArchitecture.Application, they can silently compile into the Application assembly
+    and violate architecture rules (Application must not contain Infrastructure/Persistence types).
+
+    This excludes known legacy "Infrastructure.Persistence" types from the Application project only.
+    Prefer deleting those stray files from the repository once found.
+  -->
+
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'CleanArchitecture.Application'">
+    <!-- Folder-based exclusions (common when ZIPs are extracted into the project folder) -->
+    <Compile Remove="CleanArchitecture.Infrastructure.Persistence\**\*.cs" />
+    <Compile Remove="CleanArchitecture.Infrastructure.Persistence.*\**\*.cs" />
+    <Compile Remove="**\CleanArchitecture.Infrastructure.Persistence\**\*.cs" />
+    <Compile Remove="**\CleanArchitecture.Infrastructure.Persistence.*\**\*.cs" />
+
+    <!-- File-name based exclusions (covers cases where files were moved into other folders but kept legacy names) -->
+    <Compile Remove="**\IPersistenceOptions.cs" />
+    <Compile Remove="**\PersistenceOptions.cs" />
+    <Compile Remove="**\PersistenceProvider.cs" />
+
+    <EmbeddedResource Remove="CleanArchitecture.Infrastructure.Persistence\**\*" />
+    <EmbeddedResource Remove="CleanArchitecture.Infrastructure.Persistence.*\**\*" />
+    <EmbeddedResource Remove="**\CleanArchitecture.Infrastructure.Persistence\**\*" />
+    <EmbeddedResource Remove="**\CleanArchitecture.Infrastructure.Persistence.*\**\*" />
+
+    <None Remove="CleanArchitecture.Infrastructure.Persistence\**\*" />
+    <None Remove="CleanArchitecture.Infrastructure.Persistence.*\**\*" />
+    <None Remove="**\CleanArchitecture.Infrastructure.Persistence\**\*" />
+    <None Remove="**\CleanArchitecture.Infrastructure.Persistence.*\**\*" />
+
+    <Content Remove="CleanArchitecture.Infrastructure.Persistence\**\*" />
+    <Content Remove="CleanArchitecture.Infrastructure.Persistence.*\**\*" />
+    <Content Remove="**\CleanArchitecture.Infrastructure.Persistence\**\*" />
+    <Content Remove="**\CleanArchitecture.Infrastructure.Persistence.*\**\*" />
+  </ItemGroup>
+</Project>

@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Application.Abstractions.ROP;
+using CleanArchitecture.Domain.Common;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 
@@ -13,11 +14,13 @@ public sealed class AddTodoHandler : IUseCase<AddTodoRequest, AddTodoResponse>
 {
     private readonly ITodoRepository _repo;
     private readonly IUnitOfWork _uow;
+    private readonly IDomainEventPublisher _publisher;
 
-    public AddTodoHandler(ITodoRepository repo, IUnitOfWork uow)
+    public AddTodoHandler(ITodoRepository repo, IUnitOfWork uow, IDomainEventPublisher publisher)
     {
         _repo = repo;
         _uow = uow;
+        _publisher = publisher;
     }
 
     public async Task<Result<AddTodoResponse>> Handle(AddTodoRequest request, CancellationToken ct = default)
@@ -33,6 +36,12 @@ public sealed class AddTodoHandler : IUseCase<AddTodoRequest, AddTodoResponse>
 
             await _repo.AddAsync(todo, ct);
             await _uow.SaveChangesAsync(ct);
+
+            // Publish domain events after commit
+            var events = todo.DomainEvents.ToArray();
+            if (events.Length > 0)
+                await _publisher.PublishAsync(events, ct);
+            todo.ClearEvents();
 
             var response = new AddTodoResponse { Id = todo.Id.ToString(), Title = todo.Title };
             return Result<AddTodoResponse>.Ok(response);

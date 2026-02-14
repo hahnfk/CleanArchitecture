@@ -2,6 +2,7 @@
 
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Common;
+
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>

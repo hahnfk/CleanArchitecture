@@ -1,7 +1,6 @@
 ﻿
 namespace CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo
 {
-    [Serializable]
     internal class DuplicateTodoTitleException : Exception
     {
         public DuplicateTodoTitleException()

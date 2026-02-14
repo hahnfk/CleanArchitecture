@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>CleanArchitecture.Infrastructure.Persistence</AssemblyName>
+    <RootNamespace>CleanArchitecture.Infrastructure.Persistence</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\\CleanArchitecture.Application\\CleanArchitecture.Application.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Infrastructure.InMemory\\CleanArchitecture.Infrastructure.InMemory.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj" />
+  </ItemGroup>
+
+</Project>

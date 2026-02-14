@@ -1,0 +1,15 @@
+<Solution>
+  <Project Path="CleanArchitecture.Application\CleanArchitecture.Application.csproj" />
+  <Project Path="CleanArchitecture.Domain\CleanArchitecture.Domain.csproj" />
+  <Project Path="CleanArchitecture.Contracts\CleanArchitecture.Contracts.csproj" />
+  <Project Path="CleanArchitecture.Infrastructure.Composition\CleanArchitecture.Infrastructure.Composition.csproj" />
+  <Project Path="CleanArchitecture.Infrastructure.InMemory\CleanArchitecture.Infrastructure.InMemory.csproj" />
+  <Project Path="CleanArchitecture.Infrastructure.EfCore.Sqlite\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj" />
+  <Project Path="CleanArchitecture.Presentation.Wpf\CleanArchitecture.Presentation.Wpf.csproj" />
+  <Project Path="CleanArchitecture.Presentation.BlazorWebApp\CleanArchitecture.Presentation.BlazorWebApp.csproj" />
+  <Project Path="CleanArchitecture.Domain.UnitTests\CleanArchitecture.Domain.UnitTests.csproj" />
+  <Project Path="CleanArchitecture.Application.UnitTests\CleanArchitecture.Application.UnitTests.csproj" />
+  <Project Path="CleanArchitecture.Presentation.Wpf.ViewModelTests\CleanArchitecture.Presentation.Wpf.ViewModelTests.csproj" />
+  <Project Path="CleanArchitecture.Infrastructure.InMemory.IntegrationTests\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj" />
+  <Project Path="CleanArchitecture.ArchitectureTests\CleanArchitecture.ArchitectureTests.csproj" />
+</Solution>
