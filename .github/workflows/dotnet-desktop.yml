@@ -51,66 +51,67 @@ jobs:
         shell: pwsh
         run: |
           msbuild "$env:Solution_Name" /t:Build /p:Configuration=${{ matrix.configuration }} /v:m /nologo
-- name: Test (parallel, all test projects)
-  shell: pwsh
-  run: |
-    $ErrorActionPreference = "Stop"
 
-    Write-Host "PowerShell version: $($PSVersionTable.PSVersion)"
+      - name: Test (parallel, all test projects)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
 
-    $testProjects = Get-ChildItem -Recurse -Filter *.csproj | Where-Object {
-      $_.Name -match '\.(UnitTests|IntegrationTests|ArchitectureTests)\.csproj$'
-    } | Sort-Object FullName
+          Write-Host "PowerShell version: $($PSVersionTable.PSVersion)"
 
-    if (-not $testProjects) {
-      throw "No test projects found matching *.UnitTests.csproj / *.IntegrationTests.csproj / *.ArchitectureTests.csproj"
-    }
+          $testProjects = Get-ChildItem -Recurse -Filter *.csproj | Where-Object {
+            $_.Name -match '\.(UnitTests|IntegrationTests|ArchitectureTests)\.csproj$'
+          } | Sort-Object FullName
 
-    Write-Host "Found $($testProjects.Count) test projects."
+          if (-not $testProjects) {
+            throw "No test projects found matching *.UnitTests.csproj / *.IntegrationTests.csproj / *.ArchitectureTests.csproj"
+          }
 
-    # Use thread jobs (PS7+) for reliable parallel execution within the same process.
-    Import-Module ThreadJob -ErrorAction SilentlyContinue
+          Write-Host "Found $($testProjects.Count) test projects."
 
-    $throttle = 4
-    $jobs = New-Object System.Collections.Generic.List[object]
+          # Use thread jobs (PS7+) for reliable parallel execution within the same process.
+          Import-Module ThreadJob -ErrorAction SilentlyContinue
 
-    foreach ($proj in $testProjects) {
+          $throttle = 4
+          $jobs = New-Object System.Collections.Generic.List[object]
 
-      while ( ($jobs | Where-Object { $_.State -eq 'Running' }).Count -ge $throttle ) {
-        Start-Sleep -Seconds 1
-      }
+          foreach ($proj in $testProjects) {
 
-      $job = Start-ThreadJob -ScriptBlock {
-        param($projPath, $cfg)
+            while ( ($jobs | Where-Object { $_.State -eq 'Running' }).Count -ge $throttle ) {
+              Start-Sleep -Seconds 1
+            }
 
-        Write-Host "Running tests: $projPath"
+            $job = Start-ThreadJob -ScriptBlock {
+              param($projPath, $cfg)
 
-        dotnet test "$projPath" `
-          --configuration $cfg `
-          --no-build `
-          --verbosity normal
+              Write-Host "Running tests: $projPath"
 
-        [pscustomobject]@{
-          Project  = $projPath
-          ExitCode = $LASTEXITCODE
-        }
-      } -ArgumentList $proj.FullName, "${{ matrix.configuration }}"
+              dotnet test "$projPath" `
+                --configuration $cfg `
+                --no-build `
+                --verbosity normal
 
-      $jobs.Add($job) | Out-Null
-    }
+              [pscustomobject]@{
+                Project  = $projPath
+                ExitCode = $LASTEXITCODE
+              }
+            } -ArgumentList $proj.FullName, "${{ matrix.configuration }}"
 
-    # Wait and collect results
-    $results = Receive-Job -Job $jobs -Wait -AutoRemoveJob
+            $jobs.Add($job) | Out-Null
+          }
 
-    $failed = $results | Where-Object { $_.ExitCode -ne 0 }
+          # Wait and collect results
+          $results = Receive-Job -Job $jobs -Wait -AutoRemoveJob
 
-    if ($failed) {
-      Write-Host "Failed test projects:"
-      $failed | ForEach-Object { Write-Host " - $($_.Project) (exit $($_.ExitCode))" }
-      exit 1
-    }
+          $failed = $results | Where-Object { $_.ExitCode -ne 0 }
 
-    Write-Host "All test projects passed."
+          if ($failed) {
+            Write-Host "Failed test projects:"
+            $failed | ForEach-Object { Write-Host " - $($_.Project) (exit $($_.ExitCode))" }
+            exit 1
+          }
+
+          Write-Host "All test projects passed."
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
