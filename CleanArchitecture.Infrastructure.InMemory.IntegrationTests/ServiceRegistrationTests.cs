@@ -2,7 +2,7 @@
 
 using CleanArchitecture.Application.Abstractions;
 
-namespace CleanArchitecture.Infrastructure.InMemory.Tests;
+namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
 
 public sealed class ServiceRegistrationTests
 {

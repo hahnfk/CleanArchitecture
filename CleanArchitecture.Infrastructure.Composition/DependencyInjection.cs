@@ -4,7 +4,7 @@ using CleanArchitecture.Infrastructure.InMemory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Infrastructure.Composition;
+namespace CleanArchitecture.Composition;
 
 /// <summary>
 /// Infrastructure composition root for persistence.

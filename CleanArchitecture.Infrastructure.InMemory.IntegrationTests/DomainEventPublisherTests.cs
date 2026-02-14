@@ -6,9 +6,8 @@ using CleanArchitecture.Domain.Common;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
-using CleanArchitecture.Infrastructure.InMemory.Events;
 
-namespace CleanArchitecture.Infrastructure.InMemory.Tests;
+namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
 
 public sealed class DomainEventPublisherTests
 {
@@ -50,7 +49,7 @@ public sealed class DomainEventPublisherTests
         var publisher = sp.GetRequiredService<IDomainEventPublisher>();
 
         // Act
-        await publisher.PublishAsync(Enumerable.Empty<IDomainEvent>(), CancellationToken.None);
+        await publisher.PublishAsync([], CancellationToken.None);
 
         // Assert
         // nothing to assert: test should simply complete without exceptions

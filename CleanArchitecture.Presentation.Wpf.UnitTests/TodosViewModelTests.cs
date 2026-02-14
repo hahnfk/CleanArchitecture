@@ -7,12 +7,12 @@ using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
 using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
-using CleanArchitecture.Presentation.Wpf.Tests.TestHelpers;
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Application.Abstractions.ROP;
 using System.Collections.Immutable;
+using CleanArchitecture.Presentation.Wpf.UnitTests.Extensions;
 
-namespace CleanArchitecture.Presentation.Wpf.Tests.Todos;
+namespace CleanArchitecture.Presentation.Wpf.UnitTests;
 
 public sealed class TodosViewModelTests
 {
@@ -35,13 +35,13 @@ public sealed class TodosViewModelTests
         // List (ROP)
         A.CallTo(list)
             .WithReturnType<Task<Result<ListTodosResponse>>>()
-            .Returns(Task.FromResult(Result<ListTodosResponse>.Ok(new ListTodosResponse { Items = seed.ToImmutableArray() })));
+            .Returns(Task.FromResult(Result<ListTodosResponse>.Ok(new ListTodosResponse { Items = [.. seed] })));
 
         return new TodosViewModel(list, add, rename, delete, complete, reopen);
     }
 
     [Fact]
-    public async Task ctor_Loads_Items_From_Query()
+    public async Task CtorLoadsItemsFromQuery()
     {
         // Arrange
         var seed = new List<ListTodosResponse.TodoDto>
@@ -62,10 +62,10 @@ public sealed class TodosViewModelTests
     }
 
     [Fact]
-    public async Task AddInlineRow_Inserts_New_Editable_Row_At_Top()
+    public async Task AddInlineRowInsertsNewEditableRowAtTop()
     {
         // Arrange
-        var vm = CreateVmWithList(new(), out _, out _, out _, out _, out _, out _);
+        var vm = CreateVmWithList([], out _, out _, out _, out _, out _, out _);
 
         // Act
         await vm.AddCommand.ExecuteAsync();
@@ -80,10 +80,10 @@ public sealed class TodosViewModelTests
     }
 
     [Fact]
-    public async Task SaveNew_Calls_Add_Handler_And_Finalizes_Row()
+    public async Task SaveNewCallsAddHandlerAndFinalizesRow()
     {
         // Arrange
-        var vm = CreateVmWithList(new(), out var add, out _, out _, out _, out _, out _);
+        var vm = CreateVmWithList([], out var add, out _, out _, out _, out _, out _);
         await vm.AddCommand.ExecuteAsync();
         var row = vm.Items.First();
         row.EditableTitle = "New Todo";
@@ -109,7 +109,7 @@ public sealed class TodosViewModelTests
     }
 
     [Fact]
-    public async Task StartEdit_And_SaveEdit_Renames_Title_Via_Handler()
+    public async Task StartEditAndSaveEditRenamesTitleViaHandler()
     {
         // Arrange
         var seed = new List<ListTodosResponse.TodoDto> { new("99", "Old", false) };
@@ -139,7 +139,7 @@ public sealed class TodosViewModelTests
     }
 
     [Fact]
-    public async Task Delete_Removes_Row_And_Calls_Handler()
+    public async Task DeleteRemovesRowAndCallsHandler()
     {
         // Arrange
         var seed = new List<ListTodosResponse.TodoDto> { new("1", "A", false) };
@@ -166,7 +166,7 @@ public sealed class TodosViewModelTests
     }
 
     [Fact]
-    public async Task Toggling_IsCompleted_Invokes_Complete_Or_Reopen()
+    public async Task TogglingIsCompletedInvokesCompleteOrReopen()
     {
         // Arrange
         var seed = new List<ListTodosResponse.TodoDto> { new("7", "X", false) };

@@ -3,7 +3,7 @@ using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 
-namespace CleanArchitecture.Infrastructure.InMemory.Tests;
+namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
 
 public sealed class InMemoryTodoRepositoryTests
 {

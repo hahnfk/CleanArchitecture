@@ -1,28 +1,28 @@
 using NetArchTest.Rules;
 
-namespace CleanArchitecture.ArchitectureTests
+namespace CleanArchitecture.ArchitectureTests.Rules
 {
     /// <summary>
     /// Enforces Clean Architecture layering rules.
     /// </summary>
     public class LayeringRules
     {
-        private static readonly System.Reflection.Assembly Domain = typeof(CleanArchitecture.Domain.NamespaceDoc).Assembly;
-        private static readonly System.Reflection.Assembly Application = typeof(CleanArchitecture.Application.NamespaceDoc).Assembly;
-        private static readonly System.Reflection.Assembly InfrastructureInMemory = typeof(CleanArchitecture.Infrastructure.InMemory.NamespaceDoc).Assembly;
-        private static readonly System.Reflection.Assembly PresentationWpf = typeof(CleanArchitecture.Presentation.Wpf.NamespaceDoc).Assembly;
-        private static readonly System.Reflection.Assembly PresentationBlazor = typeof(CleanArchitecture.Presentation.BlazorWebApp.NamespaceDoc).Assembly;
+        private static readonly System.Reflection.Assembly _domain = typeof(Domain.NamespaceDoc).Assembly;
+        private static readonly System.Reflection.Assembly _application = typeof(Application.NamespaceDoc).Assembly;
+        private static readonly System.Reflection.Assembly _infrastructureInMemory = typeof(Infrastructure.InMemory.NamespaceDoc).Assembly;
+        private static readonly System.Reflection.Assembly _presentationWpf = typeof(Presentation.Wpf.NamespaceDoc).Assembly;
+        private static readonly System.Reflection.Assembly _presentationBlazor = typeof(Presentation.BlazorWebApp.NamespaceDoc).Assembly;
 
         [Fact]
         public void Domain_Should_Not_Depend_On_Other_Layers()
         {
-            var result = Types.InAssembly(Domain)
+            var result = Types.InAssembly(_domain)
                 .ShouldNot()
-                .HaveDependencyOnAny(new[] {
+                .HaveDependencyOnAny([
                     "CleanArchitecture.Application",
                     "CleanArchitecture.Infrastructure",
                     "CleanArchitecture.Presentation"
-                })
+                ])
                 .GetResult();
 
             Assert.True(result.IsSuccessful, 
@@ -34,12 +34,12 @@ namespace CleanArchitecture.ArchitectureTests
         [Fact]
         public void Application_Should_Not_Depend_On_Infrastructure_Or_Presentation()
         {
-            var result = Types.InAssembly(Application)
+            var result = Types.InAssembly(_application)
                 .ShouldNot()
-                .HaveDependencyOnAny(new[] {
+                .HaveDependencyOnAny([
                     "CleanArchitecture.Infrastructure",
                     "CleanArchitecture.Presentation"
-                })
+                ])
                 .GetResult();
 
             Assert.True(result.IsSuccessful, 
@@ -48,28 +48,28 @@ namespace CleanArchitecture.ArchitectureTests
                     : null);
         }
 
-        //[Fact]
-        //public void Presentation_Should_Not_Depend_On_Infrastructure()
-        //{
-        //    var result = Types.InAssemblies(new[] { PresentationWpf, PresentationBlazor })
-        //        .ShouldNot()
-        //        .HaveDependencyOn("CleanArchitecture.Infrastructure")
-        //        .GetResult();
+        [Fact]
+        public void PresentationShouldNotDependOnInfrastructure()
+        {
+            var result = Types.InAssemblies([_presentationWpf, _presentationBlazor])
+                .ShouldNot()
+                .HaveDependencyOn("CleanArchitecture.Infrastructure")
+                .GetResult();
 
-        //    Assert.True(result.IsSuccessful, 
-        //        result.FailingTypeNames != null && result.FailingTypeNames.Any()
-        //            ? $"Failing types: {string.Join(", ", result.FailingTypeNames)}"
-        //            : null);
-        //}
+            Assert.True(result.IsSuccessful,
+                result.FailingTypeNames != null && result.FailingTypeNames.Any()
+                    ? $"Failing types: {string.Join(", ", result.FailingTypeNames)}"
+                    : null);
+        }
 
         [Fact]
         public void Infrastructure_Should_Not_Depend_On_Presentation()
         {
-            var result = Types.InAssembly(InfrastructureInMemory)
+            var result = Types.InAssembly(_infrastructureInMemory)
                 .ShouldNot()
-                .HaveDependencyOnAny(new[] {
+                .HaveDependencyOnAny([
                     "CleanArchitecture.Presentation"
-                })
+                ])
                 .GetResult();
 
             Assert.True(result.IsSuccessful, 

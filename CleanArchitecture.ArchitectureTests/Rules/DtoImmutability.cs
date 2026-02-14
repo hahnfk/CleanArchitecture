@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace CleanArchitecture.ArchitectureTests
+namespace CleanArchitecture.ArchitectureTests.Rules
 {
     /// <summary>
     /// Example "fitness function" without external libs:
@@ -8,12 +8,12 @@ namespace CleanArchitecture.ArchitectureTests
     /// </summary>
     public class DtoImmutability
     {
-        private static readonly Assembly Application = typeof(CleanArchitecture.Application.NamespaceDoc).Assembly;
+        private static readonly Assembly _application = typeof(Application.NamespaceDoc).Assembly;
 
         [Fact]
         public void Dtos_Should_Be_Immutable_When_Named_Dto()
         {
-            var types = Application
+            var types = _application
                 .GetTypes()
                 .Where(t => t.IsClass && t.Namespace != null && t.Name.EndsWith("Dto"));
 

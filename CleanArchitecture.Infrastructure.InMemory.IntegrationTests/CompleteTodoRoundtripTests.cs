@@ -3,11 +3,10 @@ using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
-using CleanArchitecture.Infrastructure.InMemory.Events;
 using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Infrastructure.InMemory.Tests.Integration.Todos;
+namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
 
 public sealed class CompleteTodoRoundtripTests
 {

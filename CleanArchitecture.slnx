@@ -14,6 +14,6 @@
   <Project Path="CleanArchitecture.Application.UnitTests\CleanArchitecture.Application.UnitTests.csproj" />
   <Project Path="CleanArchitecture.Infrastructure.InMemory.IntegrationTests\CleanArchitecture.Infrastructure.InMemory.IntegrationTests.csproj" />
   <Project Path="CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests\CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests.csproj" />
-  <Project Path="CleanArchitecture.Presentation.Wpf.ViewModelTests\CleanArchitecture.Presentation.Wpf.ViewModelTests.csproj" />
+  <Project Path="CleanArchitecture.Presentation.Wpf.UnitTests\CleanArchitecture.Presentation.Wpf.UnitTests.csproj" />
   <Project Path="CleanArchitecture.ArchitectureTests\CleanArchitecture.ArchitectureTests.csproj" />
 </Solution>

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using CleanArchitecture.Presentation.Wpf.Commands;
 
-namespace CleanArchitecture.Presentation.Wpf.Tests.TestHelpers;
+namespace CleanArchitecture.Presentation.Wpf.UnitTests.Extensions;
 
 public static class CommandTestExtensions
 {
@@ -12,7 +12,7 @@ public static class CommandTestExtensions
     /// </summary>
     public static Task ExecuteAsync(this ICommand? cmd, object? parameter = null)
     {
-        if (cmd is null) throw new ArgumentNullException(nameof(cmd));
+        ArgumentNullException.ThrowIfNull(cmd);
 
         // 1) Deine eigene AsyncRelayCommand (nicht generisch)
         if (cmd is AsyncRelayCommand mine)

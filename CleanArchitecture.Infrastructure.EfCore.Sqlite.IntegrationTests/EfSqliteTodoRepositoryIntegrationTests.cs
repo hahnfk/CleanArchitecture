@@ -1,16 +1,10 @@
-namespace CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests;
-
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 
-public sealed class EfSqliteTodoRepositoryIntegrationTests : IClassFixture<EfSqliteTestHost>
+namespace CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests;
+public sealed class EfSqliteTodoRepositoryIntegrationTests(EfSqliteTestHost host) : IClassFixture<EfSqliteTestHost>
 {
-    private readonly EfSqliteTestHost _host;
-
-    public EfSqliteTodoRepositoryIntegrationTests(EfSqliteTestHost host) => _host = host;
+    private readonly EfSqliteTestHost _host = host;
 
     [Fact]
     public async Task Add_And_List_Persists_Items()

@@ -2,7 +2,7 @@ using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
 
-namespace CleanArchitecture.Domain.UnitTests.Todos;
+namespace CleanArchitecture.Domain.UnitTests;
 
 public sealed class TodoItemTests
 {

@@ -1,14 +1,13 @@
 using NetArchTest.Rules;
-using Xunit;
 
-namespace CleanArchitecture.ArchitectureTests
+namespace CleanArchitecture.ArchitectureTests.Rules
 {
     /// <summary>
     /// Simple naming convention rules (adjust as needed).
     /// </summary>
     public class NamingConventions
     {
-        private static readonly System.Reflection.Assembly Application = typeof(CleanArchitecture.Application.NamespaceDoc).Assembly;
+        private static readonly System.Reflection.Assembly Application = typeof(Application.NamespaceDoc).Assembly;
 
         [Fact]
         public void UseCases_Should_End_With_UseCase()
