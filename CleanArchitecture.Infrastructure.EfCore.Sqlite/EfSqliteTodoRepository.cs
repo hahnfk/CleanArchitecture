@@ -50,8 +50,21 @@ internal sealed class EfSqliteTodoRepository : ITodoRepository
         // Upsert-like update: attach a row and mark as modified.
         // This keeps the repo simple; a real-world repo would track diffs / concurrency carefully.
         var row = ToRow(todo);
-        _db.Attach(row);
-        _db.Entry(row).State = EntityState.Modified;
+
+        var existingEntry = _db.ChangeTracker.Entries<TodoRow>()
+            .FirstOrDefault(e => e.Entity.Id == row.Id);
+
+        if (existingEntry is not null)
+        {
+            existingEntry.CurrentValues.SetValues(row);
+            existingEntry.State = EntityState.Modified;
+        }
+        else
+        {
+            _db.Attach(row);
+            _db.Entry(row).State = EntityState.Modified;
+        }
+
         return Task.CompletedTask;
     }
 
