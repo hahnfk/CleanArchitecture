@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-using CleanArchitecture.Application.Abstractions;
+﻿using CleanArchitecture.Application.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
 

@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Application.Abstractions.ROP;
-using CleanArchitecture.Domain.Common;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 

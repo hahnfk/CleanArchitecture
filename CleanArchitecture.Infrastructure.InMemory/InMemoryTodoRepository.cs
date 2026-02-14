@@ -1,9 +1,9 @@
 ﻿namespace CleanArchitecture.Infrastructure.InMemory;
 
-using System.Collections.Concurrent;
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
+using System.Collections.Concurrent;
 
 /// <summary>
 /// Thread-safe in-memory repository implementing the application's output port.
@@ -16,13 +16,13 @@ internal sealed class InMemoryTodoRepository : ITodoRepository
 
     public Task AddAsync(TodoItem todo, CancellationToken ct = default)
     {
-        _store[todo.Id.Value] = todo; // Upsert semantics are fine for the demo
+        _store [todo.Id.Value] = todo; // Upsert semantics are fine for the demo
         return Task.CompletedTask;
     }
 
     public Task AddRangeAsync(IEnumerable<TodoItem> todos, CancellationToken ct = default)
     {
-        foreach (var todo in todos) _store[todo.Id.Value] = todo;
+        foreach (var todo in todos) _store [todo.Id.Value] = todo;
         return Task.CompletedTask;
     }
 
@@ -47,7 +47,7 @@ internal sealed class InMemoryTodoRepository : ITodoRepository
 
     public Task UpdateAsync(TodoItem todo, CancellationToken ct = default)
     {
-        _store[todo.Id.Value] = todo;
+        _store [todo.Id.Value] = todo;
         return Task.CompletedTask;
     }
 }

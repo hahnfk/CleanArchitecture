@@ -25,7 +25,7 @@ namespace CleanArchitecture.ArchitectureTests.Rules
                 ])
                 .GetResult();
 
-            Assert.True(result.IsSuccessful, 
+            Assert.True(result.IsSuccessful,
                 result.FailingTypeNames != null && result.FailingTypeNames.Any()
                     ? $"Failing types: {string.Join(", ", result.FailingTypeNames)}"
                     : null);
@@ -42,7 +42,7 @@ namespace CleanArchitecture.ArchitectureTests.Rules
                 ])
                 .GetResult();
 
-            Assert.True(result.IsSuccessful, 
+            Assert.True(result.IsSuccessful,
                 result.FailingTypeNames != null && result.FailingTypeNames.Any()
                     ? $"Failing types: {string.Join(", ", result.FailingTypeNames)}"
                     : null);
@@ -72,7 +72,7 @@ namespace CleanArchitecture.ArchitectureTests.Rules
                 ])
                 .GetResult();
 
-            Assert.True(result.IsSuccessful, 
+            Assert.True(result.IsSuccessful,
                 result.FailingTypeNames != null && result.FailingTypeNames.Any()
                     ? $"Failing types: {string.Join(", ", result.FailingTypeNames)}"
                     : null);

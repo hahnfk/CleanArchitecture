@@ -20,8 +20,8 @@ namespace CleanArchitecture.ArchitectureTests.Rules
                 ])
                 .GetResult();
 
-            Assert.True(result.IsSuccessful, 
-                result.IsSuccessful ? null : 
+            Assert.True(result.IsSuccessful,
+                result.IsSuccessful ? null :
                 "Failing types: " + string.Join(", ", result.FailingTypeNames));
         }
 
@@ -36,8 +36,8 @@ namespace CleanArchitecture.ArchitectureTests.Rules
                 ])
                 .GetResult();
 
-            Assert.True(result.IsSuccessful, 
-                result.IsSuccessful ? null : 
+            Assert.True(result.IsSuccessful,
+                result.IsSuccessful ? null :
                 "Failing types: " + string.Join(", ", result.FailingTypeNames));
         }
     }

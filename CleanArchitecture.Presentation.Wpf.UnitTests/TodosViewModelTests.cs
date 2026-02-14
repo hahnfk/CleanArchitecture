@@ -1,16 +1,14 @@
-using FakeItEasy;
-
-using CleanArchitecture.Presentation.Wpf.ViewModels;
-using CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
-using CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
-using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
-using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
-using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
-using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Application.Abstractions.ROP;
-using System.Collections.Immutable;
+using CleanArchitecture.Application.UseCases.Todos.Commands.AddTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.RenameTodo;
+using CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
+using CleanArchitecture.Application.UseCases.Todos.Queries.ListTodos;
 using CleanArchitecture.Presentation.Wpf.UnitTests.Extensions;
+using CleanArchitecture.Presentation.Wpf.ViewModels;
+using FakeItEasy;
 
 namespace CleanArchitecture.Presentation.Wpf.UnitTests;
 

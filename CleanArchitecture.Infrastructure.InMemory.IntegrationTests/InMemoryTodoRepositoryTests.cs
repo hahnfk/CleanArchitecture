@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using CleanArchitecture.Application.Abstractions;
+﻿using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
 

@@ -2,6 +2,7 @@ using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 
 namespace CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests;
+
 public sealed class EfSqliteTodoRepositoryIntegrationTests(EfSqliteTestHost host) : IClassFixture<EfSqliteTestHost>
 {
     private readonly EfSqliteTestHost _host = host;

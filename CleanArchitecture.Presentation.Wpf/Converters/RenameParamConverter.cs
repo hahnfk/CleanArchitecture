@@ -1,8 +1,8 @@
 ﻿namespace CleanArchitecture.Presentation.Wpf.Converters;
 
+using CleanArchitecture.Presentation.Wpf.Models;
 using System.Globalization;
 using System.Windows.Data;
-using CleanArchitecture.Presentation.Wpf.Models;
 
 /// <summary>
 /// Builds a RenameParam from ListViewItem.Id and TitleEditor.Text

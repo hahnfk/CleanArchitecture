@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using CleanArchitecture.Presentation.Wpf.Commands;
+﻿using CleanArchitecture.Presentation.Wpf.Commands;
+using System.Windows.Input;
 
 namespace CleanArchitecture.Presentation.Wpf.UnitTests.Extensions;
 

@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
 namespace CleanArchitecture.Infrastructure.EfCore.Sqlite.Db;

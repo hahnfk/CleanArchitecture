@@ -1,4 +1,5 @@
 ﻿namespace CleanArchitecture.Presentation.Wpf;
+
 using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection

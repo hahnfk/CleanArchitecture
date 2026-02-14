@@ -1,13 +1,13 @@
 namespace CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests;
 
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Contracts.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Creates a fresh, file-based SQLite database per test fixture.

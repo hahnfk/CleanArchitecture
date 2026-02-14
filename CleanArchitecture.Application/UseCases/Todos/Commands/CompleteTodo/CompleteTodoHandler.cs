@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Application.Abstractions.ROP;
+using CleanArchitecture.Domain.Identity;
 
 namespace CleanArchitecture.Application.UseCases.Todos.Commands.CompleteTodo;
 

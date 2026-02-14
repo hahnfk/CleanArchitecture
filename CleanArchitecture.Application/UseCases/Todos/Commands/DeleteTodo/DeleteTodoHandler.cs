@@ -1,8 +1,8 @@
 ﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.DeleteTodo;
 
 using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Application.Abstractions.ROP;
+using CleanArchitecture.Domain.Identity;
 
 /// <summary>
 /// Use case: delete a todo aggregate.

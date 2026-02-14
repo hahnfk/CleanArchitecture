@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using CleanArchitecture.Presentation.Wpf.ViewModels;
+﻿using CleanArchitecture.Presentation.Wpf.ViewModels;
+using System.Windows;
 
 namespace CleanArchitecture.Presentation.Wpf;
 

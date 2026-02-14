@@ -75,7 +75,7 @@ public sealed class TodoItemTests
         Assert.False(Todo.IsCompleted);
         var events = Todo.DomainEvents.OfType<TodoReopenedDomainEvent>().ToList();
         Assert.Single(events);
-        Assert.Equal(Todo.Id, events[0].TodoId);
+        Assert.Equal(Todo.Id, events [0].TodoId);
     }
 
     [Fact]

@@ -1,9 +1,8 @@
 ﻿namespace CleanArchitecture.Application.UseCases.Todos.Commands.ReopenTodo;
 
 using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Domain.Common;
-using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Application.Abstractions.ROP;
+using CleanArchitecture.Domain.Identity;
 
 /// <summary>
 /// Use case: reopen a todo that has been completed.

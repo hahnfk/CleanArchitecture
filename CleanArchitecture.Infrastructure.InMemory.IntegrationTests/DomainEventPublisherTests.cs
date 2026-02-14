@@ -1,11 +1,9 @@
-﻿using FakeItEasy;
-using Microsoft.Extensions.DependencyInjection;
-
-using CleanArchitecture.Application.Abstractions;
-using CleanArchitecture.Domain.Common;
+﻿using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 using CleanArchitecture.Domain.Todos.Events;
+using FakeItEasy;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
 
