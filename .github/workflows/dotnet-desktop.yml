@@ -56,6 +56,8 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
 
+          Write-Host "PowerShell version: $($PSVersionTable.PSVersion)"
+
           $testProjects = Get-ChildItem -Recurse -Filter *.csproj | Where-Object {
             $_.Name -match '\.(UnitTests|IntegrationTests|ArchitectureTests)\.csproj$'
           } | Sort-Object FullName
@@ -65,32 +67,72 @@ jobs:
           }
 
           Write-Host "Found $($testProjects.Count) test projects."
+
+          # Throttle parallel project execution to avoid resource exhaustion on the runner.
           $throttle = 4
+          $jobs = New-Object System.Collections.Generic.List[object]
 
-          $results = $testProjects | ForEach-Object -Parallel {
-            param($configuration)
+          function Start-TestJob([string]$ProjectPath, [string]$Configuration) {
+            Start-Job -ScriptBlock {
+              param($proj, $cfg)
 
-            $proj = $_.FullName
-            Write-Host "Running tests: $proj"
+              Write-Host "Running tests: $proj"
 
-            dotnet test "$proj" `
-              --configuration $configuration `
-              --no-build `
-              --verbosity normal
+              dotnet test "$proj" `
+                --configuration $cfg `
+                --no-build `
+                --verbosity normal
 
-            [pscustomobject]@{
-              Project = $proj
-              ExitCode = $LASTEXITCODE
+              exit $LASTEXITCODE
+            } -ArgumentList $ProjectPath, $Configuration
+          }
+
+          foreach ($proj in $testProjects) {
+
+            # Wait until we have a free slot
+            while ( ($jobs | Where-Object { $_.State -eq 'Running' }).Count -ge $throttle ) {
+              Start-Sleep -Seconds 1
+              $jobs = @($jobs | ForEach-Object { Receive-Job -Job $_ -Keep -ErrorAction SilentlyContinue; $_ })
             }
-          } -ThrottleLimit $throttle -ArgumentList "${{ matrix.configuration }}"
 
-          $failed = $results | Where-Object { $_.ExitCode -ne 0 }
+            $job = Start-TestJob -ProjectPath $proj.FullName -Configuration "${{ matrix.configuration }}"
+            $jobs.Add($job) | Out-Null
+          }
 
-          if ($failed) {
-            Write-Host "Failed test projects:"
-            $failed | ForEach-Object { Write-Host " - $($_.Project) (exit $($_.ExitCode))" }
+          # Wait for all jobs to finish
+          Wait-Job -Job $jobs | Out-Null
+
+          # Collect results + output
+          $failed = @()
+          foreach ($job in $jobs) {
+            # Emit output to log
+            Receive-Job -Job $job -Keep | Write-Host
+
+            if ($job.State -ne 'Completed') {
+              $failed += $job
+              continue
+            }
+
+            if ($job.ChildJobs[0].JobStateInfo.Reason) {
+              # Non-terminating exceptions may bubble here
+              $failed += $job
+              continue
+            }
+
+            if ($job.ChildJobs[0].ExitCode -ne 0) {
+              $failed += $job
+            }
+          }
+
+          if ($failed.Count -gt 0) {
+            Write-Host "One or more test projects failed."
+            foreach ($job in $failed) {
+              Write-Host " - JobId $($job.Id) (State: $($job.State))"
+            }
             exit 1
           }
+
+          Write-Host "All test projects passed."
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
