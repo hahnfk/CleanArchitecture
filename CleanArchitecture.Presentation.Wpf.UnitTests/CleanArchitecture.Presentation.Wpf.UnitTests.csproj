@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
@@ -18,9 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture.Application\CleanArchitecture.Application.csproj" />
-    <ProjectReference Include="..\CleanArchitecture.Infrastructure.Composition\CleanArchitecture.Infrastructure.Composition.csproj" />
-    <ProjectReference Include="..\CleanArchitecture.Presentation.Wpf\CleanArchitecture.Presentation.Wpf.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Application\\CleanArchitecture.Application.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Infrastructure.Composition\\CleanArchitecture.Infrastructure.Composition.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Presentation.Wpf\\CleanArchitecture.Presentation.Wpf.csproj" />
   </ItemGroup>
 
 </Project>

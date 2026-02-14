@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -18,15 +18,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture.Infrastructure.EfCore.Sqlite\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj" />
-    <ProjectReference Include="..\CleanArchitecture.Application\CleanArchitecture.Application.csproj" />
-    <ProjectReference Include="..\CleanArchitecture.Domain\CleanArchitecture.Domain.csproj" />
-    <ProjectReference Include="..\CleanArchitecture.Contracts\CleanArchitecture.Contracts.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Infrastructure.EfCore.Sqlite\\CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Application\\CleanArchitecture.Application.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Domain\\CleanArchitecture.Domain.csproj" />
+    <ProjectReference Include="..\\CleanArchitecture.Contracts\\CleanArchitecture.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
