@@ -11,6 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  # Visual Studio 2026 solution file
   Solution_Name: CleanArchitecture.slnx
 
 jobs:
@@ -50,89 +51,66 @@ jobs:
         shell: pwsh
         run: |
           msbuild "$env:Solution_Name" /t:Build /p:Configuration=${{ matrix.configuration }} /v:m /nologo
+- name: Test (parallel, all test projects)
+  shell: pwsh
+  run: |
+    $ErrorActionPreference = "Stop"
 
-      - name: Test (parallel, all test projects)
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = "Stop"
+    Write-Host "PowerShell version: $($PSVersionTable.PSVersion)"
 
-          Write-Host "PowerShell version: $($PSVersionTable.PSVersion)"
+    $testProjects = Get-ChildItem -Recurse -Filter *.csproj | Where-Object {
+      $_.Name -match '\.(UnitTests|IntegrationTests|ArchitectureTests)\.csproj$'
+    } | Sort-Object FullName
 
-          $testProjects = Get-ChildItem -Recurse -Filter *.csproj | Where-Object {
-            $_.Name -match '\.(UnitTests|IntegrationTests|ArchitectureTests)\.csproj$'
-          } | Sort-Object FullName
+    if (-not $testProjects) {
+      throw "No test projects found matching *.UnitTests.csproj / *.IntegrationTests.csproj / *.ArchitectureTests.csproj"
+    }
 
-          if (-not $testProjects) {
-            throw "No test projects found matching *.UnitTests.csproj / *.IntegrationTests.csproj / *.ArchitectureTests.csproj"
-          }
+    Write-Host "Found $($testProjects.Count) test projects."
 
-          Write-Host "Found $($testProjects.Count) test projects."
+    # Use thread jobs (PS7+) for reliable parallel execution within the same process.
+    Import-Module ThreadJob -ErrorAction SilentlyContinue
 
-          # Throttle parallel project execution to avoid resource exhaustion on the runner.
-          $throttle = 4
-          $jobs = New-Object System.Collections.Generic.List[object]
+    $throttle = 4
+    $jobs = New-Object System.Collections.Generic.List[object]
 
-          function Start-TestJob([string]$ProjectPath, [string]$Configuration) {
-            Start-Job -ScriptBlock {
-              param($proj, $cfg)
+    foreach ($proj in $testProjects) {
 
-              Write-Host "Running tests: $proj"
+      while ( ($jobs | Where-Object { $_.State -eq 'Running' }).Count -ge $throttle ) {
+        Start-Sleep -Seconds 1
+      }
 
-              dotnet test "$proj" `
-                --configuration $cfg `
-                --no-build `
-                --verbosity normal
+      $job = Start-ThreadJob -ScriptBlock {
+        param($projPath, $cfg)
 
-              exit $LASTEXITCODE
-            } -ArgumentList $ProjectPath, $Configuration
-          }
+        Write-Host "Running tests: $projPath"
 
-          foreach ($proj in $testProjects) {
+        dotnet test "$projPath" `
+          --configuration $cfg `
+          --no-build `
+          --verbosity normal
 
-            # Wait until we have a free slot
-            while ( ($jobs | Where-Object { $_.State -eq 'Running' }).Count -ge $throttle ) {
-              Start-Sleep -Seconds 1
-              $jobs = @($jobs | ForEach-Object { Receive-Job -Job $_ -Keep -ErrorAction SilentlyContinue; $_ })
-            }
+        [pscustomobject]@{
+          Project  = $projPath
+          ExitCode = $LASTEXITCODE
+        }
+      } -ArgumentList $proj.FullName, "${{ matrix.configuration }}"
 
-            $job = Start-TestJob -ProjectPath $proj.FullName -Configuration "${{ matrix.configuration }}"
-            $jobs.Add($job) | Out-Null
-          }
+      $jobs.Add($job) | Out-Null
+    }
 
-          # Wait for all jobs to finish
-          Wait-Job -Job $jobs | Out-Null
+    # Wait and collect results
+    $results = Receive-Job -Job $jobs -Wait -AutoRemoveJob
 
-          # Collect results + output
-          $failed = @()
-          foreach ($job in $jobs) {
-            # Emit output to log
-            Receive-Job -Job $job -Keep | Write-Host
+    $failed = $results | Where-Object { $_.ExitCode -ne 0 }
 
-            if ($job.State -ne 'Completed') {
-              $failed += $job
-              continue
-            }
+    if ($failed) {
+      Write-Host "Failed test projects:"
+      $failed | ForEach-Object { Write-Host " - $($_.Project) (exit $($_.ExitCode))" }
+      exit 1
+    }
 
-            if ($job.ChildJobs[0].JobStateInfo.Reason) {
-              # Non-terminating exceptions may bubble here
-              $failed += $job
-              continue
-            }
-
-            if ($job.ChildJobs[0].ExitCode -ne 0) {
-              $failed += $job
-            }
-          }
-
-          if ($failed.Count -gt 0) {
-            Write-Host "One or more test projects failed."
-            foreach ($job in $failed) {
-              Write-Host " - JobId $($job.Id) (State: $($job.State))"
-            }
-            exit 1
-          }
-
-          Write-Host "All test projects passed."
+    Write-Host "All test projects passed."
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
