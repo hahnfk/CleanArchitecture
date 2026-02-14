@@ -11,11 +11,12 @@ public sealed class ServiceRegistrationTests
     {
         // Arrange
         using var sp = TestHost.BuildServices();
+        using var scope = sp.CreateScope();
 
         // Act
-        var repo = sp.GetService<ITodoRepository>();
-        var uow = sp.GetService<IUnitOfWork>();
-        var pub = sp.GetService<IDomainEventPublisher>();
+        var repo = scope.ServiceProvider.GetService<ITodoRepository>();
+        var uow = scope.ServiceProvider.GetService<IUnitOfWork>();
+        var pub = scope.ServiceProvider.GetService<IDomainEventPublisher>();
 
         // Assert
         Assert.NotNull(repo);
