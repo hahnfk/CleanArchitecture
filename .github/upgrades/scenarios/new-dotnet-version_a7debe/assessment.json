@@ -2121,16 +2121,16 @@
           "state": "Active",
           "location": {
             "snippetModel": {
-              "unrestricted": "Current target framework: net8.0-windows\nRecommended target framework: net10.0--windows",
-              "protected": "Current target framework: net8.0-windows\nRecommended target framework: net10.0--windows"
+              "unrestricted": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+              "protected": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows"
             },
             "kind": "File",
             "path": "CleanArchitecture.Presentation.Wpf.UnitTests\\CleanArchitecture.Presentation.Wpf.UnitTests.csproj",
-            "snippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0--windows",
-            "protectedSnippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0--windows",
+            "snippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
+            "protectedSnippet": "Current target framework: net8.0-windows\nRecommended target framework: net10.0-windows",
             "properties": {
               "CurrentTargetFramework": "net8.0-windows",
-              "RecommendedTargetFramework": "net10.0--windows"
+              "RecommendedTargetFramework": "net10.0-windows"
             }
           }
         }
