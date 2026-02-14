@@ -1,6 +1,7 @@
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Contracts.Persistence;
 using CleanArchitecture.Infrastructure.EfCore.Sqlite.Db;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
