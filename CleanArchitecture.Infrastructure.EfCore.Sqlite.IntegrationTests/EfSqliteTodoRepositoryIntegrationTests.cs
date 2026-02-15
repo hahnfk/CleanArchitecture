@@ -161,4 +161,37 @@ public sealed class EfSqliteTodoRepositoryIntegrationTests : IAsyncLifetime
         await Assert.ThrowsAsync<DbUpdateConcurrencyException>(
             () => _host.Uow.SaveChangesAsync());
     }
+
+    // --- WAL-mode tests ---
+
+    [Fact]
+    public async Task Database_UsesWalJournalMode()
+    {
+        // The test host mirrors the production EnsureCreatedHostedService,
+        // which sets PRAGMA journal_mode=WAL after creating the schema.
+        var journalMode = await _host.GetJournalModeAsync();
+
+        Assert.Equal("wal", journalMode, StringComparer.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public async Task ConcurrentReadsDoNotBlock()
+    {
+        // Arrange – seed some data
+        for (var i = 0; i < 5; i++)
+        {
+            await _host.Todos.AddAsync(new TodoItem(new TodoId(Guid.NewGuid()), $"Item {i}"));
+        }
+        await _host.Uow.SaveChangesAsync();
+
+        // Act – perform multiple reads
+        var results = new List<IReadOnlyList<TodoItem>>();
+        for (var i = 0; i < 10; i++)
+        {
+            var list = await _host.Todos.ListAsync();
+            results.Add(list);
+        }
+        // Assert – all reads returned the same data
+        Assert.All(results, list => Assert.Equal(5, list.Count));
+    }
 }

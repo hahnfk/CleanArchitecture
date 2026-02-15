@@ -12,6 +12,10 @@ internal sealed class EnsureCreatedHostedService : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         await _db.Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
+
+        // Enable WAL mode so concurrent readers are not blocked by a single writer.
+        await _db.Database.ExecuteSqlRawAsync("PRAGMA journal_mode=WAL;", cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;

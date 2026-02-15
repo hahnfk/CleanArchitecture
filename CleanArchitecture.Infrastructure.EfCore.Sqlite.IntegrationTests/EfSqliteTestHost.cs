@@ -2,6 +2,7 @@ using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Application;
 using CleanArchitecture.Contracts.Persistence;
 using CleanArchitecture.Infrastructure.Composition.DomainEvents;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -62,6 +63,36 @@ public sealed class EfSqliteTestHost : IAsyncLifetime
     public ITodoRepository Todos => _scope!.ServiceProvider.GetRequiredService<ITodoRepository>();
     public IUnitOfWork Uow => _scope!.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
+    /// <summary>
+    /// Queries the current SQLite journal mode via the internal AppDbContext.
+    /// </summary>
+    public async Task<string> GetJournalModeAsync()
+    {
+        var ctxType = Type.GetType("CleanArchitecture.Infrastructure.EfCore.Sqlite.Db.AppDbContext, CleanArchitecture.Infrastructure.EfCore.Sqlite");
+        if (ctxType is null)
+            throw new InvalidOperationException("Could not resolve AppDbContext type. Check assembly/name changes.");
+
+        var serviceProvider = _scope?.ServiceProvider
+            ?? throw new InvalidOperationException("Service scope is not initialized.");
+
+        var ctx = (DbContext)(serviceProvider.GetService(ctxType)
+            ?? throw new InvalidOperationException("Could not resolve AppDbContext from DI container."));
+        var connection = ctx.Database.GetDbConnection();
+        await connection.OpenAsync().ConfigureAwait(false);
+
+        try
+        {
+            await using var cmd = connection.CreateCommand();
+            cmd.CommandText = "PRAGMA journal_mode;";
+            var result = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
+            return result?.ToString() ?? string.Empty;
+        }
+        finally
+        {
+            await ctx.Database.CloseConnectionAsync().ConfigureAwait(false);
+        }
+    }
+
     private static IConfiguration BuildConfiguration(string dbPath)
     {
         var values = new Dictionary<string, string?>
@@ -82,11 +113,14 @@ public sealed class EfSqliteTestHost : IAsyncLifetime
         if (ctxType is null)
             throw new InvalidOperationException("Could not resolve AppDbContext type. Check assembly/name changes.");
 
-        dynamic? ctx = sp.GetService(ctxType);
-        if (ctx is null)
-            throw new InvalidOperationException("Could not resolve AppDbContext from DI container.");
+        var ctx = (DbContext)(sp.GetService(ctxType)
+            ?? throw new InvalidOperationException("Could not resolve AppDbContext from DI container."));
 
         await ctx.Database.EnsureCreatedAsync(CancellationToken.None).ConfigureAwait(false);
+
+        // Mirror the production EnsureCreatedHostedService: enable WAL mode.
+        await ctx.Database.ExecuteSqlRawAsync("PRAGMA journal_mode=WAL;", CancellationToken.None)
+            .ConfigureAwait(false);
     }
 
     private static void TryDelete(string path)
