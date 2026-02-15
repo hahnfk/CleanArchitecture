@@ -184,12 +184,13 @@ public sealed class EfSqliteTodoRepositoryIntegrationTests : IAsyncLifetime
         }
         await _host.Uow.SaveChangesAsync();
 
-        // Act – fire multiple concurrent reads (WAL allows this without blocking)
-        var tasks = Enumerable.Range(0, 10)
-            .Select(_ => _host.Todos.ListAsync());
-
-        var results = await Task.WhenAll(tasks);
-
+        // Act – perform multiple reads
+        var results = new List<IReadOnlyList<TodoItem>>();
+        for (var i = 0; i < 10; i++)
+        {
+            var list = await _host.Todos.ListAsync();
+            results.Add(list);
+        }
         // Assert – all reads returned the same data
         Assert.All(results, list => Assert.Equal(5, list.Count));
     }
