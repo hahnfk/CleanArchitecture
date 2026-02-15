@@ -80,10 +80,17 @@ public sealed class EfSqliteTestHost : IAsyncLifetime
         var connection = ctx.Database.GetDbConnection();
         await connection.OpenAsync().ConfigureAwait(false);
 
-        await using var cmd = connection.CreateCommand();
-        cmd.CommandText = "PRAGMA journal_mode;";
-        var result = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
-        return result?.ToString() ?? string.Empty;
+        try
+        {
+            await using var cmd = connection.CreateCommand();
+            cmd.CommandText = "PRAGMA journal_mode;";
+            var result = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
+            return result?.ToString() ?? string.Empty;
+        }
+        finally
+        {
+            await ctx.Database.CloseConnectionAsync().ConfigureAwait(false);
+        }
     }
 
     private static IConfiguration BuildConfiguration(string dbPath)
