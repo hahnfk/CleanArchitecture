@@ -21,4 +21,28 @@
     <ProjectReference Include="..\CleanArchitecture.Contracts\CleanArchitecture.Contracts.csproj" />
   </ItemGroup>
 
+  <!-- Delete SQLite database files (*.db, *.db-shm, *.db-wal) on Clean,
+       then remove their parent directories only if left empty (e.g. the DbFolder). -->
+  <Target Name="CleanSqliteFiles" AfterTargets="Clean">
+    <ItemGroup>
+      <_SqliteFiles Include="$(MSBuildProjectDirectory)\**\*.db" />
+      <_SqliteFiles Include="$(MSBuildProjectDirectory)\**\*.db-shm" />
+      <_SqliteFiles Include="$(MSBuildProjectDirectory)\**\*.db-wal" />
+    </ItemGroup>
+    <Delete Files="@(_SqliteFiles)" />
+    <Message Importance="high" Text="Deleted SQLite files: @(_SqliteFiles)" Condition="'@(_SqliteFiles)' != ''" />
+
+    <!-- Collect unique parent directories of deleted files -->
+    <RemoveDuplicates Inputs="@(_SqliteFiles->'%(RootDir)%(Directory)')">
+      <Output TaskParameter="Filtered" ItemName="_SqliteParentDirs" />
+    </RemoveDuplicates>
+    <!-- rmdir (without /s) only removes EMPTY directories; IgnoreExitCode silences non-empty ones.
+         Skip the project root so we never accidentally remove the project folder itself. -->
+    <Exec Command="rmdir &quot;%(_SqliteParentDirs.Identity).&quot;"
+          Condition="'%(_SqliteParentDirs.Identity)' != '' and '%(_SqliteParentDirs.Identity)' != '$(MSBuildProjectDirectory)\'"
+          IgnoreExitCode="true"
+          StandardOutputImportance="low"
+          StandardErrorImportance="low" />
+  </Target>
+
 </Project>

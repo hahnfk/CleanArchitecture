@@ -3,12 +3,15 @@ using CleanArchitecture.Domain.Todos;
 
 namespace CleanArchitecture.Infrastructure.EfCore.Sqlite.IntegrationTests;
 
-public sealed class EfSqliteTodoRepositoryIntegrationTests(EfSqliteTestHost host) : IClassFixture<EfSqliteTestHost>
+public sealed class EfSqliteTodoRepositoryIntegrationTests : IAsyncLifetime
 {
-    private readonly EfSqliteTestHost _host = host;
+    private readonly EfSqliteTestHost _host = new();
+
+    public Task InitializeAsync() => _host.InitializeAsync();
+    public Task DisposeAsync() => _host.DisposeAsync();
 
     [Fact]
-    public async Task Add_And_List_Persists_Items()
+    public async Task AddAndListPersistsItems()
     {
         var guid1 = Guid.NewGuid();
         var guid2 = Guid.NewGuid();
@@ -25,7 +28,7 @@ public sealed class EfSqliteTodoRepositoryIntegrationTests(EfSqliteTestHost host
     }
 
     [Fact]
-    public async Task GetById_Returns_Null_When_Missing()
+    public async Task GetByIdReturnsNullWhenMissing()
     {
         var result = await _host.Todos.GetByIdAsync(new TodoId(Guid.NewGuid()));
 
@@ -33,7 +36,7 @@ public sealed class EfSqliteTodoRepositoryIntegrationTests(EfSqliteTestHost host
     }
 
     [Fact]
-    public async Task Update_Persists_Changes()
+    public async Task UpdatePersistsChanges()
     {
         var id = new TodoId(Guid.NewGuid());
         var item = new TodoItem(id, "Initial");
@@ -55,7 +58,7 @@ public sealed class EfSqliteTodoRepositoryIntegrationTests(EfSqliteTestHost host
     }
 
     [Fact]
-    public async Task Delete_Returns_False_When_Missing()
+    public async Task DeleteReturnsFalseWhenMissing()
     {
         var deleted = await _host.Todos.DeleteAsync(new TodoId(Guid.NewGuid()));
         await _host.Uow.SaveChangesAsync();
@@ -64,7 +67,7 @@ public sealed class EfSqliteTodoRepositoryIntegrationTests(EfSqliteTestHost host
     }
 
     [Fact]
-    public async Task Delete_Removes_Item()
+    public async Task DeleteRemovesItem()
     {
         var id = new TodoId(Guid.NewGuid());
         await _host.Todos.AddAsync(new TodoItem(id, "Temp"));

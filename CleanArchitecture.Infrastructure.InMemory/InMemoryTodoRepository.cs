@@ -1,9 +1,9 @@
-﻿namespace CleanArchitecture.Infrastructure.InMemory;
-
-using CleanArchitecture.Application.Abstractions;
+﻿using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Domain.Identity;
 using CleanArchitecture.Domain.Todos;
 using System.Collections.Concurrent;
+
+namespace CleanArchitecture.Infrastructure.InMemory;
 
 /// <summary>
 /// Thread-safe in-memory repository implementing the application's output port.

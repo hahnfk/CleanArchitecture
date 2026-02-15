@@ -2,7 +2,7 @@ using CleanArchitecture.Application;
 using CleanArchitecture.Infrastructure.Composition.DomainEvents;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Infrastructure.InMemory.Tests;
+namespace CleanArchitecture.Infrastructure.InMemory.IntegrationTests;
 
 public static class TestHost
 {
