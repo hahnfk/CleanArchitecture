@@ -2,6 +2,7 @@ using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Application;
 using CleanArchitecture.Contracts.Persistence;
 using CleanArchitecture.Infrastructure.Composition.DomainEvents;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,6 +63,15 @@ public sealed class EfSqliteTestHost : IAsyncLifetime
 
     public ITodoRepository Todos => _scope!.ServiceProvider.GetRequiredService<ITodoRepository>();
     public IUnitOfWork Uow => _scope!.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+    /// <summary>
+    /// Creates a raw SQLite connection to the test database.
+    /// Caller is responsible for disposing the connection.
+    /// </summary>
+    public SqliteConnection CreateRawConnection()
+    {
+        return new SqliteConnection($"Data Source={_dbPath}");
+    }
 
     /// <summary>
     /// Queries the current SQLite journal mode via the internal AppDbContext.
