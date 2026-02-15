@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using CleanArchitecture.Application.Abstractions;
 using CleanArchitecture.Contracts.Persistence;
 using CleanArchitecture.Infrastructure.EfCore.Sqlite.Db;
@@ -10,20 +11,17 @@ namespace CleanArchitecture.Infrastructure.EfCore.Sqlite;
 
 public static class DependencyInjection
 {
-    private const string ProjectDirectoryName = "CleanArchitecture.Infrastructure.EfCore.Sqlite";
-    private const string ProjectFileName = "CleanArchitecture.Infrastructure.EfCore.Sqlite.csproj";
-
     public static IServiceCollection AddInfrastructureEfSqlite(this IServiceCollection services, IConfiguration configuration)
     {
         var options = new PersistenceOptions();
         configuration.GetSection(PersistenceOptions.SectionName).Bind(options);
 
-        var cs = options.ConnectionString;
-        if (string.IsNullOrWhiteSpace(cs))
-        {
-            // Safe default for local dev; override via appsettings.json / user secrets.
-            cs = "Data Source=cleanarchitecture.db";
-        }
+        var cs = ResolveToDbFolder(
+            string.IsNullOrWhiteSpace(options.ConnectionString)
+                ? throw new InvalidOperationException(
+                    $"Missing '{PersistenceOptions.SectionName}:{nameof(PersistenceOptions.ConnectionString)}' in configuration.")
+                : options.ConnectionString,
+            options.DbFolder);
 
         services.AddDbContext<AppDbContext>(o => o.UseSqlite(cs));
 
@@ -35,5 +33,27 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
         return services;
+    }
+
+    /// <summary>
+    /// Resolves a relative "Data Source=&lt;file&gt;" connection string to an absolute path
+    /// inside the <c>Db</c> subfolder of this project, so that every host (WPF, Blazor, …)
+    /// shares the same database file during development.
+    /// Preserves any additional connection string parameters (e.g., Cache, Mode, etc.).
+    /// </summary>
+    private static string ResolveToDbFolder(string connectionString, string dbFolder, [CallerFilePath] string? callerFilePath = null)
+    {
+        var builder = new SqliteConnectionStringBuilder(connectionString);
+
+        // If no Data Source is specified or it's already an absolute path, return as-is
+        if (string.IsNullOrWhiteSpace(builder.DataSource) || Path.IsPathRooted(builder.DataSource))
+            return connectionString;
+
+        var projectDir = Path.GetDirectoryName(callerFilePath)!;
+        var dbDir = Path.Combine(projectDir, dbFolder);
+        Directory.CreateDirectory(dbDir);
+
+        builder.DataSource = Path.Combine(dbDir, builder.DataSource);
+        return builder.ConnectionString;
     }
 }

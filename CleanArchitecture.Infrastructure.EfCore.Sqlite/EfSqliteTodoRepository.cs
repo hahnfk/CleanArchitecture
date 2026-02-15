@@ -47,8 +47,6 @@ internal sealed class EfSqliteTodoRepository : ITodoRepository
 
     public Task UpdateAsync(TodoItem todo, CancellationToken ct = default)
     {
-        // Upsert-like update: attach a row and mark as modified.
-        // This keeps the repo simple; a real-world repo would track diffs / concurrency carefully.
         var row = ToRow(todo);
 
         var existingEntry = _db.ChangeTracker.Entries<TodoRow>()
@@ -58,11 +56,14 @@ internal sealed class EfSqliteTodoRepository : ITodoRepository
         {
             existingEntry.CurrentValues.SetValues(row);
             existingEntry.State = EntityState.Modified;
+            existingEntry.Property(x => x.Version).OriginalValue = todo.OriginalVersion;
         }
         else
         {
             _db.Attach(row);
-            _db.Entry(row).State = EntityState.Modified;
+            var entry = _db.Entry(row);
+            entry.State = EntityState.Modified;
+            entry.Property(x => x.Version).OriginalValue = todo.OriginalVersion;
         }
 
         return Task.CompletedTask;

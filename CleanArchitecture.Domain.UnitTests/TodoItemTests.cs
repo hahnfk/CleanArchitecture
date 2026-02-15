@@ -95,4 +95,41 @@ public sealed class TodoItemTests
         Assert.True(v1 >= v0 + 1);
         Assert.True(v2 >= v1 + 1);
     }
+
+    // --- OriginalVersion tests (concurrency-token fix) ---
+
+    [Fact]
+    public void NewItem_OriginalVersion_Is_Zero()
+    {
+        var todo = NewTodo("Fresh");
+
+        Assert.Equal(0, todo.OriginalVersion);
+    }
+
+    [Fact]
+    public void Rehydrate_Sets_OriginalVersion()
+    {
+        var todo = TodoItem.Rehydrate(
+            new TodoId(Guid.NewGuid()), "Title", false, version: 5);
+
+        Assert.Equal(5, todo.Version);
+        Assert.Equal(5, todo.OriginalVersion);
+    }
+
+    [Fact]
+    public void OriginalVersion_Unchanged_After_Mutations()
+    {
+        // Arrange – simulate a rehydrated aggregate at version 3
+        var todo = TodoItem.Rehydrate(
+            new TodoId(Guid.NewGuid()), "Title", false, version: 3);
+
+        // Act – multiple mutations bump Version but must NOT touch OriginalVersion
+        todo.Rename("Renamed");
+        todo.Complete();
+        todo.Reopen();
+
+        // Assert
+        Assert.Equal(3, todo.OriginalVersion);  // stays at loaded value
+        Assert.Equal(6, todo.Version);           // incremented 3 times
+    }
 }
