@@ -68,9 +68,15 @@ public sealed class EfSqliteTestHost : IAsyncLifetime
     /// </summary>
     public async Task<string> GetJournalModeAsync()
     {
-        var ctxType = Type.GetType("CleanArchitecture.Infrastructure.EfCore.Sqlite.Db.AppDbContext, CleanArchitecture.Infrastructure.EfCore.Sqlite")!;
-        var ctx = (DbContext)_scope!.ServiceProvider.GetRequiredService(ctxType);
+        var ctxType = Type.GetType("CleanArchitecture.Infrastructure.EfCore.Sqlite.Db.AppDbContext, CleanArchitecture.Infrastructure.EfCore.Sqlite");
+        if (ctxType is null)
+            throw new InvalidOperationException("Could not resolve AppDbContext type. Check assembly/name changes.");
 
+        var serviceProvider = _scope?.ServiceProvider
+            ?? throw new InvalidOperationException("Service scope is not initialized.");
+
+        var ctx = (DbContext)(serviceProvider.GetService(ctxType)
+            ?? throw new InvalidOperationException("Could not resolve AppDbContext from DI container."));
         var connection = ctx.Database.GetDbConnection();
         await connection.OpenAsync().ConfigureAwait(false);
 
