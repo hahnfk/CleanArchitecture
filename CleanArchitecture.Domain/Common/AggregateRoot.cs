@@ -39,6 +39,12 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
     public long Version { get; private set; }
 
     /// <summary>
+    /// The version as loaded from persistence.
+    /// Infrastructure uses this as the EF Core concurrency-token original value.
+    /// </summary>
+    public long OriginalVersion { get; private set; }
+
+    /// <summary>
     /// Call after state changes that should bump the concurrency version.
     /// </summary>
     public void IncrementVersion() => Version++;
@@ -46,5 +52,9 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
     /// <summary>
     /// For repository rehydration only.
     /// </summary>
-    protected internal void SetVersion(long version) => Version = version;
+    protected internal void SetVersion(long version)
+    {
+        Version = version;
+        OriginalVersion = version;
+    }
 }
