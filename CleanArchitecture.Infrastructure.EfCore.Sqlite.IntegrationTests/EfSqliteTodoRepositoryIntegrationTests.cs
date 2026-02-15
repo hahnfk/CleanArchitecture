@@ -184,14 +184,40 @@ public sealed class EfSqliteTodoRepositoryIntegrationTests : IAsyncLifetime
         }
         await _host.Uow.SaveChangesAsync();
 
-        // Act – perform multiple reads
-        var results = new List<IReadOnlyList<TodoItem>>();
-        for (var i = 0; i < 10; i++)
+        // Act – hold an open write transaction on one connection while performing reads from other connections
+        await using var writerConnection = _host.CreateRawConnection();
+        await writerConnection.OpenAsync();
+
+        await using var writerTransaction = writerConnection.BeginTransaction();
+        try
         {
-            var list = await _host.Todos.ListAsync();
-            results.Add(list);
+            // Start a long-running write (update all rows)
+            await using var writerCommand = writerConnection.CreateCommand();
+            writerCommand.Transaction = writerTransaction;
+            writerCommand.CommandText = "UPDATE Todos SET Title = Title || ' (modified)';";
+            await writerCommand.ExecuteNonQueryAsync();
+
+            // While the write transaction is open, perform reads from the repository
+            // (which uses separate connections). Under WAL mode, these reads should
+            // NOT be blocked by the active writer and should return the original data.
+            var results = new List<IReadOnlyList<TodoItem>>();
+            for (var i = 0; i < 10; i++)
+            {
+                var list = await _host.Todos.ListAsync();
+                results.Add(list);
+            }
+
+            // Assert – all reads completed without blocking and returned the original data
+            Assert.All(results, list =>
+            {
+                Assert.Equal(5, list.Count);
+                Assert.All(list, item => Assert.DoesNotContain("(modified)", item.Title));
+            });
         }
-        // Assert – all reads returned the same data
-        Assert.All(results, list => Assert.Equal(5, list.Count));
+        finally
+        {
+            // Rollback the write transaction to avoid affecting other tests
+            await writerTransaction.RollbackAsync();
+        }
     }
 }
