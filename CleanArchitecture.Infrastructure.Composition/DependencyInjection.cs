@@ -1,4 +1,5 @@
 using CleanArchitecture.Contracts.Persistence;
+using CleanArchitecture.Infrastructure.Ado.Sqlite;
 using CleanArchitecture.Infrastructure.EfCore.Sqlite;
 using CleanArchitecture.Infrastructure.InMemory;
 using CleanArchitecture.Infrastructure.Composition.DomainEvents;
@@ -24,8 +25,9 @@ public static class DependencyInjection
 
         return options.Provider switch
         {
-            PersistenceProvider.InMemory => services.AddInfrastructureInMemory(),
-            PersistenceProvider.EfSqlite => services.AddInfrastructureEfSqlite(configuration),
+            PersistenceProvider.InMemory  => services.AddInfrastructureInMemory(),
+            PersistenceProvider.EfSqlite  => services.AddInfrastructureEfSqlite(configuration),
+            PersistenceProvider.AdoSqlite => services.AddInfrastructureAdoSqlite(configuration),
             _ => throw new InvalidOperationException($"Unsupported persistence provider: {options.Provider}")
         };
     }
