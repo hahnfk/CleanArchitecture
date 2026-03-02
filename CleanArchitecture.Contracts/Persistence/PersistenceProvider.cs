@@ -1,4 +1,4 @@
-namespace CleanArchitecture.Contracts.Persistence;
+﻿namespace CleanArchitecture.Contracts.Persistence;
 
 public enum PersistenceProvider
 {
@@ -9,7 +9,7 @@ public enum PersistenceProvider
     // EfPostgres = 3,
     // EfMySql = 4,
     // EfOracle = 5,
-    // AdoSqlite = 100,
+    AdoSqlite = 100,
     // AdoSqlServer = 101,
     // AdoPostgres = 102,
     // AdoMySql = 103,
